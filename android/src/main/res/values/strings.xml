@@ -1,0 +1,5 @@
+<resources>
+    <string name="title_activity_cpk">CpkActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="string_connecting_to_kernel_service">Connecting to the Community Pass Service...</string>
+</resources>

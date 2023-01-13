@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mastercard.flutter_cpk_plugin">
+
+    <uses-permission android:name="com.mastercard.compass.permission.GET_INSTANCE_ID" />
+    <uses-permission android:name="com.mastercard.compass.permission.BIND_SERVICE" />
+    <uses-permission android:name="com.mastercard.compass.permission.GET_INSTANCE_ID" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <application>
+        <activity
+            android:name=".CpkActivity"
+            android:exported="false"
+            android:label="@string/title_activity_cpk"
+            android:theme="@style/Theme.PluginTheme">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+    </application>
+
+</manifest>

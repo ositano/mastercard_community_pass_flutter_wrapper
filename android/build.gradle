@@ -1,0 +1,85 @@
+group 'com.mastercard.flutter_cpk_plugin'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.6.10'
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    // issue: Inheritance from an interface with '@JvmDefault' members is only allowed with -Xjvm-default option
+    // source https://stackoverflow.com/questions/70992947/how-do-i-resolve-error-message-inheritance-from-an-interface-with-jvmdefault
+    kotlinOptions{
+        freeCompilerArgs += [
+                "-Xjvm-default=all",
+        ]
+    }
+
+    compileSdkVersion 32
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+
+        // issue: Using flatDirs should be avoided because it doesn't support any meta-data formats
+        // source https://stackoverflow.com/questions/68215302/using-flatdirs-should-be-avoided-because-it-doesnt-support-any-meta-data-format
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion 24
+    }
+    buildToolsVersion '30.0.3'
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    // issue: use local aar inside flutter plugin
+    // source https://stackoverflow.com/questions/50971022/how-to-use-local-aar-inside-flutter-plugin
+    // source https://stackoverflow.com/questions/68215302/using-flatdirs-should-be-avoided-because-it-doesnt-support-any-meta-data-format
+    implementation files('libs/community-pass-library-v2.4.0.aar')
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    //Navigation libs
+    def nav_version = "2.5.1"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    implementation 'com.google.code.gson:gson:2.8.6' //Required for object serialization and deserialization while performing CPK communication
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2' //Required for JWT encoding and decoding in some of the biometric use cases
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2' //Required for JWT encoding and decoding in some of the biometric use cases
+    implementation 'io.jsonwebtoken:jjwt-orgjson:0.11.2' //Required for JWT encoding and decoding in some of the biometric use cases
+    implementation 'org.apache.commons:commons-lang3:3.1' //Helper utilities required by the CPK library
+}
