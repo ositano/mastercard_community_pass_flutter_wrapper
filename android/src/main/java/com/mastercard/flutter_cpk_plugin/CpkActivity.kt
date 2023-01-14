@@ -1,19 +1,22 @@
 package com.mastercard.flutter_cpk_plugin
 
 import android.app.Activity
+import android.content.Intent
+import android.content.Intent.getIntent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.mastercard.flutter_cpk_plugin.databinding.ActivityCpkBinding
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
+import com.mastercard.flutter_cpk_plugin.databinding.ActivityCpkBinding
+
 
 class CpkActivity : CompassKernelUIController.CompassKernelActivity() {
     private lateinit var binding: ActivityCpkBinding
 
     companion object {
         private const val TAG = "CpkActivity"
-        private const val RELIANT_APP_GUID = "" // Add the reliant APP GUID here.
+        private var RELIANT_APP_GUID = "" // Add the reliant APP GUID here.
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,13 +36,18 @@ class CpkActivity : CompassKernelUIController.CompassKernelActivity() {
             return
         }
 
+        RELIANT_APP_GUID = intent.getStringExtra("APPLICATION_GUID")?.let { it }.toString()
+
         connectKernelService(RELIANT_APP_GUID) { isSuccess, errorCode, errorMessage ->
+//            Log.d("APPLICATION_GUID", RELIANT_APP_GUID)
+
             when (isSuccess) {
                 true -> {
                     Log.d(TAG, "Connected to Kernel successfully")
 
                     intent.putExtra("success", true)
                     setResult(Activity.RESULT_OK, intent)
+                    showSimpleMessage("Connected to Kernel successfully")
                     finish()
                 }
                 false -> {
@@ -52,6 +60,7 @@ class CpkActivity : CompassKernelUIController.CompassKernelActivity() {
                     intent.putExtra("errorCode", errorCode)
                     intent.putExtra("errorMessage", errorMessage)
                     setResult(Activity.RESULT_CANCELED, intent)
+                    showSimpleMessage("Could not connect to Kernel")
                     finish()
                 }
             }

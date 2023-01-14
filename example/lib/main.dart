@@ -70,34 +70,33 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('CPK connection example'),
-          backgroundColor: Colors.black,
-        ),
-        body: Container(
-          padding: const EdgeInsets.all(32),
-          child: Row(children: [
-            Expanded(
-                /*1*/
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                  /*2*/
-                  Container(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Text('Running on: $_platformVersion\n')),
-                  Container(
-                    child: Text(
-                        'Community Pass Service connected: $_connectionStatus',
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                        )),
-                  ),
-                ]))
-          ]),
-        ),
+        home: Scaffold(
+      appBar: AppBar(
+        title: const Text('CPK connection example'),
+        backgroundColor: const Color.fromRGBO(247, 158, 27, 1),
       ),
-    );
+      body: Container(
+        padding: const EdgeInsets.all(32),
+        child: Row(children: [
+          Expanded(
+              /*1*/
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                /*2*/
+                Container(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text('Running on: $_platformVersion\n')),
+                Container(
+                  child: Text(
+                      'Community Pass Service connected: $_connectionStatus',
+                      style: TextStyle(
+                        color: Colors.grey[500],
+                      )),
+                ),
+              ]))
+        ]),
+      ),
+    ));
   }
 }
