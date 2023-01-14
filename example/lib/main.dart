@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: const Text('CPK connection example'),
+        title: const Text('Flutter Reliant Application'),
         backgroundColor: const Color.fromRGBO(247, 158, 27, 1),
       ),
       body: Container(
