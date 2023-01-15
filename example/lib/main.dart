@@ -5,7 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_cpk_plugin/flutter_cpk_plugin.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MaterialApp(
+    title: 'Navigation Basics',
+    home: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -94,9 +97,46 @@ class _MyAppState extends State<MyApp> {
                         color: Colors.grey[500],
                       )),
                 ),
+                Container(
+                  child: ElevatedButton(
+                    child: const Text('Open route'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SecondRoute()),
+                      );
+                    },
+                    style:
+                        OutlinedButton.styleFrom(backgroundColor: Colors.black),
+                  ),
+                ),
               ]))
         ]),
       ),
     ));
+  }
+}
+
+class SecondRoute extends StatelessWidget {
+  const SecondRoute({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Biometric Consent'),
+        backgroundColor: const Color.fromRGBO(247, 158, 27, 1),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+            // Navigate back to first route when tapped.
+          },
+          child: const Text('Go back!'),
+        ),
+      ),
+    );
   }
 }

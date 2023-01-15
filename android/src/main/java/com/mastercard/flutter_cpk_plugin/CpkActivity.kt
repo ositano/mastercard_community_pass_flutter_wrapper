@@ -1,8 +1,6 @@
 package com.mastercard.flutter_cpk_plugin
 
 import android.app.Activity
-import android.content.Intent
-import android.content.Intent.getIntent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
