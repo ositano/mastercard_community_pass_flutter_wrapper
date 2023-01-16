@@ -50,7 +50,7 @@ android {
         // issue: Using flatDirs should be avoided because it doesn't support any meta-data formats
         // source https://stackoverflow.com/questions/68215302/using-flatdirs-should-be-avoided-because-it-doesnt-support-any-meta-data-format
         main {
-            jniLibs.srcDirs = ['libs']
+            jniLibs.srcDirs = ['aar_libs']
         }
     }
 
@@ -67,7 +67,9 @@ dependencies {
     // issue: use local aar inside flutter plugin
     // source https://stackoverflow.com/questions/50971022/how-to-use-local-aar-inside-flutter-plugin
     // source https://stackoverflow.com/questions/68215302/using-flatdirs-should-be-avoided-because-it-doesnt-support-any-meta-data-format
-    implementation files('libs/community-pass-library-v2.4.0.aar')
+
+    implementation files('aar_libs/community-pass-library-v2.4.0.aar')
+
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
