@@ -45,7 +45,6 @@ class CpkActivity : CompassKernelUIController.CompassKernelActivity() {
 
                     intent.putExtra("success", true)
                     setResult(Activity.RESULT_OK, intent)
-                    showSimpleMessage("Connected to Kernel successfully")
                     finish()
                 }
                 false -> {
@@ -58,7 +57,6 @@ class CpkActivity : CompassKernelUIController.CompassKernelActivity() {
                     intent.putExtra("errorCode", errorCode)
                     intent.putExtra("errorMessage", errorMessage)
                     setResult(Activity.RESULT_CANCELED, intent)
-                    showSimpleMessage("Could not connect to Kernel")
                     finish()
                 }
             }

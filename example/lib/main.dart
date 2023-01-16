@@ -21,7 +21,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   String _connectionStatus = 'Not';
-  final String _reliantAppGuid = "0943743843434342";
+  final String _reliantAppGuid = "1cf89559-98fb-4080-b24b-6e43a062b239";
   final _flutterCpkPlugin = FlutterCpkPlugin();
   final _channel = const MethodChannel('flutter_cpk_plugin');
 
@@ -111,6 +111,28 @@ class _MyAppState extends State<MyApp> {
                         OutlinedButton.styleFrom(backgroundColor: Colors.black),
                   ),
                 ),
+                // Container(
+                //   child: GestureDetector(
+                //     onTap: () {
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => const SecondRoute()),
+                //       );
+                //       // ScaffoldMessenger.of(context).showSnackBar(
+                //       //     const SnackBar(content: Text('Gesture Detected!')));
+                //     },
+                //     child: Container(
+                //       height: 100,
+                //       child: const Card(
+                //         elevation: 5,
+                //         color: Colors.black,
+                //         child: Text(
+                //             'Geeks for Geeks, Hello this is clickable card, tap me'),
+                //       ),
+                //     ),
+                //   ),
+                // )
               ]))
         ]),
       ),

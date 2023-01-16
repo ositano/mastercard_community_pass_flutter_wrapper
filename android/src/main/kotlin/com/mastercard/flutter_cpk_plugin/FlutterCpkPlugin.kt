@@ -81,14 +81,12 @@ class FlutterCpkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginR
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
     isCpkConnected = if(resultCode == Activity.RESULT_OK){
       var success: Boolean? = data?.getBooleanExtra("success", true)
-      Log.e("TESTESTEST", "Connected to Kernel successfully")
-      result.success(success)
+      result.success(success.toString())
       success ?: true
     } else {
       var errorCode: Int? = data?.getIntExtra("errorCode", 0)
       var errorMessage: String? = data?.getStringExtra("errorMessage")
       var success: Boolean? = data?.getBooleanExtra("success", false)
-      Log.e("TESTESTEST", "Could not connect to the Kernel")
       result.success(success.toString())
       success ?: false
     }
