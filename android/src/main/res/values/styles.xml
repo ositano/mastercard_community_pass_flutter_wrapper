@@ -6,8 +6,9 @@
          the Flutter engine draws its first frame -->
         <!-- This is used for statusbar color. -->
         <item name="colorPrimaryDark">#FFFFFF</item>
-        <item name="android:statusBarColor">#F79E1B</item>
-<!--        <item name="colorAccent">#F79E1B</item>-->
+<!--        <item name="android:statusBarColor">#F79E1B</item>-->
+
+    <!--        <item name="colorAccent">#F79E1B</item>-->
         <!-- This is used for statusbar content color. If statusbarColor is light, use "true" otherwise use "false"-->
         <item name="android:windowLightStatusBar">true</item>
 </style>

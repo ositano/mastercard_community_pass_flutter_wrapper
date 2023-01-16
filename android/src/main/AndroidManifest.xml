@@ -14,8 +14,9 @@
             android:name=".CpkActivity"
             android:exported="false"
             android:launchMode = "singleTask"
+            android:theme="@style/Theme.Transparent"
             android:label="@string/title_activity_cpk"
-            android:theme="@style/Theme.PluginTheme">
+            >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

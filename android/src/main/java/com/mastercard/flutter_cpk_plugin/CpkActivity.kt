@@ -14,13 +14,14 @@ class CpkActivity : CompassKernelUIController.CompassKernelActivity() {
 
     companion object {
         private const val TAG = "CpkActivity"
-        private var RELIANT_APP_GUID = "" // Add the reliant APP GUID here.
+        private var RELIANT_APP_GUID = ""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, android.R.color.black)
+
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//        window.statusBarColor = ContextCompat.getColor(this, android.R.color.black)
 
         binding = ActivityCpkBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -30,7 +31,7 @@ class CpkActivity : CompassKernelUIController.CompassKernelActivity() {
 
     private fun connectKernelService(overrideValidation: Boolean = false) {
         if (!overrideValidation && hasActiveKernelConnection) {
-            binding.textViewKernelConnectionStatus.visibility = View.GONE
+//            binding.textViewKernelConnectionStatus.visibility = View.GONE
             return
         }
 

@@ -21,7 +21,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   String _connectionStatus = 'Not';
-  final String _reliantAppGuid = "1cf89559-98fb-4080-b24b-6e43a062b239";
+  final String _reliantAppGuid =
+      "1cf89559-98fb-4080-b24b-6e43a062b239"; // Change this with your Reliant App GUID
   final _flutterCpkPlugin = FlutterCpkPlugin();
   final _channel = const MethodChannel('flutter_cpk_plugin');
 
