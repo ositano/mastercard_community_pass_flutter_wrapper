@@ -112,28 +112,6 @@ class _MyAppState extends State<MyApp> {
                         OutlinedButton.styleFrom(backgroundColor: Colors.black),
                   ),
                 ),
-                // Container(
-                //   child: GestureDetector(
-                //     onTap: () {
-                //       Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //             builder: (context) => const SecondRoute()),
-                //       );
-                //       // ScaffoldMessenger.of(context).showSnackBar(
-                //       //     const SnackBar(content: Text('Gesture Detected!')));
-                //     },
-                //     child: Container(
-                //       height: 100,
-                //       child: const Card(
-                //         elevation: 5,
-                //         color: Colors.black,
-                //         child: Text(
-                //             'Geeks for Geeks, Hello this is clickable card, tap me'),
-                //       ),
-                //     ),
-                //   ),
-                // )
               ]))
         ]),
       ),
