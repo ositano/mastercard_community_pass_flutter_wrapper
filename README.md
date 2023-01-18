@@ -3,9 +3,7 @@
 [![](https://developer.mastercard.com/_/_/src/global/assets/svg/mcdev-logo-light.svg#gh-dark-mode-only)](https://developer.mastercard.com/)
 
 [![](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](./LICENSE)
-[![](https://sonarcloud.io/api/project_badges/measure?project=Mastercard_mastercard-idservice-rp-reference-app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Mastercard_mastercard-idservice-rp-reference-app)
-[![](https://sonarcloud.io/api/project_badges/measure?project=Mastercard_mastercard-idservice-rp-reference-app&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Mastercard_mastercard-idservice-rp-reference-app)
-[![](https://sonarcloud.io/api/project_badges/measure?project=Mastercard_mastercard-idservice-rp-reference-app&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Mastercard_mastercard-idservice-rp-reference-app)
+
 
 ## Table of Contents
 
