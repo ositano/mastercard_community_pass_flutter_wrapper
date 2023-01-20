@@ -3,8 +3,8 @@ package com.mastercard.flutter_cpk_plugin
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.annotation.NonNull
+import com.mastercard.flutter_cpk_plugin.route.ConsumerDeviceAPIRoute
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -34,6 +34,9 @@ class FlutterCpkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginR
   private lateinit var context: Context
   private lateinit var activity: Activity
   private var isCpkConnected = false
+  private val consumerDeviceApiRoute: ConsumerDeviceAPIRoute by lazy {
+    ConsumerDeviceAPIRoute(activity)
+  }
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "flutter_cpk_plugin")
@@ -52,6 +55,7 @@ class FlutterCpkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginR
         intent.putExtra("APPLICATION_GUID", appGuid)
         activity.startActivityForResult(intent, 100)
       }
+      "getWriteProfile" -> consumerDeviceApiRoute.startWriteProfileIntent(call)
       else -> result.notImplemented()
     }
   }
@@ -79,6 +83,11 @@ class FlutterCpkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginR
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
+    when(requestCode){
+      in ConsumerDeviceAPIRoute.REQUEST_CODE_RANGE -> handleConsumerDeviceResponse(requestCode, resultCode, data)
+    }
+
+
     isCpkConnected = if(resultCode == Activity.RESULT_OK){
       var success: Boolean? = data?.getBooleanExtra("success", true)
       result.success(success.toString())
@@ -92,5 +101,16 @@ class FlutterCpkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginR
     }
 
     return true;
+  }
+
+  private fun handleConsumerDeviceResponse(
+      requestCode: Int,
+      resultCode: Int,
+      data: Intent?
+  ) {
+    when (requestCode) {
+      ConsumerDeviceAPIRoute.WRITE_PROFILE_REQUEST_CODE ->
+        consumerDeviceApiRoute.handleWriteProfileIntentResponse(resultCode, data, result)
+    }
   }
 }
