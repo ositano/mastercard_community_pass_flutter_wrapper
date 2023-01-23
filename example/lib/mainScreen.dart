@@ -150,32 +150,31 @@ class _MyAppState extends State<MainScreen> {
           backgroundColor: const Color.fromRGBO(247, 158, 27, 1),
         ),
         body: Padding(
-            padding: const EdgeInsets.all(40),
-            child: Center(
-                child:
-                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: 0,
-                    vertical: 20), //apply padding horizontal or vertical only
-                child: Text(
-                  "This will include all user setup actions that facilitate the onboarding of Users for Community Pass Digital ID, multi-wallet and acceptance accounts.",
-                  style: TextStyle(fontSize: 16.0),
-                ),
+          padding: const EdgeInsets.all(40),
+          child: Center(
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              child: Text(
+                "This will include all user setup actions that facilitate the onboarding of Users for Community Pass Digital ID, multi-wallet and acceptance accounts.",
+                style: TextStyle(fontSize: 16.0),
               ),
-              SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const BiometricConsentScreen()));
-                      },
-                      child: const Text("Pre-Transaction Phase")))
-            ]))));
+            ),
+            SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const BiometricConsentScreen()));
+                    },
+                    child: const Text("Pre-Transaction Phase")))
+          ])),
+        ));
   }
 }
 
