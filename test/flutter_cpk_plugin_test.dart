@@ -8,10 +8,29 @@ class MockFlutterCpkPluginPlatform
     with MockPlatformInterfaceMixin
     implements FlutterCpkPluginPlatform {
   @override
-  Future<String?> getPlatformVersion() => Future.value('42');
+  Future<String> saveBiometricConsent(
+          String reliantApplicationGuid, String programGuid) =>
+      Future.value('40');
 
   @override
-  Future<String> getCpkConnectionStatus(String appGuid) => Future.value('40');
+  Future<String> getRegisterUserWithBiometrics(String reliantApplicationGuid,
+          String programGuid, String consentId) =>
+      Future.value('40');
+
+  @override
+  Future<String> getRegisterBasicUser(
+          String reliantApplicationGuid, String programGuid) =>
+      Future.value('40');
+
+  @override
+  Future<String> getWriteProfile(String reliantApplicationGuid,
+          String programGuid, String rId, bool overwriteCard) =>
+      Future.value('40');
+
+  @override
+  Future<String> getWritePasscode(String reliantApplicationGuid,
+          String programGuid, String rId, String passcode) =>
+      Future.value('40');
 }
 
 void main() {
@@ -22,22 +41,44 @@ void main() {
     expect(initialPlatform, isInstanceOf<MethodChannelFlutterCpkPlugin>());
   });
 
-  test('getPlatformVersion', () async {
+  test('saveBiometricConsent', () async {
     FlutterCpkPlugin flutterCpkPlugin = FlutterCpkPlugin();
     MockFlutterCpkPluginPlatform fakePlatform = MockFlutterCpkPluginPlatform();
     FlutterCpkPluginPlatform.instance = fakePlatform;
 
-    expect(await flutterCpkPlugin.getPlatformVersion(), '42');
+    expect(await flutterCpkPlugin.saveBiometricConsent('', ''), '40');
   });
 
-  test('getCpkConnectionStatus', () async {
+  test('getRegisterUserWithBiometrics', () async {
     FlutterCpkPlugin flutterCpkPlugin = FlutterCpkPlugin();
     MockFlutterCpkPluginPlatform fakePlatform = MockFlutterCpkPluginPlatform();
     FlutterCpkPluginPlatform.instance = fakePlatform;
 
     expect(
-        await flutterCpkPlugin
-            .getCpkConnectionStatus('etpjkVuioVcb9o3LDQVnyb8b1GIJHp9bHeYVa4d8'),
-        '40');
+        await flutterCpkPlugin.getRegisterUserWithBiometrics('', '', ''), '40');
+  });
+
+  test('getRegisterBasicUser', () async {
+    FlutterCpkPlugin flutterCpkPlugin = FlutterCpkPlugin();
+    MockFlutterCpkPluginPlatform fakePlatform = MockFlutterCpkPluginPlatform();
+    FlutterCpkPluginPlatform.instance = fakePlatform;
+
+    expect(await flutterCpkPlugin.getRegisterBasicUser('', ''), '40');
+  });
+
+  test('getWriteProfile', () async {
+    FlutterCpkPlugin flutterCpkPlugin = FlutterCpkPlugin();
+    MockFlutterCpkPluginPlatform fakePlatform = MockFlutterCpkPluginPlatform();
+    FlutterCpkPluginPlatform.instance = fakePlatform;
+
+    expect(await flutterCpkPlugin.getWriteProfile('', '', '', false), '40');
+  });
+
+  test('getWritePasscode', () async {
+    FlutterCpkPlugin flutterCpkPlugin = FlutterCpkPlugin();
+    MockFlutterCpkPluginPlatform fakePlatform = MockFlutterCpkPluginPlatform();
+    FlutterCpkPluginPlatform.instance = fakePlatform;
+
+    expect(await flutterCpkPlugin.getWritePasscode('', '', '', ''), '40');
   });
 }

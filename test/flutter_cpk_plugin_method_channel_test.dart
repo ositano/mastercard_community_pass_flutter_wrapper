@@ -18,7 +18,23 @@ void main() {
     channel.setMockMethodCallHandler(null);
   });
 
-  test('getPlatformVersion', () async {
-    expect(await platform.getPlatformVersion(), '42');
+  test('saveBiometricConsent', () async {
+    expect(await platform.saveBiometricConsent('', ''), '42');
+  });
+
+  test('getRegisterUserWithBiometrics', () async {
+    expect(await platform.getRegisterUserWithBiometrics('', '', ''), '42');
+  });
+
+  test('getRegisterBasicUser', () async {
+    expect(await platform.getRegisterBasicUser('', ''), '42');
+  });
+
+  test('getWriteProfile', () async {
+    expect(await platform.getWriteProfile('', '', '', false), '42');
+  });
+
+  test('getWritePasscode', () async {
+    expect(await platform.getWritePasscode('', '', '', ''), '42');
   });
 }

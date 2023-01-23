@@ -19,55 +19,123 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  String _connectionStatus = 'Not';
-  final String _reliantAppGuid =
-      "1cf89559-98fb-4080-b24b-6e43a062b239"; // Change this with your Reliant App GUID
+  static const String _programGuid = '8b00c113-6347-4b74-830f-268d267c04c1';
+  static const String _reliantAppGuid = '1cf89559-98fb-4080-b24b-6e43a062b239';
+  static const String _reliantAppGuidKey = 'RELIANT_APP_GUID';
+  static const String _programGuidKey = 'PROGRAM_GUID';
+  static const String _consentIdKey = 'CONSENT_ID';
+  static const String _passcodeKey = 'PASSCODE';
+  static const String _rIdKey = 'RID';
+  static const String _overwriteCardKey = 'OVERWRITE_CARD';
+
   final _flutterCpkPlugin = FlutterCpkPlugin();
   final _channel = const MethodChannel('flutter_cpk_plugin');
+
+  String _rId = '';
+  String _jWt = '';
+  String _passcode = '12345';
+  String _consentId = '';
+  String _writeProfileStatus = '';
+  String _writePasscodeStatus = '';
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
-    initCpkConnectionState(_reliantAppGuid);
+    // initCpkConnectionState(_reliantAppGuid);
   }
 
-  Future<void> initCpkConnectionState(String appGuid) async {
+  Future<void> saveBiometricConsent(
+      String reliantApplicationGuid, String programGuid) async {
     String result;
     try {
-      result = await _channel
-          .invokeMethod('getCpkConnectionStatus', {'appGuid': appGuid});
+      result = await _channel.invokeMethod('saveBiometricConsent', {
+        _reliantAppGuidKey: reliantApplicationGuid,
+        _programGuidKey: programGuid
+      });
     } on PlatformException {
-      result = 'Failed to get the connection status';
+      result = '';
     }
 
     if (!mounted) return;
-
     setState(() {
-      _connectionStatus = result;
+      _consentId = result;
     });
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
+  Future<void> getWriteProfile(String reliantApplicationGuid,
+      String programGuid, String rId, bool overwriteCard) async {
+    String result;
     try {
-      platformVersion = await _flutterCpkPlugin.getPlatformVersion() ??
-          'Unknown platform version';
+      result = await _channel.invokeMethod('getWriteProfile', {
+        _reliantAppGuidKey: reliantApplicationGuid,
+        _programGuidKey: programGuid,
+        _rIdKey: rId,
+        _overwriteCardKey: overwriteCard
+      });
     } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+      result = '';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
-
     setState(() {
-      _platformVersion = platformVersion;
+      _writeProfileStatus = result;
+    });
+  }
+
+  Future<void> getWritePasscode(String reliantApplicationGuid,
+      String programGuid, String rId, String passcode) async {
+    String result;
+    try {
+      result = await _channel.invokeMethod('getWritePasscode', {
+        _reliantAppGuidKey: reliantApplicationGuid,
+        _programGuidKey: programGuid,
+        _rIdKey: rId,
+        _passcodeKey: passcode
+      });
+    } on PlatformException {
+      result = '';
+    }
+
+    if (!mounted) return;
+    setState(() {
+      _writePasscodeStatus = result;
+    });
+  }
+
+  Future<void> getRegisterUserWithBiometrics(String reliantApplicationGuid,
+      String programGuid, String consentId) async {
+    String result;
+    try {
+      result = await _channel.invokeMethod('getRegisterUserWithBiometrics', {
+        _reliantAppGuidKey: reliantApplicationGuid,
+        _programGuidKey: programGuid,
+        _consentIdKey: consentId
+      });
+    } on PlatformException {
+      result = '';
+    }
+
+    if (!mounted) return;
+    setState(() {
+      _jWt = result;
+    });
+  }
+
+  Future<void> getRegisterBasicUser(
+      String reliantApplicationGuid, String programGuid) async {
+    String result;
+    try {
+      result = await _channel.invokeMethod('getRegisterBasicUser', {
+        _reliantAppGuidKey: reliantApplicationGuid,
+        _programGuidKey: programGuid
+      });
+    } on PlatformException {
+      result = '';
+    }
+
+    if (!mounted) return;
+    setState(() {
+      _rId = result;
     });
   }
 
@@ -87,26 +155,111 @@ class _MyAppState extends State<MyApp> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                /*2*/
                 Container(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Text('Running on: $_platformVersion\n')),
-                Container(
-                  child: Text(
-                      'Community Pass Service connected: $_connectionStatus',
+                  child: Text('Consent ID: $_consentId',
                       style: TextStyle(
                         color: Colors.grey[500],
                       )),
                 ),
                 Container(
                   child: ElevatedButton(
-                    child: const Text('Open route'),
+                    child: const Text('Save Biometric Consent'),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SecondRoute()),
-                      );
+                      saveBiometricConsent(_reliantAppGuid, _programGuid);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const SecondRoute()),
+                      // );
+                    },
+                    style:
+                        OutlinedButton.styleFrom(backgroundColor: Colors.black),
+                  ),
+                ),
+                Container(
+                  child: Text('jWt: $_jWt',
+                      style: TextStyle(
+                        color: Colors.grey[500],
+                      )),
+                ),
+                Container(
+                  child: ElevatedButton(
+                    child: const Text('Register user with biometric'),
+                    onPressed: () {
+                      getRegisterUserWithBiometrics(
+                          _reliantAppGuid, _programGuid, _consentId);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const SecondRoute()),
+                      // );
+                    },
+                    style:
+                        OutlinedButton.styleFrom(backgroundColor: Colors.black),
+                  ),
+                ),
+                Container(
+                  child:
+                      Text('Response from write profile: $_writeProfileStatus',
+                          style: TextStyle(
+                            color: Colors.grey[500],
+                          )),
+                ),
+                Container(
+                  child: ElevatedButton(
+                    child: const Text('Write Profile'),
+                    onPressed: () {
+                      getWriteProfile(
+                          _reliantAppGuid, _programGuid, _rId, false);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const SecondRoute()),
+                      // );
+                    },
+                    style:
+                        OutlinedButton.styleFrom(backgroundColor: Colors.black),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                      'Response from write passcode: $_writePasscodeStatus',
+                      style: TextStyle(
+                        color: Colors.grey[500],
+                      )),
+                ),
+                Container(
+                  child: ElevatedButton(
+                    child: const Text('Write Passcode'),
+                    onPressed: () {
+                      getWritePasscode(
+                          _reliantAppGuid, _programGuid, _rId, _passcode);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const SecondRoute()),
+                      // );
+                    },
+                    style:
+                        OutlinedButton.styleFrom(backgroundColor: Colors.black),
+                  ),
+                ),
+                Container(
+                  child: Text('Response from register basic user: $_rId',
+                      style: TextStyle(
+                        color: Colors.grey[500],
+                      )),
+                ),
+                Container(
+                  child: ElevatedButton(
+                    child: const Text('Register Basic User'),
+                    onPressed: () {
+                      getRegisterBasicUser(_reliantAppGuid, _programGuid);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const SecondRoute()),
+                      // );
                     },
                     style:
                         OutlinedButton.styleFrom(backgroundColor: Colors.black),

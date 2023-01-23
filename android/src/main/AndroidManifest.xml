@@ -10,17 +10,11 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application>
-        <activity
-            android:name=".CpkActivity"
-            android:exported="false"
-            android:launchMode = "singleTask"
-            android:theme="@style/Theme.Transparent"
-            android:label="@string/title_activity_cpk"
-            >
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+        <activity android:name=".ui.RegisterUserForBioTokenCompassApiHandlerActivity" android:theme="@style/Theme.Transparent"/>
+        <activity android:name=".ui.WriteProfileCompassApiHandlerActivity" android:theme="@style/Theme.Transparent"/>
+        <activity android:name=".ui.WritePasscodeCompassApiHandlerActivity" android:theme="@style/Theme.Transparent"/>
+        <activity android:name=".ui.RegisterBasicUserCompassApiHandlerActivity" android:theme="@style/Theme.Transparent"/>
+        <activity android:name=".ui.BiometricConsentCompassApiHandlerActivity" android:theme="@style/Theme.Transparent"/>
     </application>
 
 </manifest>

@@ -14,7 +14,7 @@ import com.mastercard.flutter_cpk_plugin.util.Key.ERROR_CODE
 import com.mastercard.flutter_cpk_plugin.util.Key.ERROR_MESSAGE
 import com.mastercard.flutter_cpk_plugin.util.Key.RELIANT_APP_GUID
 
-abstract class CompassApiHandlerActivity<T> : CompassKernelUIController.CompassKernelActivity() {
+abstract class CompassApiHandlerActivity<T : Any> : CompassKernelUIController.CompassKernelActivity() {
 
     companion object {
         protected const val TAG = "CompassApiIntentHandlerActivity"
@@ -24,6 +24,13 @@ abstract class CompassApiHandlerActivity<T> : CompassKernelUIController.CompassK
         when(it){
             is CompassIntentResponse.Success -> successFinishActivity(it.data)
             is CompassIntentResponse.Error -> errorFoundFinishActivity(it.code, it.message)
+        }
+    }
+
+    protected fun getNonIntentCompassApiResults(value: T) {
+        when(value){
+            is String -> successFinishActivity(value)
+            else -> errorFoundFinishActivity(0, "Something went wrong")
         }
     }
 
