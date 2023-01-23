@@ -13,7 +13,7 @@ class RegisterUserForBioTokenCompassApiHandlerActivity: CompassApiHandlerActivit
 
         val jwt = helper.generateBioTokenJWT(
             reliantAppGuid, programGuid, consentId, listOf(
-//                Modality.FACE,
+                Modality.FACE,
                 Modality.LEFT_PALM,
                 Modality.RIGHT_PALM
             ))
