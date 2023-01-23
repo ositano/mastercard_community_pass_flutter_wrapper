@@ -17,11 +17,15 @@ class ConsumerDeviceAPIRoute(private val activity: Activity) {
 
     fun startWriteProfileIntent(call: MethodCall){
         val programGuid = call.argument<String>(Key.PROGRAM_GUID)!!
+        val reliantAppGuid = call.argument<String>(Key.RELIANT_APP_GUID)!!
         val rId = call.argument<String>(Key.RID)!!
+        val overwriteCard = call.argument<Boolean>(Key.OVERWRITE_CARD)!!
 
         val intent = Intent(activity, WriteProfileCompassApiHandlerActivity::class.java).apply {
             putExtra(Key.PROGRAM_GUID, programGuid)
+            putExtra(Key.RELIANT_APP_GUID, reliantAppGuid)
             putExtra(Key.RID, rId)
+            putExtra(Key.OVERWRITE_CARD, overwriteCard)
         }
 
         activity.startActivityForResult(intent, WRITE_PROFILE_REQUEST_CODE)
