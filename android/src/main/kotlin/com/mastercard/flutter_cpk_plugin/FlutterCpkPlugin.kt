@@ -28,8 +28,10 @@ class FlutterCpkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginR
   private lateinit var context: Context
   private lateinit var activity: Activity
 
+  private var helperObject = CompassKernelUIController.CompassHelper(context);
+
   private val consumerDeviceApiRoute: ConsumerDeviceAPIRoute by lazy {
-    ConsumerDeviceAPIRoute(activity)
+    ConsumerDeviceAPIRoute(activity, helperObject)
   }
   private val registerUserWithBiometricsAPIRoute: RegisterUserWithBiometricsAPIRoute by lazy {
     RegisterUserWithBiometricsAPIRoute(activity)

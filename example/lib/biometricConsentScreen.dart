@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cpk_plugin_example/registerUserWithBiometrics.dart';
-
 import 'package:flutter/services.dart';
 
 class BiometricConsentScreen extends StatefulWidget {
@@ -19,6 +18,7 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
   static const String _programGuidKey = 'PROGRAM_GUID';
 
   String _consentId = '';
+  bool _isButtonDisabled = false;
 
   @override
   void initState() {
@@ -27,6 +27,7 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
 
   Future<void> saveBiometricConsent(
       String reliantApplicationGuid, String programGuid) async {
+    _isButtonDisabled = true;
     String result;
     try {
       result = await _channel.invokeMethod('saveBiometricConsent', {
@@ -38,11 +39,16 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
     }
 
     // check whether this [state] object is currentyl in a tree
-    if (!mounted) return;
+    if (!mounted) {
+      _isButtonDisabled = false;
+      return;
+    }
+    ;
 
     // update state
     setState(() {
       _consentId = result;
+      _isButtonDisabled = false;
     });
   }
 
@@ -72,12 +78,14 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
                   height: 50,
                   child: _consentId.isNotEmpty
                       ? ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    RegisterUserWithBiometricsScreen(
-                                        value: _consentId)));
-                          },
+                          onPressed: _isButtonDisabled
+                              ? null
+                              : () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          RegisterUserWithBiometricsScreen(
+                                              value: _consentId)));
+                                },
                           child: const Text("Go to user registration"))
                       : ElevatedButton(
                           onPressed: () {
