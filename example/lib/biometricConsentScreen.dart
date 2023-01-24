@@ -47,7 +47,7 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Biometric Consent'),
+          title: const Text('Biometrics Consent'),
           backgroundColor: const Color.fromRGBO(247, 158, 27, 1),
         ),
         body: Padding(
