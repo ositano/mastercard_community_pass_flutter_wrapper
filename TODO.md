@@ -2,7 +2,7 @@
 
 This phase will include all user setup actions that facilitate the onboarding of Users for Community Pass Digital ID, multi-wallet and acceptance accounts. These actions provides the ability to issue a Community Pass credential to a user (using cards (or QR) and onboard them onto Community Pass:
 
-⬜ Action: Enroll a new user and Issue card using Biometrics
+✅ Action: Enroll a new user and Issue card using Biometrics
 
       saveBiometricConsent()
           ✅ Implement method
@@ -11,8 +11,8 @@ This phase will include all user setup actions that facilitate the onboarding of
           ✅ Implement method
           ✅ Add example
       getWriteProfileActivityIntent()
-          ⬜ Implement method
-          ⬜ Add example
+          ✅  Implement method
+          ✅  Add example
 
 ⬜ Action: Enroll a new user and issue card using Passcode
 
@@ -20,8 +20,8 @@ This phase will include all user setup actions that facilitate the onboarding of
           ✅ Implement method
           ✅ Add example
       getRegisterBasicUserActivityIntent()
-          ⬜ Implement method
-          ⬜ Add example
+          ✅ Implement method
+          ✅ Add example
       getGenerateCpUserProfileActivityIntent()
           ⬜ Implement method
           ⬜ Add example
@@ -44,8 +44,8 @@ This phase will include all user setup actions that facilitate the onboarding of
           ✅ Implement method
           ✅ Add example
       getRegisterBasicUserActivityIntent()
-          ⬜ Implement method
-          ⬜ Add example
+          ✅ Implement method
+          ✅ Add example
       getGenerateCpUserProfileActivityIntent()
           ⬜ Implement method
           ⬜ Add example
@@ -130,8 +130,8 @@ This phase demonstrates actions and activities that enable you to manage any act
           ⬜ Implement method
           ⬜ Add example
       getWriteProfileActivityIntent()
-          ⬜ Implement method
-          ⬜ Add example
+          ✅ Implement method
+          ✅ Add example
       getGenerateCpUserProfileActivityIntent()
           ⬜ Implement method
           ⬜ Add example
@@ -139,14 +139,14 @@ This phase demonstrates actions and activities that enable you to manage any act
 ⬜ Action: Issue new Form Factor to an existing user with passcode authentication
 
       getWritePasscodeActivityIntent()
-          ⬜ Implement method
-          ⬜ Add example
+          ✅ Implement method
+          ✅ Add example
       getBlacklistFormFactorActivityIntent()
           ⬜ Implement method
           ⬜ Add example
       getWriteProfileActivityIntent()
-          ⬜ Implement method
-          ⬜ Add example
+          ✅ Implement method
+          ✅ Add example
       getGenerateCpUserProfileActivityIntent()
           ⬜ Implement method
           ⬜ Add example
