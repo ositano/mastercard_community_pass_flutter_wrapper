@@ -16,14 +16,14 @@ class ConsumerDevicePasscodeAPIRoute(private val activity: Activity) {
     }
 
     fun startWritePasscodeIntent(call: MethodCall){
-        val programGuid = call.argument<String>(Key.PROGRAM_GUID)!!
         val reliantAppGuid = call.argument<String>(Key.RELIANT_APP_GUID)!!
+        val programGuid = call.argument<String>(Key.PROGRAM_GUID)!!
         val rId = call.argument<String>(Key.RID)!!
         val passcode = call.argument<String>(Key.PASSCODE)!!
 
         val intent = Intent(activity, WritePasscodeCompassApiHandlerActivity::class.java).apply {
-            putExtra(Key.PROGRAM_GUID, programGuid)
             putExtra(Key.RELIANT_APP_GUID, reliantAppGuid)
+            putExtra(Key.PROGRAM_GUID, programGuid)
             putExtra(Key.RID, rId)
             putExtra(Key.PASSCODE, passcode)
         }

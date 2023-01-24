@@ -18,13 +18,13 @@ class RegisterUserWithBiometricsAPIRoute(private val activity: Activity) {
     }
 
     fun startRegisterUserWithBiometricsIntent(call: MethodCall){
-        val programGuid = call.argument<String>(Key.PROGRAM_GUID)!!
         val reliantAppGuid = call.argument<String>(Key.RELIANT_APP_GUID)!!
+        val programGuid = call.argument<String>(Key.PROGRAM_GUID)!!
         val consentId = call.argument<String>(Key.CONSENT_ID)
 
         val intent = Intent(activity, RegisterUserForBioTokenCompassApiHandlerActivity::class.java).apply {
-            putExtra(Key.PROGRAM_GUID, programGuid)
             putExtra(Key.RELIANT_APP_GUID, reliantAppGuid)
+            putExtra(Key.PROGRAM_GUID, programGuid)
             putExtra(Key.CONSENT_ID, consentId)
         }
 
