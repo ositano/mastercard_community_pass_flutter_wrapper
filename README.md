@@ -20,7 +20,6 @@ A performant interactive Community Pass Service flutter plugin with fully config
   - [Installation](#installation)
   - [Usage Examples](#usage-examples)
   - [API](#api)
-  - [Recommendation](#recommendation)
 - [Support](#support)
 
 ## Overview <a name="overview"></a>
@@ -107,17 +106,24 @@ Implement the saveBiometricConsent() method method
 
 Future<void> saveBiometricConsent(String reliantApplicationGuid, String programGuid) async {
     String result;
+
     try {
+
+      // invoke saveBiometricConsent() method and await for the consentId
       result = await _channel.invokeMethod('saveBiometricConsent', {
-        _reliantAppGuidKey: reliantApplicationGuid,
-        _programGuidKey: programGuid
+        'RELIANT_APP_GUID': reliantApplicationGuid,
+        'PROGRAM_GUID': programGuid
       });
-    } on PlatformException {
+
+      // catch exceptions
+    } on PlatformException catch(e) {
       result = '';
     }
 
+    // check whether this [state] object is currently in a tree
     if (!mounted) return;
 
+    // save the consentId in dart state
     setState(() {
       _consentId = result;
     });

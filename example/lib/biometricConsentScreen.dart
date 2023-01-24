@@ -37,7 +37,10 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
       result = '';
     }
 
+    // check whether this [state] object is currentyl in a tree
     if (!mounted) return;
+
+    // update state
     setState(() {
       _consentId = result;
     });
