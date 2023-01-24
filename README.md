@@ -7,6 +7,8 @@
 [![](https://sonarcloud.io/api/project_badges/measure?project=Mastercard_community-pass-flutter-wrapper&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Mastercard_community-pass-flutter-wrapper)
 [![](https://sonarcloud.io/api/project_badges/measure?project=Mastercard_community-pass-flutter-wrapper&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Mastercard_community-pass-flutter-wrapper)
 
+A performant interactive Community Pass Service flutter plugin with fully configurable options 🚀
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -16,7 +18,8 @@
   - [Prerequisites](#prerequisites)
   - [Configuration](#configuration)
   - [Installation](#installation)
-  - [Examples](#examples)
+  - [Usage Examples](#usage-examples)
+  - [API](#api)
   - [Recommendation](#recommendation)
 - [Support](#support)
 
@@ -39,7 +42,8 @@ The Community Pass Platform provides technology that allows customers servicing 
 
 ### Prerequisites <a name="prerequisites"></a>
 
-- [Mastercard Developers Account](https://developer.mastercard.com/dashboard) with access to [Community Pass Assets](https://developer.mastercard.com/cp-kernel-integration-api/documentation/cp-assets/cp-assets-request/)
+- [Flutter](https://docs.flutter.dev/get-started/install) installed and working.
+- Android Studio IDE or equivalent
 - Android 7.0 (Nougat) or later
 - minSdkVersion 24 or later
 - Android Gradle Plugin v3.4.0 or greater required
@@ -47,16 +51,23 @@ The Community Pass Platform provides technology that allows customers servicing 
 
 ### Configuration <a name="configuration"></a>
 
-- Once you have the Program Name, Application Name, Application ID, and Certificate fingerprint, send them to the Community Pass Platform Admin via the `cp.patnerprogram[at]mastercard.com` to initiate the onboarding process.
+To get started please visit our documentation at [Mastercard Developer Zone](https://developer.mastercard.com/cp-kernel-integration-api/tutorial/getting-started-guide/) and complete the following sections
 
-- Create an account at [Mastercard Developers](https://developer.mastercard.com/account/sign-up).
-- Request for access to the [Community Pass Assets](https://developer.mastercard.com/cp-kernel-integration-api/documentation/cp-assets/cp-assets-request/)
-- Download the assets and place the community-pass-library-v2.4.0.aar file inside your project
-- Install and activate the Community Pass Kernel
+- [Section 1:](https://developer.mastercard.com/cp-kernel-integration-api/tutorial/getting-started-guide/step1) Pre-requisites required to get you starting
+- [Section 2:](https://developer.mastercard.com/cp-kernel-integration-api/tutorial/getting-started-guide/step2) Setting up your Community Pass Approved Device
+- [Section 3:](https://developer.mastercard.com/cp-kernel-integration-api/tutorial/getting-started-guide/step3) Setting up your development environment
+- [Section 4:](https://developer.mastercard.com/cp-kernel-integration-api/tutorial/getting-started-guide/step4) Submit your Reliant App details to Community Pass
+- [Section 6:](https://developer.mastercard.com/cp-kernel-integration-api/tutorial/getting-started-guide/step6) Install and Activate the Community Pass Kernel
+
+To report any issue about the [Mastercard Developer Zone](https://developer.mastercard.com/cp-kernel-integration-api/tutorial/getting-started-guide/), please send an email to `cp.patnerprogram[at]mastercard.com`
+
+For issues related with this plugin, please use github issues to report it.
 
 ### Installation <a name="installation"></a>
 
-1. Depend on it
+The following steps will help you to connect your reliant application with Community Pass
+
+1. Depend on this plugin
 
 Run this command Flutter:
 
@@ -81,7 +92,7 @@ Now in your Dart code, you can use:
 import 'package:flutter_cpk_plugin/flutter_cpk_plugin.dart';
 ```
 
-### Examples <a name="examples"></a>
+### Usage Examples <a name="usage-examples"></a>
 
 Create a channel
 
@@ -89,25 +100,46 @@ Create a channel
 final _channel = const MethodChannel('flutter_cpk_plugin');
 ```
 
-Invoke the connection method
+Implement the saveBiometricConsent() method method
 
 ```dart
-Future<void> initCpkConnectionState(String appGuid) async {
+//main.dart
+
+Future<void> saveBiometricConsent(String reliantApplicationGuid, String programGuid) async {
     String result;
     try {
-      result = await _channel
-          .invokeMethod('getCpkConnectionStatus', {'appGuid': appGuid});
+      result = await _channel.invokeMethod('saveBiometricConsent', {
+        _reliantAppGuidKey: reliantApplicationGuid,
+        _programGuidKey: programGuid
+      });
     } on PlatformException {
-      result = 'Failed to get the connection status';
+      result = '';
     }
 
     if (!mounted) return;
 
     setState(() {
-      _connectionStatus = result;
+      _consentId = result;
     });
+
   }
 ```
+
+Invoke the saveBiometricConsent() method
+
+```
+saveBiometricConsent(_reliantApplicationGuid, _programGuid);
+```
+
+### API <a name="api"></a>
+
+| Method                        | Parameters                                                                                                                                    | Return Type         |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| saveBiometricConsent          | `reliantAppGuid`: String (required)<br/> `programGuid`: String (required)                                                                     | `consentId`: String |
+| getRegisterUserWithBiometrics | `reliantAppGuid`: String (required)<br/> `programGuid`: String (required)<br/> `consentId`: String (required)                                 | `rId`: String       |
+| getRegisterBasicUser          | `reliantAppGuid`: String (required)<br/> `programGuid`: String (required)                                                                     | `rId`: String       |
+| getWriteProfile               | `reliantAppGuid`: String (required)<br/> `programGuid`: String (required)<br/> `rId`: String (required)<br/> `overwriteCard`: Bool (optional) | `<Object>`          |
+| getWritePasscode              | `reliantAppGuid`: String (required)<br/> `programGuid`: String (required)<br/> `rId`: String (required)<br/> `passcode`: String (required)    | `<Object>`          |
 
 ## Support <a name="support"></a>
 
