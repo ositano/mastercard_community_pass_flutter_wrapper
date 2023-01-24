@@ -16,13 +16,14 @@ Here are examples of acceptable semantic commit messages
 
 Submit changes:
 
-1. Fork the repository
+1. Fork the [community-pass-flutter-wrapper-contrib]() repository
 2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -am 'Add some feature')
-4. Execute the unit tests to ensure all pass
-5. Squash your commits (git rebase --interactive --autosquash)
-6. Push the branch (git push origin my-new-feature)
-7. Create a new Pull Request
+3. Add the `Community Pass Library` to your project, see how [here](https://developer.mastercard.com/cp-kernel-integration-api/tutorial/getting-started-guide/step5/)
+4. Commit your changes (git commit -am 'Add some feature')
+5. Execute the unit tests to ensure all pass
+6. Squash your commits (git rebase --interactive --autosquash)
+7. Push the branch (git push origin my-new-feature)
+8. Create a new Pull Request
 
 ## Pull request Approval
 
