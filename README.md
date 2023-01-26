@@ -141,7 +141,7 @@ saveBiometricConsent(_reliantApplicationGuid, _programGuid);
 
 | Method                                                          | Parameters                                                                                                                                    | Return Type         |
 | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| [saveBiometricConsent](#savebiometricconsent)                   | `reliantAppGuid`: String (required)<br/> `programGuid]: String (required)                                                                     | `consentId`: String |
+| [saveBiometricConsent](#savebiometricconsent)                   | `reliantAppGuid`: String (required)<br/> `programGuid`: String (required)                                                                     | `consentId`: String |
 | [getRegisterUserWithBiometrics](#getregisteruserwithbiometrics) | `reliantAppGuid`: String (required)<br/> `programGuid`: String (required)<br/> `consentId`: String (required)                                 | `rId`: String       |
 | [getRegisterBasicUser](#getregisterbasicuser)                   | `reliantAppGuid`: String (required)<br/> `programGuid`: String (required)                                                                     | `rId`: String       |
 | [getWriteProfile](#getwriteprofile)                             | `reliantAppGuid`: String (required)<br/> `programGuid`: String (required)<br/> `rId`: String (required)<br/> `overwriteCard`: Bool (optional) | `<Object>`          |
