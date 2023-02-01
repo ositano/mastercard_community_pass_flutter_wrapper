@@ -1,4 +1,4 @@
-package com.mastercard.flutter_cpk_plugin
+package com.mastercard.cp3
 
 import android.app.Activity
 import android.app.Application
@@ -642,6 +642,11 @@ interface CompassKernelUIController {
                     true -> {
                         deleteEntry(alias.toString())
                         generateKeyPair(alias)
+
+                        val createdPublicKey = keyStore.getCertificate(alias.toString())?.publicKey
+                        val createdPrivateKey = keyStore.getKey(alias.toString(), null) as PrivateKey?
+
+                        KeyPair(createdPublicKey, createdPrivateKey)
                     }
                     false -> KeyPair(publicKey, privateKey)
                 }
