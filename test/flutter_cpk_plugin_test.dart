@@ -8,29 +8,31 @@ class MockFlutterCpkPluginPlatform
     with MockPlatformInterfaceMixin
     implements FlutterCpkPluginPlatform {
   @override
-  Future<String> saveBiometricConsent(
+  Future<Map<String, String>> saveBiometricConsent(
           String reliantApplicationGuid, String programGuid) =>
-      Future.value('40');
+      Future.value(saveBiometricConsentMapLiteral);
 
   @override
-  Future<String> getRegisterUserWithBiometrics(String reliantApplicationGuid,
-          String programGuid, String consentId) =>
-      Future.value('40');
+  Future<Map<String, String>> getRegisterUserWithBiometrics(
+          String reliantApplicationGuid,
+          String programGuid,
+          String consentId) =>
+      Future.value(registerUserWithBiometricsMapLiteral);
 
   @override
-  Future<String> getRegisterBasicUser(
+  Future<Map<String, String>> getRegisterBasicUser(
           String reliantApplicationGuid, String programGuid) =>
-      Future.value('40');
+      Future.value(getRegisterBasicUserMapLiteral);
 
   @override
-  Future<String> getWriteProfile(String reliantApplicationGuid,
+  Future<Map<String, String>> getWriteProfile(String reliantApplicationGuid,
           String programGuid, String rId, bool overwriteCard) =>
-      Future.value('40');
+      Future.value(getWriteProfileMapLiteral);
 
   @override
-  Future<String> getWritePasscode(String reliantApplicationGuid,
+  Future<Map<String, String>> getWritePasscode(String reliantApplicationGuid,
           String programGuid, String rId, String passcode) =>
-      Future.value('40');
+      Future.value(getWritePasscodeMapLiteral);
 }
 
 void main() {
@@ -46,7 +48,8 @@ void main() {
     MockFlutterCpkPluginPlatform fakePlatform = MockFlutterCpkPluginPlatform();
     FlutterCpkPluginPlatform.instance = fakePlatform;
 
-    expect(await flutterCpkPlugin.saveBiometricConsent('', ''), '40');
+    expect(await flutterCpkPlugin.saveBiometricConsent('', ''),
+        saveBiometricConsentMapLiteral);
   });
 
   test('getRegisterUserWithBiometrics', () async {
@@ -54,8 +57,8 @@ void main() {
     MockFlutterCpkPluginPlatform fakePlatform = MockFlutterCpkPluginPlatform();
     FlutterCpkPluginPlatform.instance = fakePlatform;
 
-    expect(
-        await flutterCpkPlugin.getRegisterUserWithBiometrics('', '', ''), '40');
+    expect(await flutterCpkPlugin.getRegisterUserWithBiometrics('', '', ''),
+        registerUserWithBiometricsMapLiteral);
   });
 
   test('getRegisterBasicUser', () async {

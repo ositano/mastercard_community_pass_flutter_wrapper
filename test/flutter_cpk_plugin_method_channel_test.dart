@@ -19,22 +19,27 @@ void main() {
   });
 
   test('saveBiometricConsent', () async {
-    expect(await platform.saveBiometricConsent('', ''), '42');
+    expect(await platform.saveBiometricConsent('', ''),
+        saveBiometricConsentMapLiteral);
   });
 
   test('getRegisterUserWithBiometrics', () async {
-    expect(await platform.getRegisterUserWithBiometrics('', '', ''), '42');
+    expect(await platform.getRegisterUserWithBiometrics('', '', ''),
+        registerUserWithBiometricsMapLiteral);
   });
 
   test('getRegisterBasicUser', () async {
-    expect(await platform.getRegisterBasicUser('', ''), '42');
+    expect(await platform.getRegisterBasicUser('', ''),
+        getRegisterBasicUserMapLiteral);
   });
 
   test('getWriteProfile', () async {
-    expect(await platform.getWriteProfile('', '', '', false), '42');
+    expect(await platform.getWriteProfile('', '', '', false),
+        getWriteProfileMapLiteral);
   });
 
   test('getWritePasscode', () async {
-    expect(await platform.getWritePasscode('', '', '', ''), '42');
+    expect(await platform.getWritePasscode('', '', '', ''),
+        getWritePasscodeMapLiteral);
   });
 }

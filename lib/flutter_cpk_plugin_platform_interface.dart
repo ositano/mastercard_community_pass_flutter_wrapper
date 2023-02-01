@@ -23,30 +23,32 @@ abstract class FlutterCpkPluginPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String> saveBiometricConsent(
+  Future<Map<String, String>> saveBiometricConsent(
       String reliantApplicationGuid, String programGuid) async {
     throw UnimplementedError(
         'saveBiometricConsent() has not been implemented.');
   }
 
-  Future<String> getRegisterUserWithBiometrics(String reliantApplicationGuid,
-      String programGuid, String consentId) async {
+  Future<Map<String, String>> getRegisterUserWithBiometrics(
+      String reliantApplicationGuid,
+      String programGuid,
+      String consentId) async {
     throw UnimplementedError(
         'getRegisterUserWithBiometrics() has not been implemented.');
   }
 
-  Future<String> getRegisterBasicUser(
+  Future<Map<String, String>> getRegisterBasicUser(
       String reliantApplicationGuid, String programGuid) async {
     throw UnimplementedError(
         'getRegisterBasicUser() has not been implemented.');
   }
 
-  Future<String> getWriteProfile(String reliantApplicationGuid,
+  Future<Map<String, String>> getWriteProfile(String reliantApplicationGuid,
       String programGuid, String rId, bool overwriteCard) async {
     throw UnimplementedError('getWriteProfile() has not been implemented.');
   }
 
-  Future<String> getWritePasscode(String reliantApplicationGuid,
+  Future<Map<String, String>> getWritePasscode(String reliantApplicationGuid,
       String programGuid, String rId, String passcode) async {
     throw UnimplementedError('getWritePasscode() has not been implemented.');
   }

@@ -5,6 +5,7 @@ import android.content.Intent
 import com.mastercard.flutter_cpk_plugin.ui.RegisterBasicUserCompassApiHandlerActivity
 import com.mastercard.flutter_cpk_plugin.util.ErrorCode
 import com.mastercard.flutter_cpk_plugin.util.Key
+import com.mastercard.flutter_cpk_plugin.util.ResponseKeys
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
@@ -33,7 +34,10 @@ class RegisterBasicUserAPIRoute(private val activity: Activity) {
         result: MethodChannel.Result
     ) {
         when (resultCode) {
-            Activity.RESULT_OK -> result.success(data?.extras?.get(Key.DATA))
+            Activity.RESULT_OK -> result.success(
+                hashMapOf(
+                    ResponseKeys.RID to data?.extras?.get(Key.DATA)
+                ))
             Activity.RESULT_CANCELED -> {
                 val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()
                 val message = data?.getStringExtra(Key.ERROR_MESSAGE)!!

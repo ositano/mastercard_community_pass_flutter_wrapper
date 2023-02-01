@@ -8,12 +8,12 @@ import com.mastercard.flutter_cpk_plugin.CompassKernelUIController
 import com.mastercard.flutter_cpk_plugin.ui.WriteProfileCompassApiHandlerActivity
 import com.mastercard.flutter_cpk_plugin.util.ErrorCode
 import com.mastercard.flutter_cpk_plugin.util.Key
+import com.mastercard.flutter_cpk_plugin.util.ResponseKeys
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
 class ConsumerDeviceAPIRoute(
-    private val activity: Activity,
-    private val helperObject: CompassKernelUIController.CompassHelper
+    private val activity: Activity
 ) {
 
 
@@ -44,15 +44,14 @@ class ConsumerDeviceAPIRoute(
         data: Intent?,
         result: MethodChannel.Result
     ) {
-        val jwt = data?.getStringExtra(Constants.EXTRA_DATA)!!
-        val response: RegisterUserForBioTokenResponse = helperObject.parseBioTokenJWT(jwt)
-        val rId =  response.rId;
-
         when (resultCode) {
-            Activity.RESULT_OK -> result.success(rId)
+            Activity.RESULT_OK -> result.success(
+                hashMapOf(
+                   ResponseKeys.CONSUMER_DEVICE_NUMBER to data?.extras?.get(Key.DATA)
+                ))
             Activity.RESULT_CANCELED -> {
-                val code = data.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()
-                val message = data.getStringExtra(Key.ERROR_MESSAGE)!!
+                val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()
+                val message = data?.getStringExtra(Key.ERROR_MESSAGE)!!
                 result.error(code, message, null)
             }
         }

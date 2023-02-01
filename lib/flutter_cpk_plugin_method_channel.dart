@@ -3,6 +3,24 @@ import 'package:flutter/services.dart';
 
 import 'flutter_cpk_plugin_platform_interface.dart';
 
+var saveBiometricConsentMapLiteral = {'consentId': ''};
+var registerUserWithBiometricsMapLiteral = {
+  'rId': '',
+  'enrolmentStatus': '',
+  'bioToken': '',
+  'programGUID': ''
+};
+var getRegisterBasicUserMapLiteral = {'rId': ''};
+var getWritePasscodeMapLiteral = {
+  'responseStatus': '',
+};
+
+var getWriteProfileMapLiteral = {
+  'consumerDeviceNumber': '',
+};
+
+typedef IntList = Map<String, String>;
+
 /// An implementation of [FlutterCpkPluginPlatform] that uses method channels.
 class MethodChannelFlutterCpkPlugin extends FlutterCpkPluginPlatform {
   /// The method channel used to interact with the native platform.
@@ -16,25 +34,26 @@ class MethodChannelFlutterCpkPlugin extends FlutterCpkPluginPlatform {
   static const String _overwriteCardKey = 'OVERWRITE_CARD';
 
   @override
-  Future<String> saveBiometricConsent(
+  Future<Map<String, String>> saveBiometricConsent(
       String reliantApplicationGuid, String programGuid) async {
     try {
-      final String result = await methodChannel.invokeMethod(
-          'saveBiometricConsent', {
+      final result = await methodChannel.invokeMethod('saveBiometricConsent', {
         _reliantAppGuidKey: reliantApplicationGuid,
         _programGuidKey: programGuid
       });
       return result;
     } on PlatformException catch (ex) {
-      return ex.message ?? 'unexpected error';
+      return {"code": ex.code, "message": ex.message ?? "Uknown error"};
     }
   }
 
   @override
-  Future<String> getRegisterUserWithBiometrics(String reliantApplicationGuid,
-      String programGuid, String consentId) async {
+  Future<Map<String, String>> getRegisterUserWithBiometrics(
+      String reliantApplicationGuid,
+      String programGuid,
+      String consentId) async {
     try {
-      final String result =
+      final result =
           await methodChannel.invokeMethod('getRegisterUserWithBiometrics', {
         _reliantAppGuidKey: reliantApplicationGuid,
         _programGuidKey: programGuid,
@@ -42,31 +61,29 @@ class MethodChannelFlutterCpkPlugin extends FlutterCpkPluginPlatform {
       });
       return result;
     } on PlatformException catch (ex) {
-      return ex.message ?? 'unexpected error';
+      return {"code": ex.code, "message": ex.message ?? "Uknown error"};
     }
   }
 
   @override
-  Future<String> getRegisterBasicUser(
+  Future<Map<String, String>> getRegisterBasicUser(
       String reliantApplicationGuid, String programGuid) async {
     try {
-      final String result = await methodChannel.invokeMethod(
-          'getRegisterBasicUser', {
+      final result = await methodChannel.invokeMethod('getRegisterBasicUser', {
         _reliantAppGuidKey: reliantApplicationGuid,
         _programGuidKey: programGuid
       });
       return result;
     } on PlatformException catch (ex) {
-      return ex.message ?? 'unexpected error';
+      return {"code": ex.code, "message": ex.message ?? "Uknown error"};
     }
   }
 
   @override
-  Future<String> getWriteProfile(String reliantApplicationGuid,
+  Future<Map<String, String>> getWriteProfile(String reliantApplicationGuid,
       String programGuid, String rId, bool overwriteCard) async {
     try {
-      final String result =
-          await methodChannel.invokeMethod('getWriteProfile', {
+      final result = await methodChannel.invokeMethod('getWriteProfile', {
         _reliantAppGuidKey: reliantApplicationGuid,
         _programGuidKey: programGuid,
         _rIdKey: rId,
@@ -74,16 +91,15 @@ class MethodChannelFlutterCpkPlugin extends FlutterCpkPluginPlatform {
       });
       return result;
     } on PlatformException catch (ex) {
-      return ex.message ?? 'unexpected error';
+      return {"code": ex.code, "message": ex.message ?? "Uknown error"};
     }
   }
 
   @override
-  Future<String> getWritePasscode(String reliantApplicationGuid,
+  Future<Map<String, String>> getWritePasscode(String reliantApplicationGuid,
       String programGuid, String rId, String passcode) async {
     try {
-      final String result =
-          await methodChannel.invokeMethod('getWritePasscode', {
+      final result = await methodChannel.invokeMethod('getWritePasscode', {
         _reliantAppGuidKey: reliantApplicationGuid,
         _programGuidKey: programGuid,
         _rIdKey: rId,
@@ -91,7 +107,7 @@ class MethodChannelFlutterCpkPlugin extends FlutterCpkPluginPlatform {
       });
       return result;
     } on PlatformException catch (ex) {
-      return ex.message ?? 'unexpected error';
+      return {"code": ex.code, "message": ex.message ?? "Uknown error"};
     }
   }
 }

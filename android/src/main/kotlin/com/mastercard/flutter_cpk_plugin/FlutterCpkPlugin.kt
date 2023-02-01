@@ -28,10 +28,8 @@ class FlutterCpkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginR
   private lateinit var context: Context
   private lateinit var activity: Activity
 
-  private var helperObject = CompassKernelUIController.CompassHelper(context);
-
   private val consumerDeviceApiRoute: ConsumerDeviceAPIRoute by lazy {
-    ConsumerDeviceAPIRoute(activity, helperObject)
+    ConsumerDeviceAPIRoute(activity)
   }
   private val registerUserWithBiometricsAPIRoute: RegisterUserWithBiometricsAPIRoute by lazy {
     RegisterUserWithBiometricsAPIRoute(activity)
@@ -46,10 +44,13 @@ class FlutterCpkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginR
     BiometricConsentAPIRoute(activity)
   }
 
+  private lateinit var helperObject: CompassKernelUIController.CompassHelper
+
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "flutter_cpk_plugin")
     channel.setMethodCallHandler(this)
     context = flutterPluginBinding.applicationContext
+    helperObject = CompassKernelUIController.CompassHelper(context);
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
@@ -107,7 +108,7 @@ class FlutterCpkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginR
       BiometricConsentAPIRoute.BIOMETRIC_CONSENT_REQUEST_CODE -> biometricConsentAPIRoute.handleBiometricConsentIntentResponse(resultCode, data, result)
       ConsumerDeviceAPIRoute.WRITE_PROFILE_REQUEST_CODE -> consumerDeviceApiRoute.handleWriteProfileIntentResponse(resultCode, data, result)
       ConsumerDevicePasscodeAPIRoute.WRITE_PASSCODE_REQUEST_CODE -> consumerDevicePasscodeAPIRoute.handleWritePasscodeIntentResponse(resultCode, data, result)
-      RegisterUserWithBiometricsAPIRoute.REGISTER_BIOMETRICS_REQUEST_CODE -> registerUserWithBiometricsAPIRoute.handleRegisterUserWithBiometricsIntentResponse(resultCode, data, result)
+      RegisterUserWithBiometricsAPIRoute.REGISTER_BIOMETRICS_REQUEST_CODE -> registerUserWithBiometricsAPIRoute.handleRegisterUserWithBiometricsIntentResponse(resultCode, data, result, helperObject)
       RegisterBasicUserAPIRoute.REGISTER_BASIC_USER_REQUEST_CODE -> registerBasicUserAPIRoute.handleRegisterBasicUserIntentResponse(resultCode, data, result)
     }
   }

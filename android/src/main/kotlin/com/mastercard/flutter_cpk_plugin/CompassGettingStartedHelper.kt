@@ -1,4 +1,4 @@
-package com.mastercard.cp3
+package com.mastercard.flutter_cpk_plugin
 
 import android.app.Activity
 import android.app.Application

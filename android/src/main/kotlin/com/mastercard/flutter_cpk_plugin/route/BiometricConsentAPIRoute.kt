@@ -2,9 +2,11 @@ package com.mastercard.flutter_cpk_plugin.route
 
 import android.app.Activity
 import android.content.Intent
+import com.mastercard.compass.model.consent.ConsentResponse
 import com.mastercard.flutter_cpk_plugin.ui.BiometricConsentCompassApiHandlerActivity
 import com.mastercard.flutter_cpk_plugin.util.ErrorCode
 import com.mastercard.flutter_cpk_plugin.util.Key
+import com.mastercard.flutter_cpk_plugin.util.ResponseKeys
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
@@ -32,8 +34,17 @@ class BiometricConsentAPIRoute(private val activity: Activity) {
         data: Intent?,
         result: MethodChannel.Result
     ) {
+
         when (resultCode) {
-            Activity.RESULT_OK -> result.success(data?.extras?.get(Key.DATA))
+            Activity.RESULT_OK -> {
+                val response: ConsentResponse = data?.extras?.get(Key.DATA) as ConsentResponse
+                result.success(
+                    hashMapOf(
+                        ResponseKeys.CONSENT_ID to response.consentId,
+                        ResponseKeys.RESPONSE_STATUS to response.responseStatus.toString()
+                    )
+                )
+            }
             Activity.RESULT_CANCELED -> {
                 val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()
                 val message = data?.getStringExtra(Key.ERROR_MESSAGE)!!

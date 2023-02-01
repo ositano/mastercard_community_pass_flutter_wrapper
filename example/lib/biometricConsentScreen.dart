@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cpk_plugin_example/registerUserWithBiometrics.dart';
+import 'package:flutter_cpk_plugin_example/registerBasicUserScreen.dart';
+import 'package:flutter_cpk_plugin_example/registerUserWithBiometricsScreen.dart';
 import 'package:flutter/services.dart';
 
 class BiometricConsentScreen extends StatefulWidget {
@@ -16,9 +17,9 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
   static const String _reliantAppGuid = '1cf89559-98fb-4080-b24b-6e43a062b239';
   static const String _reliantAppGuidKey = 'RELIANT_APP_GUID';
   static const String _programGuidKey = 'PROGRAM_GUID';
+  static const String _consentIdKey = 'consentId';
 
   String _consentId = '';
-  bool _isButtonDisabled = false;
 
   @override
   void initState() {
@@ -27,28 +28,22 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
 
   Future<void> saveBiometricConsent(
       String reliantApplicationGuid, String programGuid) async {
-    _isButtonDisabled = true;
-    String result;
+    var result = {};
     try {
       result = await _channel.invokeMethod('saveBiometricConsent', {
         _reliantAppGuidKey: reliantApplicationGuid,
         _programGuidKey: programGuid
       });
     } on PlatformException {
-      result = '';
+      result = {};
     }
 
     // check whether this [state] object is currentyl in a tree
-    if (!mounted) {
-      _isButtonDisabled = false;
-      return;
-    }
-    ;
+    if (!mounted) return;
 
     // update state
     setState(() {
-      _consentId = result;
-      _isButtonDisabled = false;
+      _consentId = result[_consentIdKey];
     });
   }
 
@@ -60,38 +55,69 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
           backgroundColor: const Color.fromRGBO(247, 158, 27, 1),
         ),
         body: Padding(
-            padding: const EdgeInsets.all(40),
+            padding: const EdgeInsets.all(30),
             child: Center(
-                child:
-                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: 0,
-                    vertical: 20), //apply padding horizontal or vertical only
-                child: Text(
-                  "Grant consent to collect biometrics (Face, Left palm and Right palm",
-                  style: TextStyle(fontSize: 16.0),
-                ),
-              ),
-              SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: _consentId.isNotEmpty
-                      ? ElevatedButton(
-                          onPressed: _isButtonDisabled
-                              ? null
-                              : () {
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 0,
+                        vertical:
+                            0), //apply padding horizontal or vertical only
+                    child: Text(
+                      "Grant consent to collect biometrics (Face, Left palm and Right palm)",
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                    child: SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: _consentId.isNotEmpty
+                            ? ElevatedButton(
+                                onPressed: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RegisterUserWithBiometricsScreen(
+                                                value: _consentId))),
+                                child: const Text(
+                                    "Go to biometric user registration"))
+                            : null),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 20),
+                      child: SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: _consentId.isEmpty
+                              ? ElevatedButton(
+                                  onPressed: () {
+                                    saveBiometricConsent(
+                                        _reliantAppGuid, _programGuid);
+                                  },
+                                  child: const Text("Grant Consent"))
+                              : null)),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 20),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: _consentId.isEmpty
+                            ? ElevatedButton(
+                                onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) =>
-                                          RegisterUserWithBiometricsScreen(
+                                          RegisterBasicUserScreen(
                                               value: _consentId)));
                                 },
-                          child: const Text("Go to user registration"))
-                      : ElevatedButton(
-                          onPressed: () {
-                            saveBiometricConsent(_reliantAppGuid, _programGuid);
-                          },
-                          child: const Text("Grant")))
-            ]))));
+                                child: const Text("Deny Consent"))
+                            : null,
+                      ))
+                ]))));
   }
 }
