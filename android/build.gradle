@@ -63,12 +63,24 @@ android {
     }
 }
 
+// Use local aar inside flutter plugin
+rootProject.allprojects{
+    repositories {
+        google()
+        mavenCentral()
+        flatDir {
+            dirs project(':flutter_cpk_plugin').file('libs')
+        }
+    }
+}
+
 dependencies {
     // issue: use local aar inside flutter plugin
     // source https://stackoverflow.com/questions/50971022/how-to-use-local-aar-inside-flutter-plugin
     // source https://stackoverflow.com/questions/68215302/using-flatdirs-should-be-avoided-because-it-doesnt-support-any-meta-data-format
 
-    implementation files('aar_libs/community-pass-library-v2.4.0.aar')
+    // Use local aar inside flutter plugin
+    implementation (name:"community-pass-library-v2.4.0", ext:'aar')
 
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
