@@ -68,7 +68,7 @@ try {
 
     String rId = result['rId']; // 4ae8c3fa-7dc1-40c1-bbaf-b664c41e150a
     String responseStatus = result['responseStatus']; // EXISTING or NEW
-    String bioToken = result['bioToken']; // jWt
+    String bioToken = result['bioToken']; // jWt if user is new. Empty string if user Exists
     String programGUID = result['programGUID']; // 3ac23543-f4ce-4526-98d3-c071ba422449
 } on PlatformException catch (ex) {
     String errorMessage = ex.message;
