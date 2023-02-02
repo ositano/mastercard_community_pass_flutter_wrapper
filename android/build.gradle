@@ -50,12 +50,12 @@ android {
         // issue: Using flatDirs should be avoided because it doesn't support any meta-data formats
         // source https://stackoverflow.com/questions/68215302/using-flatdirs-should-be-avoided-because-it-doesnt-support-any-meta-data-format
         main {
-            jniLibs.srcDirs = ['aar_libs']
+            jniLibs.srcDirs = ['libs']
         }
     }
 
     defaultConfig {
-        minSdkVersion 24
+        minSdkVersion 26
     }
     buildToolsVersion '30.0.3'
     buildFeatures {
@@ -63,31 +63,30 @@ android {
     }
 }
 
-// Use local aar inside flutter plugin
-rootProject.allprojects{
+// Uncomment this for release builds
+rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
         flatDir {
+            dirs 'libs'
             dirs project(':flutter_cpk_plugin').file('libs')
         }
     }
 }
 
 dependencies {
-    // issue: use local aar inside flutter plugin
-    // source https://stackoverflow.com/questions/50971022/how-to-use-local-aar-inside-flutter-plugin
-    // source https://stackoverflow.com/questions/68215302/using-flatdirs-should-be-avoided-because-it-doesnt-support-any-meta-data-format
-
     // Use local aar inside flutter plugin
-    implementation (name:"community-pass-library-v2.4.0", ext:'aar')
+//    releaseCompileOnly files("libs/community-pass-library-v2.4.0.aar")
+    releaseImplementation (name:"community-pass-library-v2.4.0", ext:'aar')
+    debugImplementation files("libs/community-pass-library-v2.4.0.aar")
 
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     //Navigation libs
-    def nav_version = "2.5.1"
+    def nav_version = "2.5.3"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 

@@ -12,7 +12,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
         title: 'Flutter Reliant Application',
         theme: ThemeData(primaryColor: const Color.fromRGBO(247, 158, 27, 1)),
         home: const MainScreen());

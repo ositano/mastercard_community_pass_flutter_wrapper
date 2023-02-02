@@ -43,7 +43,9 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
 
     // update state
     setState(() {
-      _consentId = result[_consentIdKey];
+      if (result[_consentIdKey] != null) {
+        _consentId = result[_consentIdKey];
+      }
     });
   }
 
