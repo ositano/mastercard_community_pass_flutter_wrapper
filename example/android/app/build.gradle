@@ -93,7 +93,6 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    // CPK dependency
-    // implementation 'androidx.appcompat:appcompat:1.5.1'
+
     implementation project(':flutter_cpk_plugin');
 }
