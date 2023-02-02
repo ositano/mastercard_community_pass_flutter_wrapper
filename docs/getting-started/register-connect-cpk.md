@@ -48,7 +48,7 @@ try {
         'RELIANT_APP_GUID': 'e32b7762-531c-4ca0-a55e-a74e00c144ac',
         'PROGRAM_GUID': '3ac23543-f4ce-4526-98d3-c071ba422449'
     });
-    String consentId = result['consentId'];
+    String consentId = result['consentId']; // cdd5883e-357b-418b-baf1-be5bef0bfaef
 } on PlatformException catch (ex) {
     String errorMessage = ex.message;
     String errorCode = ex.code;
@@ -66,10 +66,10 @@ try {
         'CONSENT_ID': 'cdd5883e-357b-418b-baf1-be5bef0bfaef'
     });
 
-    String rId = result['rId'];
-    String responseStatus = result['responseStatus'];
-    String bioToken = result['bioToken'];
-    String programGUID = result['programGUID'];
+    String rId = result['rId']; // 4ae8c3fa-7dc1-40c1-bbaf-b664c41e150a
+    String responseStatus = result['responseStatus']; // EXISTING or NEW
+    String bioToken = result['bioToken']; // jWt
+    String programGUID = result['programGUID']; // 3ac23543-f4ce-4526-98d3-c071ba422449
 } on PlatformException catch (ex) {
     String errorMessage = ex.message;
     String errorCode = ex.code;
@@ -85,7 +85,7 @@ try {
         'PROGRAM_GUID': '3ac23543-f4ce-4526-98d3-c071ba422449',
     });
 
-    String rId = result['rId'];
+    String rId = result['rId']; //4ae8c3fa-7dc1-40c1-bbaf-b664c41e150a
 } on PlatformException catch (ex) {
     String errorMessage = ex.message;
     String errorCode = ex.code;
@@ -102,7 +102,7 @@ try {
         'PASSCODE': '123456', // A 6 digit numeric PIN
     });
 
-    String responseStatus = result['responseStatus'];
+    String responseStatus = result['responseStatus']; // SUCCESS
 } on PlatformException catch (ex) {
     String errorMessage = ex.message;
     String errorCode = ex.code;
