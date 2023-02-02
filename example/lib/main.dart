@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cpk_plugin_example/mainScreen.dart';
+import 'color_utils.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,8 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Reliant Application',
-        theme: ThemeData(primaryColor: const Color.fromRGBO(247, 158, 27, 1)),
+        title: 'Community Pass Flutter Reliant Application',
+        theme: ThemeData(primaryColor: mastercardOrange),
         home: const MainScreen());
   }
 }

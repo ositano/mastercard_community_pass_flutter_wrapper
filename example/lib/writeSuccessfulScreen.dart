@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cpk_plugin_example/color_utils.dart';
 import 'package:flutter_cpk_plugin_example/main.dart';
 
 class WriteSuccessfulScreen extends StatefulWidget {
@@ -20,9 +21,9 @@ class _WriteSuccessfulScreenState extends State<WriteSuccessfulScreen> {
 
   @override
   void initState() {
-    super.initState();
     consumerDeviceNumber = receivedParams['consumerDeviceNumber']!;
     rId = receivedParams['rId']!;
+    super.initState();
   }
 
   @override
@@ -30,34 +31,48 @@ class _WriteSuccessfulScreenState extends State<WriteSuccessfulScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Registraton Successful'),
-          backgroundColor: const Color.fromRGBO(247, 158, 27, 1),
+          backgroundColor: mastercardOrange,
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(40),
-            child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 0,
-                        vertical:
-                            10), //apply padding horizontal or vertical only
-                    child: Text(
-                      "Consumer Device Number: $consumerDeviceNumber rId: $rId ",
-                      style: const TextStyle(fontSize: 16.0),
-                    ),
-                  ),
-                  SizedBox(
-                      width: double.infinity,
-                      height: 50,
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    'User registration was successful!',
+                    style: TextStyle(fontSize: 20),
+                  )),
+              Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                  child: Text(
+                    'Consumer Device Number: $consumerDeviceNumber',
+                    style: const TextStyle(fontSize: 16),
+                  )),
+              Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                  child: Text(
+                    'rId: $rId',
+                    style: const TextStyle(fontSize: 16),
+                  )),
+              SizedBox(
+                  width: double.infinity,
+                  // height: 100,
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
                       child: ElevatedButton(
-                          onPressed: () {
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(100, 50),
+                              backgroundColor: mastercardOrange),
+                          onPressed: (() {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => const MyApp(),
                             ));
-                          },
-                          child: const Text("Go Back Home")))
-                ]))));
+                          }),
+                          child: const Text('Go Back Home')))),
+            ]));
   }
 }

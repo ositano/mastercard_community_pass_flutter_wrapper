@@ -1,7 +1,11 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:flutter/material.dart';
+import 'package:flutter_cpk_plugin_example/color_utils.dart';
 import 'package:flutter_cpk_plugin_example/registerBasicUserScreen.dart';
 import 'package:flutter_cpk_plugin_example/registerUserWithBiometricsScreen.dart';
 import 'package:flutter/services.dart';
+import 'color_utils.dart';
 
 class BiometricConsentScreen extends StatefulWidget {
   const BiometricConsentScreen({super.key});
@@ -10,7 +14,8 @@ class BiometricConsentScreen extends StatefulWidget {
   State<BiometricConsentScreen> createState() => _BiometricConsentScreenState();
 }
 
-class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
+class _BiometricConsentScreenState extends State<BiometricConsentScreen>
+    with TickerProviderStateMixin {
   final _channel = const MethodChannel('flutter_cpk_plugin');
 
   static const String _programGuid = '8b00c113-6347-4b74-830f-268d267c04c1';
@@ -20,22 +25,41 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
   static const String _consentIdKey = 'consentId';
 
   String _consentId = '';
+  String globalError = '';
+  bool globalLoading = false;
+
+  late AnimationController controller;
 
   @override
   void initState() {
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..addListener(() {
+        setState(() {});
+      });
+    controller.repeat(reverse: true);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   Future<void> saveBiometricConsent(
       String reliantApplicationGuid, String programGuid) async {
+    globalLoading = true;
     var result = {};
+    String e = '';
     try {
       result = await _channel.invokeMethod('saveBiometricConsent', {
         _reliantAppGuidKey: reliantApplicationGuid,
         _programGuidKey: programGuid
       });
-    } on PlatformException {
-      result = {};
+    } on PlatformException catch (ex) {
+      e = '${ex.code} ${ex.message}';
     }
 
     // check whether this [state] object is currentyl in a tree
@@ -44,7 +68,15 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
     // update state
     setState(() {
       if (result[_consentIdKey] != null) {
-        _consentId = result[_consentIdKey];
+        globalLoading = false;
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => RegisterUserWithBiometricsScreen(
+                    value: result[_consentIdKey])));
+      } else {
+        globalError = e;
+        globalLoading = false;
       }
     });
   }
@@ -54,72 +86,84 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Biometrics Consent'),
-          backgroundColor: const Color.fromRGBO(247, 158, 27, 1),
+          backgroundColor: mastercardOrange,
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(30),
-            child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 0,
-                        vertical:
-                            0), //apply padding horizontal or vertical only
-                    child: Text(
-                      "Grant consent to collect biometrics (Face, Left palm and Right palm)",
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                    child: SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: _consentId.isNotEmpty
-                            ? ElevatedButton(
-                                onPressed: () => Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            RegisterUserWithBiometricsScreen(
-                                                value: _consentId))),
-                                child: const Text(
-                                    "Go to biometric user registration"))
-                            : null),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 20),
-                      child: SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: _consentId.isEmpty
-                              ? ElevatedButton(
-                                  onPressed: () {
-                                    saveBiometricConsent(
-                                        _reliantAppGuid, _programGuid);
-                                  },
-                                  child: const Text("Grant Consent"))
-                              : null)),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 20),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: _consentId.isEmpty
-                            ? ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          RegisterBasicUserScreen(
-                                              value: _consentId)));
-                                },
-                                child: const Text("Deny Consent"))
-                            : null,
-                      ))
-                ]))));
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: globalError.isNotEmpty
+                    ? Text(
+                        'Error: $globalError',
+                        style: const TextStyle(fontSize: 12, color: Colors.red),
+                      )
+                    : null),
+            const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Text(
+                  'Part 1: Capture Consent',
+                  style: TextStyle(fontSize: 20),
+                )),
+            const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Text(
+                  'This step calls the saveBiometricConsent API method. In this step, we check that a user has consented to capturing and storing their biometrics. If a user declines. You will register using passcode.',
+                  style: TextStyle(fontSize: 16),
+                )),
+            Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                child: globalLoading
+                    ? LinearProgressIndicator(
+                        value: controller.value,
+                        color: mastercardOrange,
+                        backgroundColor: gray,
+                        semanticsLabel: 'Linear progress indicator',
+                      )
+                    : null),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 20),
+                        child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              minimumSize: const Size(100, 50),
+                            ),
+                            onPressed: (() {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => RegisterBasicUserScreen(
+                                        value: _consentId,
+                                      )));
+                            }),
+                            child: const Text(
+                              'Deny Consent',
+                              style: TextStyle(color: mastercardOrange),
+                            )))),
+                Expanded(
+                    flex: 1,
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 20),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(100, 50),
+                                backgroundColor: mastercardOrange),
+                            onPressed: (() {
+                              saveBiometricConsent(
+                                  _reliantAppGuid, _programGuid);
+                            }),
+                            child: const Text('Grant Consent'))))
+              ],
+            )
+          ],
+        ));
   }
 }

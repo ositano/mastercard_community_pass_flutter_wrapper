@@ -47,7 +47,7 @@ class ConsumerDeviceAPIRoute(
         when (resultCode) {
             Activity.RESULT_OK -> result.success(
                 hashMapOf(
-                   ResponseKeys.CONSUMER_DEVICE_NUMBER to data?.extras?.get(Key.DATA)
+                   ResponseKeys.CONSUMER_DEVICE_NUMBER to data?.extras?.get(Key.DATA).toString()
                 ))
             Activity.RESULT_CANCELED -> {
                 val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()

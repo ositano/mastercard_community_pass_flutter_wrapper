@@ -39,7 +39,7 @@ class ConsumerDevicePasscodeAPIRoute(private val activity: Activity) {
     ) {
         when (resultCode) {
             Activity.RESULT_OK -> result.success(
-                    hashMapOf(ResponseKeys.RESPONSE_STATUS to data?.extras?.get(Key.DATA)
+                    hashMapOf(ResponseKeys.RESPONSE_STATUS to data?.extras?.get(Key.DATA).toString()
                 ))
             Activity.RESULT_CANCELED -> {
                 val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()
