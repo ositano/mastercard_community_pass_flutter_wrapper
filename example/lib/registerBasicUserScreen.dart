@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:flutter_cpk_plugin_example/color_utils.dart';
 import 'package:flutter_cpk_plugin_example/writeProfileScreen.dart';
 
 class RegisterBasicUserScreen extends StatefulWidget {
@@ -12,7 +13,8 @@ class RegisterBasicUserScreen extends StatefulWidget {
       _RegisterBasicUserScreenState(value);
 }
 
-class _RegisterBasicUserScreenState extends State<RegisterBasicUserScreen> {
+class _RegisterBasicUserScreenState extends State<RegisterBasicUserScreen>
+    with TickerProviderStateMixin {
   String value;
   _RegisterBasicUserScreenState(this.value);
 
@@ -24,25 +26,51 @@ class _RegisterBasicUserScreenState extends State<RegisterBasicUserScreen> {
 
   final _channel = const MethodChannel('flutter_cpk_plugin');
 
-  String globalRID = '';
-  bool _isButtonDisabled = true;
+  String globalError = '';
+  bool globalLoading = false;
+
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..addListener(() {
+        setState(() {});
+      });
+    controller.repeat(reverse: true);
+    super.initState();
+  }
 
   Future<void> getRegisterBasicUser(
       String reliantApplicationGuid, String programGuid) async {
-    var result;
+    globalLoading = true;
+    var result = {};
+    String e = '';
+
     try {
       result = await _channel.invokeMethod('getRegisterBasicUser', {
         _reliantAppGuidKey: reliantApplicationGuid,
         _programGuidKey: programGuid,
       });
-    } on PlatformException {
-      result = {};
+    } on PlatformException catch (ex) {
+      e = '${ex.code} ${ex.message}';
     }
 
     if (!mounted) return;
     setState(() {
-      globalRID = result[_rIdKey];
-      _isButtonDisabled = false;
+      if (result[_rIdKey] != null) {
+        globalLoading = false;
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => WriteProfileScreen(navigationParams: {
+                  "rId": result[_rIdKey],
+                  "registrationType": 'BASIC_USER',
+                })));
+      } else {
+        globalError = e;
+        globalLoading = false;
+      }
     });
   }
 
@@ -51,52 +79,58 @@ class _RegisterBasicUserScreenState extends State<RegisterBasicUserScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Basic user Registration'),
-          backgroundColor: const Color.fromRGBO(247, 158, 27, 1),
+          backgroundColor: mastercardOrange,
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(40),
-            child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 0,
-                        vertical:
-                            10), //apply padding horizontal or vertical only
-                    child: globalRID.isNotEmpty
-                        ? Text(
-                            "rId: $globalRID ",
-                            style: const TextStyle(fontSize: 16.0),
-                          )
-                        : null,
-                  ),
-                  SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: globalRID.isNotEmpty
-                          ? ElevatedButton(
-                              onPressed: _isButtonDisabled
-                                  ? null
-                                  : () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  WriteProfileScreen(
-                                                      navigationParams: {
-                                                        "rId": globalRID,
-                                                        "registrationType":
-                                                            'BASIC_USER',
-                                                      })));
-                                    },
-                              child: const Text("Go to Write Profile"))
-                          : ElevatedButton(
-                              onPressed: () {
-                                getRegisterBasicUser(
-                                    _reliantAppGuid, _programGuid);
-                              },
-                              child:
-                                  const Text("Start basic user registration")))
-                ]))));
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: globalError.isNotEmpty
+                      ? Text(
+                          'Error: $globalError',
+                          style:
+                              const TextStyle(fontSize: 12, color: Colors.red),
+                        )
+                      : null),
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    'Part 2: Register Basic User',
+                    style: TextStyle(fontSize: 20),
+                  )),
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    'This step calls the getRegisterBasicUser API method and returns a rId.',
+                    style: TextStyle(fontSize: 16),
+                  )),
+              Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: globalLoading
+                      ? LinearProgressIndicator(
+                          value: controller.value,
+                          color: mastercardOrange,
+                          backgroundColor: gray,
+                          semanticsLabel: 'Linear progress indicator',
+                        )
+                      : null),
+              SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(100, 50),
+                              backgroundColor: mastercardOrange),
+                          onPressed: (() {
+                            getRegisterBasicUser(_reliantAppGuid, _programGuid);
+                          }),
+                          child: const Text('Start registration')))),
+            ]));
   }
 }

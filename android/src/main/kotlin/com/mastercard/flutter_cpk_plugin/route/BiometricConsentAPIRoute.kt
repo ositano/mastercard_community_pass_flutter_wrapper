@@ -47,7 +47,7 @@ class BiometricConsentAPIRoute(private val activity: Activity) {
             }
             Activity.RESULT_CANCELED -> {
                 val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()
-                val message = data?.getStringExtra(Key.ERROR_MESSAGE)!!
+                val message = data?.getStringExtra(Key.ERROR_MESSAGE) ?: "Unknown error"
                 result.error(code, message, null)
             }
         }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:flutter_cpk_plugin_example/color_utils.dart';
 import 'package:flutter_cpk_plugin_example/writeSuccessfulScreen.dart';
 
 class WritePasscodeScreen extends StatefulWidget {
@@ -13,17 +14,31 @@ class WritePasscodeScreen extends StatefulWidget {
       _WritePasscodeScreenState(navigationParams);
 }
 
-class _WritePasscodeScreenState extends State<WritePasscodeScreen> {
+class _WritePasscodeScreenState extends State<WritePasscodeScreen>
+    with TickerProviderStateMixin {
   Map<String, String> receivedParams;
   _WritePasscodeScreenState(this.receivedParams);
 
   final myController = TextEditingController();
+  late AnimationController controller;
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     myController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..addListener(() {
+        setState(() {});
+      });
+    controller.repeat(reverse: true);
+    super.initState();
   }
 
   static const String _programGuid = '8b00c113-6347-4b74-830f-268d267c04c1';
@@ -34,17 +49,19 @@ class _WritePasscodeScreenState extends State<WritePasscodeScreen> {
   static const String _programGuidKey = 'PROGRAM_GUID';
   static const String _passcodeKey = 'PASSCODE';
   static const String _rIdKey = 'RID';
+  String globalError = '';
+  bool globalLoading = false;
 
   // response keys
   static const String _responseStatusKey = 'responseStatus';
-
   final _channel = const MethodChannel('flutter_cpk_plugin');
-  String responseStatus = '';
-  bool _isButtonDisabled = true;
 
   Future<void> getWritePasscode(String reliantApplicationGuid,
       String programGuid, String rId, String passcode) async {
+    globalLoading = true;
     var result = {};
+    String e = '';
+
     try {
       result = await _channel.invokeMethod('getWritePasscode', {
         _reliantAppGuidKey: reliantApplicationGuid,
@@ -52,14 +69,24 @@ class _WritePasscodeScreenState extends State<WritePasscodeScreen> {
         _rIdKey: rId,
         _passcodeKey: passcode
       });
-    } on PlatformException {
-      result = {};
+    } on PlatformException catch (ex) {
+      e = '${ex.code} ${ex.message}';
     }
 
     if (!mounted) return;
     setState(() {
-      responseStatus = result[_responseStatusKey];
-      _isButtonDisabled = false;
+      if (result[_responseStatusKey] == 'Success') {
+        globalLoading = false;
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => WriteSuccessfulScreen(navigationParams: {
+            "rId": receivedParams['rId']!,
+            "consumerDeviceNumber": receivedParams['consumerDeviceNumber']!,
+          }),
+        ));
+      } else {
+        globalLoading = false;
+        globalError = e;
+      }
     });
   }
 
@@ -68,68 +95,82 @@ class _WritePasscodeScreenState extends State<WritePasscodeScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Write Passcode'),
-          backgroundColor: const Color.fromRGBO(247, 158, 27, 1),
+          backgroundColor: mastercardOrange,
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(40),
-            child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                    child: TextField(
-                      controller: myController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Enter a 6 digit passcode',
-                      ),
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: globalError.isNotEmpty
+                      ? Text(
+                          'Error: $globalError',
+                          style:
+                              const TextStyle(fontSize: 12, color: Colors.red),
+                        )
+                      : null),
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    'Part 4: Write Passcode',
+                    style: TextStyle(fontSize: 20),
+                  )),
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    'This step calls the getWritePasscode API used to write a Passcode to the card. This is initiated by the Reliant Application to CPK after a successful user registration.',
+                    style: TextStyle(fontSize: 16),
+                  )),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: TextField(
+                  controller: myController,
+                  cursorColor: mastercardYellow,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 3, color: mastercardOrange),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 3, color: mastercardYellow),
+                    ),
+                    hintText: 'Enter a 6 digit passcode',
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 0,
-                        vertical:
-                            10), //apply padding horizontal or vertical only
-                    child: responseStatus.isNotEmpty
-                        ? Text(
-                            "Status: $responseStatus",
-                            style: const TextStyle(fontSize: 16.0),
-                          )
-                        : null,
-                  ),
-                  SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: responseStatus.isNotEmpty
-                          ? ElevatedButton(
-                              onPressed: _isButtonDisabled
-                                  ? null
-                                  : () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) =>
-                                            WriteSuccessfulScreen(
-                                                navigationParams: {
-                                              "rId": receivedParams['rId']!,
-                                              "consumerDeviceNumber":
-                                                  receivedParams[
-                                                      'consumerDeviceNumber']!,
-                                            }),
-                                      ));
-                                    },
-                              child: const Text("Go to success page"))
-                          : ElevatedButton(
-                              onPressed: () {
-                                getWritePasscode(
-                                    _reliantAppGuid,
-                                    _programGuid,
-                                    receivedParams['rId']!,
-                                    myController.text.toString());
-                              },
-                              child: const Text("Write passcode on card")))
-                ]))));
+                ),
+              ),
+              Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: globalLoading
+                      ? LinearProgressIndicator(
+                          value: controller.value,
+                          color: mastercardOrange,
+                          backgroundColor: gray,
+                          semanticsLabel: 'Linear progress indicator',
+                        )
+                      : null),
+              SizedBox(
+                  width: double.infinity,
+                  // height: 100,
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(100, 50),
+                              backgroundColor: mastercardOrange),
+                          onPressed: (() {
+                            getWritePasscode(
+                                _reliantAppGuid,
+                                _programGuid,
+                                receivedParams['rId']!,
+                                myController.text.toString());
+                          }),
+                          child: const Text('Start registration')))),
+            ]));
   }
 }

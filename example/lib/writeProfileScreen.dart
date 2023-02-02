@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:flutter_cpk_plugin_example/color_utils.dart';
 import 'package:flutter_cpk_plugin_example/writePasscodeScreen.dart';
 import 'package:flutter_cpk_plugin_example/writeSuccessfulScreen.dart';
 
@@ -14,7 +15,8 @@ class WriteProfileScreen extends StatefulWidget {
       _WriteProfileScreenState(navigationParams);
 }
 
-class _WriteProfileScreenState extends State<WriteProfileScreen> {
+class _WriteProfileScreenState extends State<WriteProfileScreen>
+    with TickerProviderStateMixin {
   Map<String, String> receivedParams;
   _WriteProfileScreenState(this.receivedParams);
 
@@ -31,11 +33,31 @@ class _WriteProfileScreenState extends State<WriteProfileScreen> {
   static const String _consumerDeviceNumberResponseKey = 'consumerDeviceNumber';
 
   final _channel = const MethodChannel('flutter_cpk_plugin');
-  String globalConsumerDeviceNumber = '';
+
+  String globalError = '';
+  bool globalLoading = false;
+  bool overwriteCardValue = false;
+
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..addListener(() {
+        setState(() {});
+      });
+    controller.repeat(reverse: true);
+    super.initState();
+  }
 
   Future<void> getWriteProfile(String reliantApplicationGuid,
       String programGuid, String rId, bool overwriteCard) async {
+    globalLoading = true;
     var result = {};
+    String e = '';
+
     try {
       result = await _channel.invokeMethod('getWriteProfile', {
         _reliantAppGuidKey: reliantApplicationGuid,
@@ -44,12 +66,33 @@ class _WriteProfileScreenState extends State<WriteProfileScreen> {
         _overwriteCardKey: overwriteCard
       });
     } on PlatformException catch (ex) {
-      result = {};
+      e = '${ex.code} ${ex.message}';
     }
 
     if (!mounted) return;
     setState(() {
-      globalConsumerDeviceNumber = result[_consumerDeviceNumberResponseKey];
+      if (result[_consumerDeviceNumberResponseKey] != null) {
+        globalLoading = false;
+        if (receivedParams['registrationType'] == "BIOMETRIC_USER") {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => WriteSuccessfulScreen(navigationParams: {
+              "rId": receivedParams['rId']!,
+              "consumerDeviceNumber": result[_consumerDeviceNumberResponseKey],
+            }),
+          ));
+        } else {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => WritePasscodeScreen(navigationParams: {
+              "rId": receivedParams['rId']!,
+              "consumerDeviceNumber": result[_consumerDeviceNumberResponseKey],
+              "registrationType": 'BIOMETRIC_USER',
+            }),
+          ));
+        }
+      } else {
+        globalLoading = false;
+        globalError = e;
+      }
     });
   }
 
@@ -58,75 +101,75 @@ class _WriteProfileScreenState extends State<WriteProfileScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Write Profile on Card'),
-          backgroundColor: const Color.fromRGBO(247, 158, 27, 1),
+          backgroundColor: mastercardOrange,
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(40),
-            child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 0,
-                        vertical:
-                            10), //apply padding horizontal or vertical only
-                    child: globalConsumerDeviceNumber.isNotEmpty
-                        ? Text(
-                            "Consumer Device Number: $globalConsumerDeviceNumber",
-                            style: const TextStyle(fontSize: 16.0),
-                          )
-                        : null,
-                  ),
-                  SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: globalConsumerDeviceNumber.isNotEmpty &&
-                              receivedParams['registrationType'] ==
-                                  "BIOMETRIC_USER"
-                          ? ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      WriteSuccessfulScreen(navigationParams: {
-                                    "rId": receivedParams['rId']!,
-                                    "consumerDeviceNumber":
-                                        globalConsumerDeviceNumber,
-                                  }),
-                                ));
-                              },
-                              child: const Text("Go to success page"))
-                          : null),
-                  SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: globalConsumerDeviceNumber.isEmpty
-                          ? ElevatedButton(
-                              onPressed: () {
-                                getWriteProfile(_reliantAppGuid, _programGuid,
-                                    receivedParams['rId']!, true);
-                              },
-                              child: const Text("Write Profile on Card"))
-                          : null),
-                  SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: globalConsumerDeviceNumber.isNotEmpty &&
-                              receivedParams['registrationType'] == "BASIC_USER"
-                          ? ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      WritePasscodeScreen(navigationParams: {
-                                    "rId": receivedParams['rId']!,
-                                    "consumerDeviceNumber":
-                                        globalConsumerDeviceNumber,
-                                    "registrationType": 'BIOMETRIC_USER',
-                                  }),
-                                ));
-                              },
-                              child: const Text("Go to write passcode"))
-                          : null),
-                ]))));
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: globalError.isNotEmpty
+                      ? Text(
+                          'Error: $globalError',
+                          style:
+                              const TextStyle(fontSize: 12, color: Colors.red),
+                        )
+                      : null),
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    'Part 3: Write Card',
+                    style: TextStyle(fontSize: 20),
+                  )),
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    'This step calls the writeProfile API method. The kernel will perform a write operation on the card and return a rId.',
+                    style: TextStyle(fontSize: 16),
+                  )),
+              Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: globalLoading
+                      ? LinearProgressIndicator(
+                          value: controller.value,
+                          color: mastercardOrange,
+                          backgroundColor: gray,
+                          semanticsLabel: 'Linear progress indicator',
+                        )
+                      : null),
+              Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                  child: CheckboxListTile(
+                    title: const Text("Overwrite card"),
+                    value: overwriteCardValue,
+                    activeColor: mastercardOrange,
+                    onChanged: (newValue) {
+                      setState(() {
+                        overwriteCardValue = newValue!;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity
+                        .leading, //  <-- leading Checkbox
+                  )),
+              SizedBox(
+                  width: double.infinity,
+                  // height: 100,
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(100, 50),
+                              backgroundColor: mastercardOrange),
+                          onPressed: (() {
+                            getWriteProfile(_reliantAppGuid, _programGuid,
+                                receivedParams['rId']!, overwriteCardValue);
+                          }),
+                          child: const Text('Write Profile on Card')))),
+            ]));
   }
 }

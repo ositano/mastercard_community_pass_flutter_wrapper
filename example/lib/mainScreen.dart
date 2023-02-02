@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cpk_plugin_example/biometricConsentScreen.dart';
+import 'package:flutter_cpk_plugin_example/color_utils.dart';
+import 'package:flutter_cpk_plugin_example/pretransactionsPhaseScreen.dart';
+import 'package:flutter_cpk_plugin_example/reusableCardWidget.dart';
+import 'package:flutter_cpk_plugin_example/utils.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -7,67 +10,65 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Flutter Reliant Application',
+            'Community Pass Flutter Reliant Application',
             style: TextStyle(color: Colors.white),
           ),
-          backgroundColor: const Color.fromRGBO(247, 158, 27, 1),
+          backgroundColor: mastercardOrange,
         ),
         body: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: Column(
-            children: const <Widget>[
-              Spacer(),
-              StatelessCardWidget(),
-              Spacer(),
+            children: <Widget>[
+              const Spacer(),
+              CardWidgetStateless(
+                cardLabel: 'Section',
+                title: 'Pre-Transactions Phase',
+                description:
+                    'You will complete user setup and on-boarding in this phase',
+                cardIcon: const Icon(
+                  Icons.logout_outlined,
+                  size: 30,
+                ),
+                onClick: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const PreTransactionScreen()));
+                },
+              ),
+              CardWidgetStateless(
+                cardLabel: 'Section',
+                title: 'Transactions Phase',
+                description:
+                    'You will conduct a life transaction during this phase',
+                cardIcon: const Icon(
+                  Icons.repeat_on_outlined,
+                  size: 30,
+                ),
+                onClick: () {
+                  Utils.displayToast(
+                      'Transactions phase has not yet been implemented');
+                },
+              ),
+              CardWidgetStateless(
+                cardLabel: 'Section',
+                title: 'Admin-Transactions Phase',
+                description:
+                    'You can make changes to a user profile in this phase',
+                cardIcon: const Icon(
+                  Icons.shield_outlined,
+                  size: 30,
+                ),
+                onClick: () {
+                  Utils.displayToast(
+                      'Admin-Transactions phase has not yet been implemented');
+                },
+              ),
+              const Spacer(),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class StatelessCardWidget extends StatelessWidget {
-  const StatelessCardWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        color: Colors.white,
-        elevation: 6,
-        shadowColor: const Color.fromARGB(80, 191, 191, 191),
-        clipBehavior: Clip.hardEdge,
-        shape: const RoundedRectangleBorder(
-          side: BorderSide(
-            color: Color.fromARGB(80, 191, 191, 191),
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-        child: InkWell(
-            //     // splashColor: Colors.white,
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const BiometricConsentScreen()));
-            },
-            child: SizedBox(
-              width: double.infinity,
-              height: 120,
-              child: Column(
-                children: const <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.logout_outlined),
-                    title: Text('Pre-Transactions Phase'),
-                    subtitle: Text(
-                        'You will complete user setup and on-boarding in this phase.'),
-                  ),
-                ],
-              ),
-            )),
       ),
     );
   }

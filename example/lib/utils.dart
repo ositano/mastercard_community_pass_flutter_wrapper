@@ -7,9 +7,9 @@ class Utils {
   static Future<bool?> displayToast(String message) {
     return Fluttertoast.showToast(
         msg: message,
-        toastLength: Toast.LENGTH_LONG,
+        toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        backgroundColor: primaryColor,
+        backgroundColor: mastercardOrange,
         textColor: Colors.white,
         fontSize: 14.0);
   }
@@ -31,7 +31,7 @@ class Utils {
             )
           : null,
       duration: const Duration(seconds: 2),
-      backgroundColor: primaryColor,
+      backgroundColor: mastercardOrange,
     );
   }
 }

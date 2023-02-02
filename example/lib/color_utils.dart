@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color colorBlack = Color(0xff000000);
-const Color colorRed = Color(0xffC44137);
-const Color primaryColor = Color(0xFF2196F3);
+const Color mastercardOrange = Color(0xffFF5F00);
+const Color mastercardRed = Color(0xffEB001B);
+const Color mastercardYellow = Color(0xFFF79E1B);
+const Color gray = Color(0xFFEAEAEA);
