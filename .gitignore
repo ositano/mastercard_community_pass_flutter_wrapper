@@ -1,3 +1,7 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
 # Miscellaneous
 *.class
 *.lock
@@ -69,8 +73,8 @@ unlinked_spec.ds
 **/android/**/GeneratedPluginRegistrant.java
 **/android/key.properties
 *.jks
+*.keystore
 **/android/app/release
-
 
 # Coverage
 coverage/

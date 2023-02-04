@@ -1,11 +1,10 @@
-// ignore_for_file: unnecessary_const
-
 import 'package:flutter/material.dart';
 import 'package:flutter_cpk_plugin_example/color_utils.dart';
 import 'package:flutter_cpk_plugin_example/registerBasicUserScreen.dart';
 import 'package:flutter_cpk_plugin_example/registerUserWithBiometricsScreen.dart';
 import 'package:flutter/services.dart';
-import 'color_utils.dart';
+import 'package:flutter_cpk_plugin/compassapi.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class BiometricConsentScreen extends StatefulWidget {
   const BiometricConsentScreen({super.key});
@@ -16,15 +15,10 @@ class BiometricConsentScreen extends StatefulWidget {
 
 class _BiometricConsentScreenState extends State<BiometricConsentScreen>
     with TickerProviderStateMixin {
-  final _channel = const MethodChannel('flutter_cpk_plugin');
+  final _communityPassFlutterplugin = CommunityPassApi();
+  static final String _programGuid = dotenv.env['RELIANT_APP_GUID'] ?? '';
+  static final String _reliantAppGuid = dotenv.env['PROGRAM_GUID'] ?? '';
 
-  static const String _programGuid = '8b00c113-6347-4b74-830f-268d267c04c1';
-  static const String _reliantAppGuid = '1cf89559-98fb-4080-b24b-6e43a062b239';
-  static const String _reliantAppGuidKey = 'RELIANT_APP_GUID';
-  static const String _programGuidKey = 'PROGRAM_GUID';
-  static const String _consentIdKey = 'consentId';
-
-  String _consentId = '';
   String globalError = '';
   bool globalLoading = false;
 
@@ -50,35 +44,35 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen>
 
   Future<void> saveBiometricConsent(
       String reliantApplicationGuid, String programGuid) async {
-    globalLoading = true;
-    var result = {};
-    String e = '';
-    try {
-      result = await _channel.invokeMethod('saveBiometricConsent', {
-        _reliantAppGuidKey: reliantApplicationGuid,
-        _programGuidKey: programGuid
-      });
-    } on PlatformException catch (ex) {
-      e = '${ex.code} ${ex.message}';
+    if (mounted) {
+      globalLoading = true;
     }
 
-    // check whether this [state] object is currentyl in a tree
-    if (!mounted) return;
+    SaveBiometricConsentResult result;
+    try {
+      result = await _communityPassFlutterplugin.saveBiometricConsent(
+          reliantApplicationGuid, programGuid);
 
-    // update state
-    setState(() {
-      if (result[_consentIdKey] != null) {
-        globalLoading = false;
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => RegisterUserWithBiometricsScreen(
-                    value: result[_consentIdKey])));
-      } else {
-        globalError = e;
-        globalLoading = false;
+      // check whether the state is mounted on the tree
+
+      if (!mounted) return;
+      if (result.responseStatus == ResponseStatus.SUCCESS) {
+        setState(() {
+          globalLoading = false;
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => RegisterUserWithBiometricsScreen(
+                      value: result.consentId)));
+        });
       }
-    });
+    } on PlatformException catch (ex) {
+      if (!mounted) return;
+      setState(() {
+        globalError = ex.code;
+        globalLoading = false;
+      });
+    }
   }
 
   @override
@@ -98,7 +92,8 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen>
                 child: globalError.isNotEmpty
                     ? Text(
                         'Error: $globalError',
-                        style: const TextStyle(fontSize: 12, color: Colors.red),
+                        style:
+                            const TextStyle(fontSize: 12, color: mastercardRed),
                       )
                     : null),
             const Padding(
@@ -137,12 +132,13 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen>
                             style: OutlinedButton.styleFrom(
                               minimumSize: const Size(100, 50),
                             ),
-                            onPressed: (() {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => RegisterBasicUserScreen(
-                                        value: _consentId,
-                                      )));
-                            }),
+                            onPressed: globalLoading
+                                ? null
+                                : (() {
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (context) =>
+                                            const RegisterBasicUserScreen()));
+                                  }),
                             child: const Text(
                               'Deny Consent',
                               style: TextStyle(color: mastercardOrange),
@@ -156,10 +152,12 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen>
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(100, 50),
                                 backgroundColor: mastercardOrange),
-                            onPressed: (() {
-                              saveBiometricConsent(
-                                  _reliantAppGuid, _programGuid);
-                            }),
+                            onPressed: globalLoading
+                                ? null
+                                : (() {
+                                    saveBiometricConsent(
+                                        _reliantAppGuid, _programGuid);
+                                  }),
                             child: const Text('Grant Consent'))))
               ],
             )

@@ -3,28 +3,22 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_cpk_plugin_example/color_utils.dart';
 import 'package:flutter_cpk_plugin_example/writeProfileScreen.dart';
+import 'package:flutter_cpk_plugin/compassapi.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RegisterBasicUserScreen extends StatefulWidget {
-  String value;
-  RegisterBasicUserScreen({super.key, required this.value});
+  const RegisterBasicUserScreen({super.key});
 
   @override
   State<RegisterBasicUserScreen> createState() =>
-      _RegisterBasicUserScreenState(value);
+      _RegisterBasicUserScreenState();
 }
 
 class _RegisterBasicUserScreenState extends State<RegisterBasicUserScreen>
     with TickerProviderStateMixin {
-  String value;
-  _RegisterBasicUserScreenState(this.value);
-
-  static const String _programGuid = '8b00c113-6347-4b74-830f-268d267c04c1';
-  static const String _reliantAppGuid = '1cf89559-98fb-4080-b24b-6e43a062b239';
-  static const String _reliantAppGuidKey = 'RELIANT_APP_GUID';
-  static const String _programGuidKey = 'PROGRAM_GUID';
-  static const String _rIdKey = 'rId';
-
-  final _channel = const MethodChannel('flutter_cpk_plugin');
+  final _communityPassFlutterplugin = CommunityPassApi();
+  static final String _programGuid = dotenv.env['RELIANT_APP_GUID'] ?? '';
+  static final String _reliantAppGuid = dotenv.env['PROGRAM_GUID'] ?? '';
 
   String globalError = '';
   bool globalLoading = false;
@@ -43,35 +37,41 @@ class _RegisterBasicUserScreenState extends State<RegisterBasicUserScreen>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   Future<void> getRegisterBasicUser(
       String reliantApplicationGuid, String programGuid) async {
-    globalLoading = true;
-    var result = {};
-    String e = '';
+    if (mounted) {
+      setState(() {
+        globalLoading = true;
+      });
+    }
+    RegisterBasicUserResult result;
 
     try {
-      result = await _channel.invokeMethod('getRegisterBasicUser', {
-        _reliantAppGuidKey: reliantApplicationGuid,
-        _programGuidKey: programGuid,
-      });
-    } on PlatformException catch (ex) {
-      e = '${ex.code} ${ex.message}';
-    }
+      result = await _communityPassFlutterplugin.getRegisterBasicUser(
+          reliantApplicationGuid, programGuid);
 
-    if (!mounted) return;
-    setState(() {
-      if (result[_rIdKey] != null) {
+      if (!mounted) return;
+      setState(() {
         globalLoading = false;
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => WriteProfileScreen(navigationParams: {
-                  "rId": result[_rIdKey],
+                  "rId": result.rId,
                   "registrationType": 'BASIC_USER',
                 })));
-      } else {
-        globalError = e;
+      });
+    } on PlatformException catch (ex) {
+      if (!mounted) return;
+      setState(() {
+        globalError = ex.code;
         globalLoading = false;
-      }
-    });
+      });
+    }
   }
 
   @override
@@ -91,8 +91,8 @@ class _RegisterBasicUserScreenState extends State<RegisterBasicUserScreen>
                   child: globalError.isNotEmpty
                       ? Text(
                           'Error: $globalError',
-                          style:
-                              const TextStyle(fontSize: 12, color: Colors.red),
+                          style: const TextStyle(
+                              fontSize: 12, color: mastercardRed),
                         )
                       : null),
               const Padding(
@@ -127,9 +127,12 @@ class _RegisterBasicUserScreenState extends State<RegisterBasicUserScreen>
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(100, 50),
                               backgroundColor: mastercardOrange),
-                          onPressed: (() {
-                            getRegisterBasicUser(_reliantAppGuid, _programGuid);
-                          }),
+                          onPressed: globalLoading
+                              ? null
+                              : (() {
+                                  getRegisterBasicUser(
+                                      _reliantAppGuid, _programGuid);
+                                }),
                           child: const Text('Start registration')))),
             ]));
   }

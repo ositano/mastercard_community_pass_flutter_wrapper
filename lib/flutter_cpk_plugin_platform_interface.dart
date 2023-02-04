@@ -1,3 +1,4 @@
+import 'package:flutter_cpk_plugin/compassapi.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'flutter_cpk_plugin_method_channel.dart';
@@ -8,7 +9,7 @@ abstract class FlutterCpkPluginPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static FlutterCpkPluginPlatform _instance = MethodChannelFlutterCpkPlugin();
+  static FlutterCpkPluginPlatform _instance = PigeonFlutterCpkPlugin();
 
   /// The default instance of [FlutterCpkPluginPlatform] to use.
   ///
@@ -23,33 +24,31 @@ abstract class FlutterCpkPluginPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<Map<String, String>> saveBiometricConsent(
-      String reliantApplicationGuid, String programGuid) async {
+  Future<SaveBiometricConsentResult> saveBiometricConsent(
+      String reliantAppGUID, String programGUID) async {
     throw UnimplementedError(
         'saveBiometricConsent() has not been implemented.');
   }
 
-  Future<Map<String, String>> getRegisterUserWithBiometrics(
-      String reliantApplicationGuid,
-      String programGuid,
-      String consentId) async {
+  Future<RegisterUserWithBiometricsResult> getRegisterUserWithBiometrics(
+      String reliantAppGUID, String programGUID, String consentId) async {
     throw UnimplementedError(
         'getRegisterUserWithBiometrics() has not been implemented.');
   }
 
-  Future<Map<String, String>> getRegisterBasicUser(
-      String reliantApplicationGuid, String programGuid) async {
+  Future<RegisterBasicUserResult> getRegisterBasicUser(
+      String reliantAppGUID, String programGUID) async {
     throw UnimplementedError(
         'getRegisterBasicUser() has not been implemented.');
   }
 
-  Future<Map<String, String>> getWriteProfile(String reliantApplicationGuid,
-      String programGuid, String rId, bool overwriteCard) async {
+  Future<WriteProfileResult> getWriteProfile(String reliantAppGUID,
+      String programGUID, String rId, bool overwriteCard) async {
     throw UnimplementedError('getWriteProfile() has not been implemented.');
   }
 
-  Future<Map<String, String>> getWritePasscode(String reliantApplicationGuid,
-      String programGuid, String rId, String passcode) async {
+  Future<WritePasscodeResult> getWritePasscode(String reliantAppGUID,
+      String programGUID, String rId, String passcode) async {
     throw UnimplementedError('getWritePasscode() has not been implemented.');
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cpk_plugin_example/mainScreen.dart';
 import 'color_utils.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: "lib/.env");
   runApp(const MyApp());
 }
 

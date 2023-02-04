@@ -3,28 +3,17 @@ package com.mastercard.flutter_cpk_plugin
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.annotation.NonNull
+import com.mastercard.flutter_cpk_plugin.compassapi.CompassApiFlutter
+import com.mastercard.flutter_cpk_plugin.compassapi.CompassApiFlutter.CommunityPassApi
 import com.mastercard.flutter_cpk_plugin.route.*
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
 
-/**
- * Suggestion
- * Secondary activity
- * Start the activity from the plugin
- * Listen for a result within the plugin file
-*/
-
-/** FlutterCpkPlugin */
-class FlutterCpkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegistry.ActivityResultListener {
-  private lateinit var result: Result
-  private lateinit var channel: MethodChannel
+class FlutterCpkPlugin: FlutterPlugin, MethodChannel.MethodCallHandler, ActivityAware, PluginRegistry.ActivityResultListener, CommunityPassApi {
   private lateinit var context: Context
   private lateinit var activity: Activity
 
@@ -46,28 +35,18 @@ class FlutterCpkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginR
 
   private lateinit var helperObject: CompassKernelUIController.CompassHelper
 
-  override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "flutter_cpk_plugin")
-    channel.setMethodCallHandler(this)
-    context = flutterPluginBinding.applicationContext
+  override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+    CommunityPassApi.setup(binding.binaryMessenger, this)
+    context = binding.applicationContext
     helperObject = CompassKernelUIController.CompassHelper(context);
   }
 
-  override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    this.result = result
-
-    when (call.method) {
-      "saveBiometricConsent" -> biometricConsentAPIRoute.startBiometricConsentIntent(call)
-      "getWriteProfile" -> consumerDeviceApiRoute.startWriteProfileIntent(call)
-      "getWritePasscode" -> consumerDevicePasscodeAPIRoute.startWritePasscodeIntent(call)
-      "getRegisterUserWithBiometrics" -> registerUserWithBiometricsAPIRoute.startRegisterUserWithBiometricsIntent(call)
-      "getRegisterBasicUser" -> registerBasicUserAPIRoute.startRegisterBasicUserIntent(call)
-      else -> result.notImplemented()
-    }
+  override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+    CommunityPassApi.setup(binding.binaryMessenger, null)
   }
 
-  override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-    channel.setMethodCallHandler(null)
+  override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
+    TODO("Not yet implemented")
   }
 
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
@@ -99,17 +78,62 @@ class FlutterCpkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginR
     return true;
   }
 
+  override fun saveBiometricConsent(
+    reliantAppGUID: String,
+    programGUID: String,
+    result: CompassApiFlutter.Result<CompassApiFlutter.SaveBiometricConsentResult>?
+  ) {
+    biometricConsentAPIRoute.startBiometricConsentIntent(reliantAppGUID, programGUID, result);
+  }
+
+  override fun getRegisterUserWithBiometrics(
+    reliantAppGUID: String,
+    programGUID: String,
+    consentId: String,
+    result: CompassApiFlutter.Result<CompassApiFlutter.RegisterUserWithBiometricsResult>?
+  ) {
+    registerUserWithBiometricsAPIRoute.startRegisterUserWithBiometricsIntent(reliantAppGUID, programGUID, consentId, result)
+  }
+
+  override fun getRegisterBasicUser(
+    reliantAppGUID: String,
+    programGUID: String,
+    result: CompassApiFlutter.Result<CompassApiFlutter.RegisterBasicUserResult>?
+  ) {
+    registerBasicUserAPIRoute.startRegisterBasicUserIntent(reliantAppGUID, programGUID, result)
+  }
+
+  override fun getWritePasscode(
+    reliantAppGUID: String,
+    programGUID: String,
+    rId: String,
+    passcode: String,
+    result: CompassApiFlutter.Result<CompassApiFlutter.WritePasscodeResult>?
+  ) {
+    consumerDevicePasscodeAPIRoute.startWritePasscodeIntent(reliantAppGUID, programGUID, rId, passcode, result)
+  }
+
+  override fun getWriteProfile(
+    reliantAppGUID: String,
+    programGUID: String,
+    rId: String,
+    overwriteCard: Boolean,
+    result: CompassApiFlutter.Result<CompassApiFlutter.WriteProfileResult>?
+  ) {
+    consumerDeviceApiRoute.startWriteProfileIntent(reliantAppGUID, programGUID, rId, overwriteCard, result)
+  }
+
   private fun handleApiRouteResponse(
-      requestCode: Int,
-      resultCode: Int,
-      data: Intent?
+    requestCode: Int,
+    resultCode: Int,
+    data: Intent?
   ) {
     when (requestCode) {
-      BiometricConsentAPIRoute.BIOMETRIC_CONSENT_REQUEST_CODE -> biometricConsentAPIRoute.handleBiometricConsentIntentResponse(resultCode, data, result)
-      ConsumerDeviceAPIRoute.WRITE_PROFILE_REQUEST_CODE -> consumerDeviceApiRoute.handleWriteProfileIntentResponse(resultCode, data, result)
-      ConsumerDevicePasscodeAPIRoute.WRITE_PASSCODE_REQUEST_CODE -> consumerDevicePasscodeAPIRoute.handleWritePasscodeIntentResponse(resultCode, data, result)
-      RegisterUserWithBiometricsAPIRoute.REGISTER_BIOMETRICS_REQUEST_CODE -> registerUserWithBiometricsAPIRoute.handleRegisterUserWithBiometricsIntentResponse(resultCode, data, result, helperObject)
-      RegisterBasicUserAPIRoute.REGISTER_BASIC_USER_REQUEST_CODE -> registerBasicUserAPIRoute.handleRegisterBasicUserIntentResponse(resultCode, data, result)
+      BiometricConsentAPIRoute.BIOMETRIC_CONSENT_REQUEST_CODE -> biometricConsentAPIRoute.handleBiometricConsentIntentResponse(resultCode, data)
+      ConsumerDeviceAPIRoute.WRITE_PROFILE_REQUEST_CODE -> consumerDeviceApiRoute.handleWriteProfileIntentResponse(resultCode, data)
+      ConsumerDevicePasscodeAPIRoute.WRITE_PASSCODE_REQUEST_CODE -> consumerDevicePasscodeAPIRoute.handleWritePasscodeIntentResponse(resultCode, data)
+      RegisterUserWithBiometricsAPIRoute.REGISTER_BIOMETRICS_REQUEST_CODE -> registerUserWithBiometricsAPIRoute.handleRegisterUserWithBiometricsIntentResponse(resultCode, data, helperObject)
+      RegisterBasicUserAPIRoute.REGISTER_BASIC_USER_REQUEST_CODE -> registerBasicUserAPIRoute.handleRegisterBasicUserIntentResponse(resultCode, data,)
     }
   }
 }

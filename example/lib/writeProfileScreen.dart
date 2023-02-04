@@ -4,10 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_cpk_plugin_example/color_utils.dart';
 import 'package:flutter_cpk_plugin_example/writePasscodeScreen.dart';
 import 'package:flutter_cpk_plugin_example/writeSuccessfulScreen.dart';
+import 'package:flutter_cpk_plugin/compassapi.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class WriteProfileScreen extends StatefulWidget {
   Map<String, String> navigationParams;
-  // WriteProfileScreen({super.key, required this.value});
   WriteProfileScreen({super.key, required this.navigationParams});
 
   @override
@@ -20,19 +21,10 @@ class _WriteProfileScreenState extends State<WriteProfileScreen>
   Map<String, String> receivedParams;
   _WriteProfileScreenState(this.receivedParams);
 
-  static const String _programGuid = '8b00c113-6347-4b74-830f-268d267c04c1';
-  static const String _reliantAppGuid = '1cf89559-98fb-4080-b24b-6e43a062b239';
+  static final String _programGuid = dotenv.env['RELIANT_APP_GUID'] ?? '';
+  static final String _reliantAppGuid = dotenv.env['PROGRAM_GUID'] ?? '';
 
-  // request keys
-  static const String _reliantAppGuidKey = 'RELIANT_APP_GUID';
-  static const String _programGuidKey = 'PROGRAM_GUID';
-  static const String _overwriteCardKey = 'OVERWRITE_CARD';
-  static const String _rIdKey = 'RID';
-
-  // response keys
-  static const String _consumerDeviceNumberResponseKey = 'consumerDeviceNumber';
-
-  final _channel = const MethodChannel('flutter_cpk_plugin');
+  final _communityPassFlutterplugin = CommunityPassApi();
 
   String globalError = '';
   bool globalLoading = false;
@@ -52,48 +44,52 @@ class _WriteProfileScreenState extends State<WriteProfileScreen>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   Future<void> getWriteProfile(String reliantApplicationGuid,
       String programGuid, String rId, bool overwriteCard) async {
-    globalLoading = true;
-    var result = {};
-    String e = '';
+    if (mounted) {
+      setState(() {
+        globalLoading = true;
+      });
+    }
+    WriteProfileResult result;
 
     try {
-      result = await _channel.invokeMethod('getWriteProfile', {
-        _reliantAppGuidKey: reliantApplicationGuid,
-        _programGuidKey: programGuid,
-        _rIdKey: rId,
-        _overwriteCardKey: overwriteCard
-      });
-    } on PlatformException catch (ex) {
-      e = '${ex.code} ${ex.message}';
-    }
+      result = await _communityPassFlutterplugin.getWriteProfile(
+          reliantApplicationGuid, programGuid, rId, overwriteCard);
 
-    if (!mounted) return;
-    setState(() {
-      if (result[_consumerDeviceNumberResponseKey] != null) {
+      if (!mounted) return;
+      setState(() {
         globalLoading = false;
         if (receivedParams['registrationType'] == "BIOMETRIC_USER") {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => WriteSuccessfulScreen(navigationParams: {
               "rId": receivedParams['rId']!,
-              "consumerDeviceNumber": result[_consumerDeviceNumberResponseKey],
+              "consumerDeviceNumber": result.consumerDeviceNumber,
             }),
           ));
         } else {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => WritePasscodeScreen(navigationParams: {
               "rId": receivedParams['rId']!,
-              "consumerDeviceNumber": result[_consumerDeviceNumberResponseKey],
-              "registrationType": 'BIOMETRIC_USER',
+              "consumerDeviceNumber": result.consumerDeviceNumber,
+              "registrationType": 'BASIC_USER',
             }),
           ));
         }
-      } else {
+      });
+    } on PlatformException catch (ex) {
+      setState(() {
+        if (!mounted) return;
+        globalError = ex.code;
         globalLoading = false;
-        globalError = e;
-      }
-    });
+      });
+    }
   }
 
   @override
@@ -113,8 +109,8 @@ class _WriteProfileScreenState extends State<WriteProfileScreen>
                   child: globalError.isNotEmpty
                       ? Text(
                           'Error: $globalError',
-                          style:
-                              const TextStyle(fontSize: 12, color: Colors.red),
+                          style: const TextStyle(
+                              fontSize: 12, color: mastercardRed),
                         )
                       : null),
               const Padding(
@@ -165,10 +161,15 @@ class _WriteProfileScreenState extends State<WriteProfileScreen>
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(100, 50),
                               backgroundColor: mastercardOrange),
-                          onPressed: (() {
-                            getWriteProfile(_reliantAppGuid, _programGuid,
-                                receivedParams['rId']!, overwriteCardValue);
-                          }),
+                          onPressed: globalLoading
+                              ? null
+                              : (() {
+                                  getWriteProfile(
+                                      _reliantAppGuid,
+                                      _programGuid,
+                                      receivedParams['rId']!,
+                                      overwriteCardValue);
+                                }),
                           child: const Text('Write Profile on Card')))),
             ]));
   }

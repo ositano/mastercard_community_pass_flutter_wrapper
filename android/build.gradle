@@ -46,12 +46,6 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-
-        // issue: Using flatDirs should be avoided because it doesn't support any meta-data formats
-        // source https://stackoverflow.com/questions/68215302/using-flatdirs-should-be-avoided-because-it-doesnt-support-any-meta-data-format
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
     }
 
     defaultConfig {
@@ -69,18 +63,14 @@ rootProject.allprojects {
         google()
         mavenCentral()
         flatDir {
-//            dirs 'libs'
             dirs project(':flutter_cpk_plugin').file('libs')
-//            dirs project(':flutter_cpk_plugin')
         }
     }
 }
 
 dependencies {
     // Use local aar inside flutter plugin
-    releaseImplementation (name:"community-pass-library-v2.4.0", ext:'aar') // for release - assembleRelease //Android Studio and cli
-//    debugImplementation files("libs/community-pass-library-v2.4.0.aar") // for use without flatDir - assembleDebug. //Android Studio
-    debugImplementation (name:"community-pass-library-v2.4.0", ext:'aar') // for flutter cli - assembleDebug //Android Studio and cli
+    implementation (name:"community-pass-library-v2.4.0", ext:'aar') // for release - assembleRelease //Android Studio and cli
 
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.0'

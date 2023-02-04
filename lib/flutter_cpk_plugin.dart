@@ -1,33 +1,35 @@
+import 'package:flutter_cpk_plugin/compassapi.dart';
+
 import 'flutter_cpk_plugin_platform_interface.dart';
 
 class FlutterCpkPlugin {
-  Future<Map<String, String>> saveBiometricConsent(
-      String reliantApplicationGuid, String programGuid) {
+  Future<SaveBiometricConsentResult> saveBiometricConsent(
+      String reliantAppGUID, String programGUID) {
     return FlutterCpkPluginPlatform.instance
-        .saveBiometricConsent(reliantApplicationGuid, programGuid);
+        .saveBiometricConsent(reliantAppGUID, programGUID);
   }
 
-  Future<Map<String, String>> getRegisterUserWithBiometrics(
-      String reliantApplicationGuid, String programGuid, String consentId) {
-    return FlutterCpkPluginPlatform.instance.getRegisterUserWithBiometrics(
-        reliantApplicationGuid, programGuid, consentId);
-  }
-
-  Future<Map<String, String>> getRegisterBasicUser(
-      String reliantApplicationGuid, String programGuid) {
+  Future<RegisterUserWithBiometricsResult> getRegisterUserWithBiometrics(
+      String reliantAppGUID, String programGUID, String consentId) {
     return FlutterCpkPluginPlatform.instance
-        .getRegisterBasicUser(reliantApplicationGuid, programGuid);
+        .getRegisterUserWithBiometrics(reliantAppGUID, programGUID, consentId);
   }
 
-  Future<Map<String, String>> getWriteProfile(String reliantApplicationGuid,
-      String programGuid, String rId, bool overwriteCard) {
-    return FlutterCpkPluginPlatform.instance.getWriteProfile(
-        reliantApplicationGuid, programGuid, rId, overwriteCard);
-  }
-
-  Future<Map<String, String>> getWritePasscode(String reliantApplicationGuid,
-      String programGuid, String rId, String passcode) {
+  Future<RegisterBasicUserResult> getRegisterBasicUser(
+      String reliantAppGUID, String programGUID) {
     return FlutterCpkPluginPlatform.instance
-        .getWritePasscode(reliantApplicationGuid, programGuid, rId, passcode);
+        .getRegisterBasicUser(reliantAppGUID, programGUID);
+  }
+
+  Future<WriteProfileResult> getWriteProfile(String reliantAppGUID,
+      String programGUID, String rId, bool overwriteCard) {
+    return FlutterCpkPluginPlatform.instance
+        .getWriteProfile(reliantAppGUID, programGUID, rId, overwriteCard);
+  }
+
+  Future<WritePasscodeResult> getWritePasscode(
+      String reliantAppGUID, String programGUID, String rId, String passcode) {
+    return FlutterCpkPluginPlatform.instance
+        .getWritePasscode(reliantAppGUID, programGUID, rId, passcode);
   }
 }
