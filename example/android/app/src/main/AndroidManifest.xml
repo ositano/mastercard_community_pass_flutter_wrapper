@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mastercard.flutter_cpk_plugin_example">
+    package="com.mastercard.compass.cp3.compassfluttersampleapp">
    <application
-        android:label="flutter_cpk_plugin_example"
+        android:label="Compass Flutter Sample App"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cpk_plugin_example/mainScreen.dart';
+import 'package:compass_library_wrapper_plugin_example/mainScreen.dart';
 import 'color_utils.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cpk_plugin_example/color_utils.dart';
-import 'package:flutter_cpk_plugin_example/registerBasicUserScreen.dart';
-import 'package:flutter_cpk_plugin_example/registerUserWithBiometricsScreen.dart';
+import 'package:compass_library_wrapper_plugin_example/color_utils.dart';
+import 'package:compass_library_wrapper_plugin_example/registerBasicUserScreen.dart';
+import 'package:compass_library_wrapper_plugin_example/registerUserWithBiometricsScreen.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_cpk_plugin/compassapi.dart';
+import 'package:compass_library_wrapper_plugin/compassapi.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class BiometricConsentScreen extends StatefulWidget {

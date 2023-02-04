@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cpk_plugin_example/color_utils.dart';
+import 'package:compass_library_wrapper_plugin_example/color_utils.dart';
 
 class CardWidgetStateless extends StatelessWidget {
   final String title;

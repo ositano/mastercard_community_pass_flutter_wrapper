@@ -68,7 +68,7 @@ dependencies {
     ...
 
     // add this to your list of dependencies
-    implementation project(':flutter_cpk_plugin');
+    implementation project(':compass_library_wrapper_plugin');
     ...
 }
 ```
@@ -76,7 +76,7 @@ dependencies {
 8. Open `android/settings.gradle` file of your reliant application and replace `include: 'app'` with the following line
 
 ```gradle
-include ':app', ':flutter_cpk_plugin'
+include ':app', ':compass_library_wrapper_plugin'
 ```
 
 9. If you are using Android Studio, a pop up notification will appear as given in the below image informing you that the Gradle files have changed. Click on Sync Now to synchronize the project with the Gradle files.

@@ -5,9 +5,9 @@ import 'package:pigeon/pigeon.dart';
   dartOut: 'lib/compassapi.dart',
   dartTestOut: 'test/test_api.dart',
   javaOut:
-      'android/src/main/java/com/mastercard/flutter_cpk_plugin/compassapi/CompassApiFlutter.java',
+      'android/src/main/java/com/mastercard/compass/cp3/java_flutter_wrapper/CompassApiFlutter.java',
   javaOptions: JavaOptions(
-    package: 'com.mastercard.flutter_cpk_plugin.compassapi',
+    package: 'com.mastercard.compass.cp3.java_flutter_wrapper',
   ),
   copyrightHeader: 'compassapiDefinition/copyright.txt',
 ))

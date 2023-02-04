@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'package:flutter_cpk_plugin_example/color_utils.dart';
-import 'package:flutter_cpk_plugin_example/writeProfileScreen.dart';
-import 'package:flutter_cpk_plugin/compassapi.dart';
+import 'package:compass_library_wrapper_plugin_example/color_utils.dart';
+import 'package:compass_library_wrapper_plugin_example/writeProfileScreen.dart';
+import 'package:compass_library_wrapper_plugin/compassapi.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RegisterBasicUserScreen extends StatefulWidget {
