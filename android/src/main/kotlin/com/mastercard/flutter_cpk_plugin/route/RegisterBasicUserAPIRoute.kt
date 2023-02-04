@@ -9,7 +9,7 @@ import com.mastercard.flutter_cpk_plugin.util.ErrorCode
 import com.mastercard.flutter_cpk_plugin.util.Key
 
 class RegisterBasicUserAPIRoute(private val activity: Activity) {
-    private lateinit var resultTwo: CompassApiFlutter.Result<RegisterBasicUserResult>
+    private lateinit var registerBasicUserApiRouteResult: CompassApiFlutter.Result<RegisterBasicUserResult>
     companion object {
         val REQUEST_CODE_RANGE = 400 until 500
 
@@ -23,7 +23,7 @@ class RegisterBasicUserAPIRoute(private val activity: Activity) {
             putExtra(Key.PROGRAM_GUID, programGUID)
         }
 
-        resultTwo = result!!
+        registerBasicUserApiRouteResult = result!!
         activity.startActivityForResult(intent, REGISTER_BASIC_USER_REQUEST_CODE)
     }
 
@@ -33,14 +33,14 @@ class RegisterBasicUserAPIRoute(private val activity: Activity) {
     ) {
         when (resultCode) {
             Activity.RESULT_OK -> {
-                val res = RegisterBasicUserResult.Builder()
+                val result = RegisterBasicUserResult.Builder()
                     .setRId(data?.extras?.get(Key.DATA).toString()).build()
-                resultTwo.success(res)
+                registerBasicUserApiRouteResult.success(result)
             }
             Activity.RESULT_CANCELED -> {
                 val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()
                 val message = data?.getStringExtra(Key.ERROR_MESSAGE)!!
-                resultTwo.error(Throwable(message))
+                registerBasicUserApiRouteResult.error(Throwable(message))
             }
         }
     }

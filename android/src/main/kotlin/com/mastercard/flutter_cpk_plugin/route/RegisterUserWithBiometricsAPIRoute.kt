@@ -20,7 +20,7 @@ import io.flutter.plugin.common.MethodChannel
 import java.security.PublicKey
 
 class RegisterUserWithBiometricsAPIRoute(private val activity: Activity) {
-    private lateinit var resultTwo: CompassApiFlutter.Result<CompassApiFlutter.RegisterUserWithBiometricsResult>
+    private lateinit var registerBiometricUserApiRouteResult: CompassApiFlutter.Result<RegisterUserWithBiometricsResult>
     companion object {
         val REQUEST_CODE_RANGE = 300 until 400
         const val TAG = "REGISTER_USER_WITH_BIOMETRICS"
@@ -33,7 +33,7 @@ class RegisterUserWithBiometricsAPIRoute(private val activity: Activity) {
             putExtra(Key.PROGRAM_GUID, programGUID)
             putExtra(Key.CONSENT_ID, consentId)
         }
-        resultTwo = result!!
+        registerBiometricUserApiRouteResult = result!!
         activity.startActivityForResult(intent, REGISTER_BIOMETRICS_REQUEST_CODE)
     }
 
@@ -48,23 +48,19 @@ class RegisterUserWithBiometricsAPIRoute(private val activity: Activity) {
                 val jwt = data?.extras?.getString(Key.DATA).toString()
                 val response: RegisterUserForBioTokenResponse = helperObject.parseBioTokenJWT(jwt)
 
-
-                EnrolmentStatus.NEW
-                EnrolmentStatus.EXISTING
-
-                val res = RegisterUserWithBiometricsResult.Builder()
+                val result = RegisterUserWithBiometricsResult.Builder()
                     .setBioToken(response.bioToken)
                     .setEnrolmentStatus(parseEnrolmentStatus(response.bioToken))
                     .setProgramGUID(response.programGUID)
                     .setRId(response.rId)
                     .build()
 
-                resultTwo.success(res)
+                registerBiometricUserApiRouteResult.success(result)
             }
             Activity.RESULT_CANCELED -> {
                 val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()
                 val message = data?.getStringExtra(Key.ERROR_MESSAGE) ?: "Unknown error"
-                resultTwo.error(Throwable(message))
+                registerBiometricUserApiRouteResult.error(Throwable(message))
             }
         }
     }
