@@ -1,9 +1,10 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_cpk_plugin/compassapi.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_cpk_plugin/flutter_cpk_plugin_method_channel.dart';
 
 void main() {
-  MethodChannelFlutterCpkPlugin platform = MethodChannelFlutterCpkPlugin();
+  PigeonFlutterCpkPlugin platform = PigeonFlutterCpkPlugin();
   const MethodChannel channel = MethodChannel('flutter_cpk_plugin');
 
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -19,27 +20,34 @@ void main() {
   });
 
   test('saveBiometricConsent', () async {
-    expect(await platform.saveBiometricConsent('', ''),
-        saveBiometricConsentMapLiteral);
+    expect(
+        await platform.saveBiometricConsent('', ''),
+        SaveBiometricConsentResult(
+            consentId: '', responseStatus: ResponseStatus.SUCCESS));
   });
 
   test('getRegisterUserWithBiometrics', () async {
-    expect(await platform.getRegisterUserWithBiometrics('', '', ''),
-        registerUserWithBiometricsMapLiteral);
+    expect(
+        await platform.getRegisterUserWithBiometrics('', '', ''),
+        RegisterUserWithBiometricsResult(
+            bioToken: '',
+            programGUID: '',
+            rId: '',
+            enrolmentStatus: EnrolmentStatus.EXISTING));
   });
 
   test('getRegisterBasicUser', () async {
     expect(await platform.getRegisterBasicUser('', ''),
-        getRegisterBasicUserMapLiteral);
+        RegisterBasicUserResult(rId: ''));
   });
 
   test('getWriteProfile', () async {
     expect(await platform.getWriteProfile('', '', '', false),
-        getWriteProfileMapLiteral);
+        WriteProfileResult(consumerDeviceNumber: ''));
   });
 
   test('getWritePasscode', () async {
     expect(await platform.getWritePasscode('', '', '', ''),
-        getWritePasscodeMapLiteral);
+        WritePasscodeResult(responseStatus: ResponseStatus.SUCCESS));
   });
 }

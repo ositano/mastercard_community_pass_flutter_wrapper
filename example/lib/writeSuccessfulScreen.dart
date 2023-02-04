@@ -41,7 +41,7 @@ class _WriteSuccessfulScreenState extends State<WriteSuccessfulScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Text(
                     'User registration was successful!',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20, color: mastercardOrange),
                   )),
               Padding(
                   padding:

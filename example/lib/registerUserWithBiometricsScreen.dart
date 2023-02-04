@@ -5,6 +5,7 @@ import 'package:flutter_cpk_plugin_example/color_utils.dart';
 import 'package:flutter_cpk_plugin_example/main.dart';
 import 'package:flutter_cpk_plugin_example/utils.dart';
 import 'package:flutter_cpk_plugin_example/writeProfileScreen.dart';
+import 'package:flutter_cpk_plugin/compassapi.dart';
 
 class RegisterUserWithBiometricsScreen extends StatefulWidget {
   String value;
@@ -30,7 +31,7 @@ class _RegisterUserWithBiometricsScreenState
   static const String _enrolmentStatusKey = 'enrolmentStatus';
   static const String _bioTokenKkey = 'bioToken';
 
-  final _channel = const MethodChannel('flutter_cpk_plugin');
+  final _communityPassFlutterplugin = CommunityPassApi();
 
   String globalError = '';
   bool globalLoading = false;
@@ -50,43 +51,47 @@ class _RegisterUserWithBiometricsScreenState
     super.initState();
   }
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   Future<void> getRegisterUserWithBiometrics(String reliantApplicationGuid,
       String programGuid, String consentId) async {
-    globalLoading = true;
-    var result = {};
+    if (mounted) {
+      setState(() {
+        globalLoading = true;
+      });
+    }
+
+    RegisterUserWithBiometricsResult result;
     String e = '';
 
     try {
-      result = await _channel.invokeMethod('getRegisterUserWithBiometrics', {
-        _reliantAppGuidKey: reliantApplicationGuid,
-        _programGuidKey: programGuid,
-        _consentIdKey: consentId
-      });
-    } on PlatformException catch (ex) {
-      e = '${ex.code} ${ex.message}';
-    }
+      result = await _communityPassFlutterplugin.getRegisterUserWithBiometrics(
+          reliantApplicationGuid, programGuid, consentId);
 
-    if (!mounted) return;
-    setState(() {
-      if (result[_rIdKey] != null) {
+      if (!mounted) return;
+      setState(() {
         globalLoading = false;
-        if (result[_enrolmentStatusKey] == 'EXISTING') {
+        if (result.enrolmentStatus == EnrolmentStatus.EXISTING) {
           Future.delayed(Duration.zero, () {
-            showAlert(context, result[_rIdKey]);
+            showAlert(context, result.rId);
           });
         } else {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => WriteProfileScreen(navigationParams: {
-              "rId": result[_rIdKey],
+              "rId": result.rId,
               "registrationType": 'BIOMETRIC_USER',
             }),
           ));
         }
-      } else {
-        globalLoading = false;
-        globalError = e;
-      }
-    });
+      });
+    } on PlatformException catch (ex) {
+      globalError = ex.code;
+      globalLoading = false;
+    }
   }
 
   @override
@@ -142,10 +147,12 @@ class _RegisterUserWithBiometricsScreenState
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(100, 50),
                               backgroundColor: mastercardOrange),
-                          onPressed: (() {
-                            getRegisterUserWithBiometrics(
-                                _reliantAppGuid, _programGuid, value);
-                          }),
+                          onPressed: globalLoading
+                              ? null
+                              : (() {
+                                  getRegisterUserWithBiometrics(
+                                      _reliantAppGuid, _programGuid, value);
+                                }),
                           child: const Text('Start registration')))),
             ]));
   }
