@@ -1,4 +1,4 @@
-group 'com.mastercard.flutter_cpk_plugin'
+group 'com.mastercard.compass.cp3.lib.flutter_wrapper'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -63,7 +63,7 @@ rootProject.allprojects {
         google()
         mavenCentral()
         flatDir {
-            dirs project(':flutter_cpk_plugin').file('libs')
+            dirs project(':compass_library_wrapper_plugin').file('libs')
         }
     }
 }

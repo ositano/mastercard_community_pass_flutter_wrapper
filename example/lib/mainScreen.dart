@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cpk_plugin_example/color_utils.dart';
-import 'package:flutter_cpk_plugin_example/pretransactionsPhaseScreen.dart';
-import 'package:flutter_cpk_plugin_example/reusableCardWidget.dart';
-import 'package:flutter_cpk_plugin_example/utils.dart';
+import 'package:compass_library_wrapper_plugin_example/color_utils.dart';
+import 'package:compass_library_wrapper_plugin_example/pretransactionsPhaseScreen.dart';
+import 'package:compass_library_wrapper_plugin_example/reusableCardWidget.dart';
+import 'package:compass_library_wrapper_plugin_example/utils.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});

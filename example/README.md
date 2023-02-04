@@ -1,6 +1,6 @@
-# flutter_cpk_plugin_example
+# compass_library_wrapper_plugin_example
 
-Demonstrates how to use the flutter_cpk_plugin plugin.
+Demonstrates how to use the compass_library_wrapper_plugin plugin.
 
 ## Getting Started
 

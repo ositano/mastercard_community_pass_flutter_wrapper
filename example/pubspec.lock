@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.16.0"
+  compass_library_wrapper_plugin:
+    dependency: "direct main"
+    description:
+      path: ".."
+      relative: true
+    source: path
+    version: "0.0.1-alpha"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -55,13 +62,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_cpk_plugin:
-    dependency: "direct main"
-    description:
-      path: ".."
-      relative: true
-    source: path
-    version: "0.0.1-alpha"
   flutter_dotenv:
     dependency: "direct main"
     description:

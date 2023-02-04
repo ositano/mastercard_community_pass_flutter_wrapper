@@ -1,4 +1,4 @@
-name: flutter_cpk_plugin
+name: compass_library_wrapper_plugin
 description: A Flutter Wrappper for Mastercard's Community Pass Kernel (CPK), implementing all Community Pass Actions
 version: 0.0.1-alpha
 homepage:
@@ -37,8 +37,8 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.mastercard.flutter_cpk_plugin
-        pluginClass: FlutterCpkPlugin
+        package: com.mastercard.compass.cp3.lib.flutter_wrapper
+        pluginClass: CompassLibraryWrapperPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

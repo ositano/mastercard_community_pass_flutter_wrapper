@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cpk_plugin_example/color_utils.dart';
-import 'package:flutter_cpk_plugin_example/main.dart';
+import 'package:compass_library_wrapper_plugin_example/color_utils.dart';
+import 'package:compass_library_wrapper_plugin_example/main.dart';
 
 class WriteSuccessfulScreen extends StatefulWidget {
   Map<String, String> navigationParams;

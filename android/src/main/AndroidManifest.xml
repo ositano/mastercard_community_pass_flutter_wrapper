@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mastercard.flutter_cpk_plugin">
+    package="com.mastercard.compass.cp3.lib.flutter_wrapper">
 
     <uses-permission android:name="com.mastercard.compass.permission.GET_INSTANCE_ID" />
     <uses-permission android:name="com.mastercard.compass.permission.BIND_SERVICE" />

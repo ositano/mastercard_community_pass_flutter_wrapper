@@ -11,4 +11,4 @@ import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_cpk_plugin/compassapi.dart';
+import 'package:compass_library_wrapper_plugin/compassapi.dart';
