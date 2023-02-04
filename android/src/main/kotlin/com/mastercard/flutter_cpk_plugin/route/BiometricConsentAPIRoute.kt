@@ -11,7 +11,7 @@ import com.mastercard.flutter_cpk_plugin.util.ErrorCode
 import com.mastercard.flutter_cpk_plugin.util.Key
 
 class BiometricConsentAPIRoute(private val activity: Activity) {
-    private lateinit var resultTwo: CompassApiFlutter.Result<SaveBiometricConsentResult>
+    private lateinit var biometricConsentResult: CompassApiFlutter.Result<SaveBiometricConsentResult>
 
     companion object {
         val REQUEST_CODE_RANGE = 600 until 700
@@ -25,7 +25,7 @@ class BiometricConsentAPIRoute(private val activity: Activity) {
             putExtra(Key.RELIANT_APP_GUID, reliantAppGuid )
         }
 
-        resultTwo = result!!
+        biometricConsentResult = result!!
         activity.startActivityForResult(intent, BIOMETRIC_CONSENT_REQUEST_CODE)
     }
 
@@ -37,15 +37,15 @@ class BiometricConsentAPIRoute(private val activity: Activity) {
         when (resultCode) {
             Activity.RESULT_OK -> {
                 val response: ConsentResponse = data?.extras?.get(Key.DATA) as ConsentResponse
-                val res = SaveBiometricConsentResult.Builder()
+                val result = SaveBiometricConsentResult.Builder()
                     .setConsentId(response.consentId).setResponseStatus(CompassApiFlutter.ResponseStatus.SUCCESS).build()
 
-                resultTwo.success(res)
+                biometricConsentResult.success(result)
             }
             Activity.RESULT_CANCELED -> {
                 val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()
                 val message = data?.getStringExtra(Key.ERROR_MESSAGE) ?: "Unknown error"
-                resultTwo.error(Throwable(message, Throwable(code)))
+                biometricConsentResult.error(Throwable(message))
             }
         }
     }

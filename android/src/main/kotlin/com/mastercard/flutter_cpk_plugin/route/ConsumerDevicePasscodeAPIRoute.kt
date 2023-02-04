@@ -9,7 +9,7 @@ import com.mastercard.flutter_cpk_plugin.util.ErrorCode
 import com.mastercard.flutter_cpk_plugin.util.Key
 
 class ConsumerDevicePasscodeAPIRoute(private val activity: Activity) {
-    private lateinit var resultTwo: CompassApiFlutter.Result<WritePasscodeResult>
+    private lateinit var consumerDevicePasscodeResult: CompassApiFlutter.Result<WritePasscodeResult>
 
     companion object {
         val REQUEST_CODE_RANGE = 500 until 600
@@ -25,7 +25,7 @@ class ConsumerDevicePasscodeAPIRoute(private val activity: Activity) {
             putExtra(Key.PASSCODE, passcode)
         }
 
-        resultTwo = result!!
+        consumerDevicePasscodeResult = result!!
         activity.startActivityForResult(intent, WRITE_PASSCODE_REQUEST_CODE)
     }
 
@@ -35,15 +35,15 @@ class ConsumerDevicePasscodeAPIRoute(private val activity: Activity) {
     ) {
         when (resultCode) {
             Activity.RESULT_OK -> {
-                val res = WritePasscodeResult.Builder()
+                val result = WritePasscodeResult.Builder()
                     .setResponseStatus(CompassApiFlutter.ResponseStatus.SUCCESS)
                     .build()
-                resultTwo.success(res)
+                consumerDevicePasscodeResult.success(result)
             }
             Activity.RESULT_CANCELED -> {
                 val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()
                 val message = data?.getStringExtra(Key.ERROR_MESSAGE)!!
-                resultTwo.error(Throwable(message))
+                consumerDevicePasscodeResult.error(Throwable(message))
             }
         }
     }
