@@ -4,6 +4,7 @@ import 'package:flutter_cpk_plugin_example/registerBasicUserScreen.dart';
 import 'package:flutter_cpk_plugin_example/registerUserWithBiometricsScreen.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cpk_plugin/compassapi.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class BiometricConsentScreen extends StatefulWidget {
   const BiometricConsentScreen({super.key});
@@ -15,9 +16,8 @@ class BiometricConsentScreen extends StatefulWidget {
 class _BiometricConsentScreenState extends State<BiometricConsentScreen>
     with TickerProviderStateMixin {
   final _communityPassFlutterplugin = CommunityPassApi();
-
-  static const String _programGuid = '8b00c113-6347-4b74-830f-268d267c04c1';
-  static const String _reliantAppGuid = '1cf89559-98fb-4080-b24b-6e43a062b239';
+  static final String _programGuid = dotenv.env['RELIANT_APP_GUID'] ?? '';
+  static final String _reliantAppGuid = dotenv.env['PROGRAM_GUID'] ?? '';
 
   String globalError = '';
   bool globalLoading = false;
@@ -92,7 +92,8 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen>
                 child: globalError.isNotEmpty
                     ? Text(
                         'Error: $globalError',
-                        style: const TextStyle(fontSize: 12, color: Colors.red),
+                        style:
+                            const TextStyle(fontSize: 12, color: mastercardRed),
                       )
                     : null),
             const Padding(

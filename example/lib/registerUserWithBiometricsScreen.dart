@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cpk_plugin_example/color_utils.dart';
 import 'package:flutter_cpk_plugin_example/main.dart';
-import 'package:flutter_cpk_plugin_example/utils.dart';
 import 'package:flutter_cpk_plugin_example/writeProfileScreen.dart';
 import 'package:flutter_cpk_plugin/compassapi.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RegisterUserWithBiometricsScreen extends StatefulWidget {
   String value;
@@ -22,14 +22,8 @@ class _RegisterUserWithBiometricsScreenState
   String value;
   _RegisterUserWithBiometricsScreenState(this.value);
 
-  static const String _programGuid = '8b00c113-6347-4b74-830f-268d267c04c1';
-  static const String _reliantAppGuid = '1cf89559-98fb-4080-b24b-6e43a062b239';
-  static const String _reliantAppGuidKey = 'RELIANT_APP_GUID';
-  static const String _programGuidKey = 'PROGRAM_GUID';
-  static const String _consentIdKey = 'CONSENT_ID';
-  static const String _rIdKey = 'rId';
-  static const String _enrolmentStatusKey = 'enrolmentStatus';
-  static const String _bioTokenKkey = 'bioToken';
+  static final String _programGuid = dotenv.env['RELIANT_APP_GUID'] ?? '';
+  static final String _reliantAppGuid = dotenv.env['PROGRAM_GUID'] ?? '';
 
   final _communityPassFlutterplugin = CommunityPassApi();
 
@@ -111,8 +105,8 @@ class _RegisterUserWithBiometricsScreenState
                   child: globalError.isNotEmpty
                       ? Text(
                           'Error: $globalError',
-                          style:
-                              const TextStyle(fontSize: 12, color: Colors.red),
+                          style: const TextStyle(
+                              fontSize: 12, color: mastercardRed),
                         )
                       : null),
               const Padding(
