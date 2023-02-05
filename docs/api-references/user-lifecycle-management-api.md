@@ -24,7 +24,7 @@ Then, the Reliant Application must store it with CPK.
 **Response Parameters**
 | **Parameter** | **Type** | **Description** |
 |-----------------|-----------------|----------------------------------------------------------|
-| consentResponse | Promise<SaveBiometricConsentResult> | A promise that resolves to an object containing either a consentId and responseStatus fields or an error field. |
+| consentResponse | Promise<[SaveBiometricConsentResult]> | A promise that resolves to an object containing either a consentId and responseStatus fields or an error field. |
 
 **Type Aliases**
 
@@ -69,7 +69,7 @@ This API is used to register an existing user with their card/CP Consumer Device
 **Response Parameters**
 | **Parameter** | **Type** | **Description** |
 |-----------------|-----------------|----------------------------------------------------------|
-| registerBasicUserResponse | Promise<RegisterBasicUserResult> | A promise that resolves to an object containing either a rId field or an error field. |
+| registerBasicUserResponse | Promise<[RegisterBasicUserResult]> | A promise that resolves to an object containing either a rId field or an error field. |
 
 **Type Aliases**
 
@@ -113,7 +113,7 @@ Warning: Reliant Application must obtain the consentId first using the saveBiome
 **Response Parameters**
 | **Parameter** | **Type** | **Description** |
 |-----------------|-----------------|----------------------------------------------------------|
-| registerUserWithBiometricsResponse | Promise<RegisterUserWithBiometricsResult> | A promise that resolves to an object containing either a rId, bioToken, enrolmentStatus and programGUID fields or an error field. |
+| registerUserWithBiometricsResponse | Promise<[RegisterUserWithBiometricsResult]> | A promise that resolves to an object containing either a rId, bioToken, enrolmentStatus and programGUID fields or an error field. |
 
 **Type Aliases**
 
@@ -174,7 +174,7 @@ WARNING: The Passcode that will get stored on the card must be of Integer Dataty
 **Response Parameters**
 | **Parameter** | **Type** | **Description** |
 |-----------------|-----------------|----------------------------------------------------------|
-| writePasscodeResponse | Promise<WritePasscodeResult> | A promise that resolves to an object containing either a responseStatus field or an error field. |
+| writePasscodeResponse | Promise<[WritePasscodeResult]> | A promise that resolves to an object containing either a responseStatus field or an error field. |
 
 **Error codes**
 In addition to the [general error codes](https://developer.mastercard.com/cp-kernel-integration-api/documentation/reference-pages/code-and-formats/), below are the error codes that CPK can send as part of the response:
@@ -229,7 +229,7 @@ WARNING: The Passcode that will get stored on the card must be of Integer Dataty
 **Response Parameters**
 | **Parameter** | **Type** | **Description** |
 |-----------------|-----------------|----------------------------------------------------------|
-| writeProfileResponse | Promise<WriteProfileResult> | A promise that resolves to an object containing either a consumerDeviceNumber field or an error field. |
+| writeProfileResponse | Promise<[WriteProfileResult]> | A promise that resolves to an object containing either a consumerDeviceNumber field or an error field. |
 
 **Type Aliases**
 
