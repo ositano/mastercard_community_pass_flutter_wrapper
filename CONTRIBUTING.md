@@ -36,8 +36,10 @@ The following are the steps required to set up your project with the Community P
 
 ![](/docs/assets/android-studio-plugins.png)
 
-2. Click on the **Projects** menu from the left panel and followed by the open button at the top right corner.
-3. Navigate to the location of the `community-pass-flutter-wrapper` folder, open the example folder and select the android folder. Click open.
+**Figure 1** Install androud studio plugins
+
+4. Click on the **Projects** menu from the left panel and followed by the open button at the top right corner.
+5. Navigate to the location of the `community-pass-flutter-wrapper` folder, open the example folder and select the android folder. Click open.
 
 ```
 Please note that there are two android folders in the project.
@@ -47,18 +49,18 @@ Please note that there are two android folders in the project.
 
 ![](/docs/assets/open-project-2.png)
 
-**Figure 1** Open your Flutter Android Project from android studio
+**Figure 2** Open your Flutter Android Project from android studio
 
-4. The project will take some time to build. After the build process is completed, click on the Project Tab in the top left corner and then click on the Project dropdown to open `community-pass-flutter-wrapper`.
+6. The project will take some time to build. After the build process is completed, click on the Project Tab in the top left corner and then click on the Project dropdown to open `community-pass-flutter-wrapper`.
 
-5. Navigate through `community-pass-flutter-wrapper` from the dropdown > app > libs
-6. Copy your AAR file into the libs folder in your Android Studio as shown in the figure below:
+7. Navigate through `community-pass-flutter-wrapper` from the dropdown > app > libs
+8. Copy your AAR file into the libs folder in your Android Studio as shown in the figure below:
 
 ![](/docs/assets/add-aar-android-studio.png)
 
-**Figure 2** Move the Community Pass Kernel Library file to your Android Studio project
+**Figure 3** Move the Community Pass Kernel Library file to your Android Studio project
 
-7. On the Android Studio top toolbar, click on **Build** > **Rebuid Project** to synchronize the project with the Gradle files.
+9. On the Android Studio top toolbar, click on **Build** > **Rebuid Project** to synchronize the project with the Gradle files.
 
 You should now have completed the process of adding the Community Pass AAR Library into your Android Studio Project.
 
