@@ -1,64 +1,125 @@
-# Contributing to Flutter CPK Plugin
+# Contributing
 
-Thanks for contributing to Flutter CPK Plugin!
+Contributions are always welcome, no matter how large or small!
 
-## Submitting Changes
+We want this community to be friendly and respectful to each other. Please follow it in all your interactions with the project. Before contributing, please read the [code of conduct](./CODE_OF_CONDUCT.md).
 
-Here are examples of acceptable semantic commit messages
+To get started please complete the following steps:
 
-- `feat:` (new feature for the user, not a new feature for build script)
-- `fix:` (bug fix for the user, not a fix to a build script)
-- `docs:` (changes to the documentation)
-- `style:` (formatting, missing semi colons, etc; no production code change)
-- `refactor:` (refactoring production code, eg. renaming a variable)
-- `test:` (adding missing tests, refactoring tests; no production code change)
-- `chore:` (updating grunt tasks etc; no production code change)
+## 1 Fork the library
 
-Submit changes:
-
-1. Fork the [community-pass-flutter-wrapper-contrib]() repository
+1. Fork the community-pass-react-native-wrapper repository
 2. Create your feature branch (git checkout -b my-new-feature)
-3. Add the `Community Pass Library` to your project, see how [here](https://developer.mastercard.com/cp-kernel-integration-api/tutorial/getting-started-guide/step5/)
-4. Commit your changes (git commit -am 'Add some feature')
-5. Execute the unit tests to ensure all pass
-6. Squash your commits (git rebase --interactive --autosquash)
-7. Push the branch (git push origin my-new-feature)
-8. Create a new Pull Request
 
-## Pull request Approval
+## 2 Install dependencies
 
-Internal developers will verify the changes and approve the request or leave comments for improvements.
+1. Open your command line and navigate to the root folder of your project. See example below:
 
-## Quality Expectations
+```sh
+cd /path/community-pass-flutter-wrapper
+```
+
+2. Run the command below on your command line to install the [plugin dependencies](/pubspec.yaml). Some IDEs like Visual Studio Code will automatically execute the command when the pubspec.yaml file has changed.
+
+```sh
+flutter pub get
+```
+
+3. After you have completed step 3, please navigate to the root folder of the [example app](/example/). See example below:
+
+```sh
+cd /path/community-pass-flutter-wrapper/example
+```
+
+4. Run the following command on your command line to install the [example app dependencies](/example/pubspec.yaml):
+
+```sh
+yarn
+```
+
+## 3 Add the Community Pass Kernel Library file to your Android Project
+
+To help you connect to the Community Pass Kernel, our team created the Community Pass Kernel Library (.AAR file) that bridges the gap between your application and the Community Pass Kernel. This library will enable you to use the CPK service’s APIs while working on this plugin.
+
+### 3.1 Pre-Requisites
+
+- You will need to use the Android Studio
+- Download the Commmunity Pass Kernel AAR library which can be accessed through [CP Assets Request](https://developer.mastercard.com/cp-kernel-integration-api/documentation/cp-assets/cp-assets-request/). We will show you how to add the AAR to your project.
+
+```
+NOTE: Please note that you will need to request access to the AAR through CP Assets Request. The approval may take 1-2 business days. Once you have access, proceed to download the AAR library for your development environment.
+```
+
+### 3.2 Adding the Community Pass Kernel Library File
+
+The following are the steps required to set up your project with the Community Pass Client SDK:
+
+**Locate and Move the Community Pass Kernel Library File to your Android Studio Project**
+
+1. Locate the folder where you downloaded the AAR library to. The library will have a name similar to the following example: `community-pass-library-2.4.0.aar`
+2. Start your Android Studio and click on the **Plugins** mewnu from the left panel.
+3. Install the `Dart` and `Flutter` Android Studio plugin. See below:
+
+![](/docs/assets/android-studio-plugins.png)
+
+2. Click on the **Projects** menu from the left panel and followed by the open button at the top right corner.
+3. Navigate to the location of the `community-pass-flutter-wrapper` folder, open the example folder and select the android folder. Click open.
+
+```
+Please note that there are two android folders in the project.
+- In the root level of the plugin files
+- Inside the example folder (Open this)
+```
+
+![](/docs/assets/open-project-2.png)
+
+**Figure 1** Open your Flutter Android Project from android studio
+
+4. The project will take some time to build. After the build process is completed, click on the Project Tab in the top left corner and then click on the Project dropdown to open `community-pass-flutter-wrapper`.
+
+5. Navigate through `community-pass-flutter-wrapper` from the dropdown > app > libs
+6. Copy your AAR file into the libs folder in your Android Studio as shown in the figure below:
+
+![](/docs/assets/add-aar-android-studio.png)
+
+**Figure 2** Move the Community Pass Kernel Library file to your Android Studio project
+
+7. On the Android Studio top toolbar, click on **Build** > **Rebuid Project** to synchronize the project with the Gradle files.
+
+You should now have completed the process of adding the Community Pass AAR Library into your Android Studio Project.
+
+You are now ready to install the CPK onto your POI device and connect your Reliant Application to the Community Pass Kernel services.
+
+## 4 Quality Expectations
 
 Please ensure any contributions include unit tests. The project maintains a high level of test coverage for its functionality.
 Submissions are expected to maintain a similar level of coverage.
 
-## Code of Conduct
+## 5 Commit Message Convention
 
-Examples of behavior that contributes to creating a positive environment
-include:
+We follow the [conventional commits specification](https://www.conventionalcommits.org/en) for our commit messages:
 
-- Using welcoming and inclusive language
-- Being respectful of differing viewpoints and experiences
-- Gracefully accepting constructive criticism
-- Focusing on what is best for the community
-- Showing empathy towards other community members
+- `fix`: bug fixes, e.g. fix crash due to deprecated method.
+- `feat`: new features, e.g. add new method to the module.
+- `refactor`: code refactor, e.g. migrate from class components to hooks.
+- `docs`: changes into documentation, e.g. add usage example for the module..
+- `test`: adding or updating tests, e.g. add integration tests using detox.
+- `chore`: tooling changes, e.g. change CI config.
 
-Examples of unacceptable behavior by participants include:
+Our pre-commit hooks verify that your commit message matches this format when committing.
 
-- The use of sexualized language or imagery and unwelcome sexual attention or
-  advances
-- Trolling, insulting/derogatory comments, and personal or political attacks
-- Public or private harassment
-- Publishing others' private information, such as a physical or electronic
-  address, without explicit permission
-- Other conduct which could reasonably be considered inappropriate in a
-  rofessional setting
+## 6 Publishing
 
-## How to engage Maintainers
+Note that the production version of the library is hosted at [CP Assets](https://developer.mastercard.com/cp-kernel-integration-api/documentation/cp-assets/cp-assets-request/) for easier versioning. Please do not use `flutter pub publish` and `flutter pub publish --dry-run` commands with the library.
 
-Leaving Issues using the issue tracker in GitHub.
-Maintainers will look for issues posted to the repository and will resolve the issue as soon as possible.
+## 7 Sending a pull request
 
-**Copyright © 1994-2022, All Rights Reserved by Mastercard.**
+> **Working on your first pull request?** You can learn how from this _free_ series: [How to Contribute to an Open Source Project on GitHub](https://app.egghead.io/playlists/how-to-contribute-to-an-open-source-project-on-github).
+
+When you're sending a pull request:
+
+- Prefer small pull requests focused on one change.
+- Verify that linters and tests are passing.
+- Review the documentation to make sure it looks good.
+- Follow the pull request template when opening a pull request.
+- For pull requests that change the API or implementation, discuss with maintainers first by opening an issue.
