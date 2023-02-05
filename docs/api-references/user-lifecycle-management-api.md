@@ -160,7 +160,6 @@ In addition to the [general error codes](https://developer.mastercard.com/cp-ker
 This API is used to write the Passcode to the card. This is initiated by the Reliant Application to CPK after a successful user registration.
 
 ```
-
 WARNING: The Passcode that will get stored on the card must be of Integer Datatype, and composed of 6 digits.
 ```
 
@@ -216,7 +215,6 @@ enum ResponseStatus { SUCCESS }
 This API is used for card issuance to write the user’s basic profile data to the card once the user has been successfully registered, either by biometric flow or passcode flow. This operation is initiated by the Reliant Application after a successful user registration, and the Reliant Application receives the R-ID.
 
 ```
-
 WARNING: The Passcode that will get stored on the card must be of Integer Datatype, and composed of 6 digits.
 ```
 
