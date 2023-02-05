@@ -45,6 +45,7 @@ enum ResponseStatus { SUCCESS }
 ```
 
 **Error codes**
+
 In addition to the [general error codes](https://developer.mastercard.com/cp-kernel-integration-api/documentation/reference-pages/code-and-formats/), below are the error codes that CPK can send as part of the response:
 
 | **Error Code**                                | **Description**                                         |
@@ -90,6 +91,7 @@ enum ResponseStatus { SUCCESS }
 ```
 
 **Error codes**
+
 In addition to the [general error codes](https://developer.mastercard.com/cp-kernel-integration-api/documentation/reference-pages/code-and-formats/), below are the error codes that CPK can send as part of the response:
 
 ### 1.3 getRegisterUserWithBiometrics
@@ -138,6 +140,7 @@ enum EnrolmentStatus { EXISTING, NEW }
 ```
 
 **Error codes**
+
 In addition to the [general error codes](https://developer.mastercard.com/cp-kernel-integration-api/documentation/reference-pages/code-and-formats/), below are the error codes that CPK can send as part of the response:
 
 | **Error Code**                                     | **Description**                                              |
@@ -177,6 +180,7 @@ WARNING: The Passcode that will get stored on the card must be of Integer Dataty
 | writePasscodeResponse | Promise<[WritePasscodeResult]> | A promise that resolves to an object containing either a responseStatus field or an error field. |
 
 **Error codes**
+
 In addition to the [general error codes](https://developer.mastercard.com/cp-kernel-integration-api/documentation/reference-pages/code-and-formats/), below are the error codes that CPK can send as part of the response:
 
 **Type Aliases**
@@ -249,6 +253,7 @@ class WriteProfileResult {
 ```
 
 **Error codes**
+
 In addition to the [general error codes](https://developer.mastercard.com/cp-kernel-integration-api/documentation/reference-pages/code-and-formats/), below are the error codes that CPK can send as part of the response:
 
 | **Error Code**                                  | **Description**                                                                                                                     |
