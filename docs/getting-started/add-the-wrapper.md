@@ -9,7 +9,7 @@ To help you connect to the Community Pass Kernel, our team created the Community
 ## 5.2 Pre-requisites
 
 1. Completed the sections 1, 2, 3 and 4 of this guide
-2. The Flutter plugin, which is accessible via the [CP Assets](https://developer.mastercard.com/cp-kernel-integration-api/documentation/cp-assets/cp-assets-request/) Request. We will show you how to add the library to your project.
+2. A stable version of the Community Pass Flutter Wrapper, which is accessible via the [CP Assets Request](https://developer.mastercard.com/cp-kernel-integration-api/documentation/cp-assets/cp-assets-request/). We will show you how to add the library to your project.
 
 ```
 NOTE: Please note that you will need to create a developer account and request access to the library file
@@ -23,13 +23,13 @@ The following are the steps required to set up your project with the Community P
 
 1. Download and extract the contents of the plugin to a folder.
 2. The plugin will have a name similar to the following example: `community-pass-flutter-wrapper-x.y.z.tgz`.
-3. Place the exctracted folder at the "same" level as your flutter project directory:
+3. Place the exctracted folder at the "same" level as your flutter application project directory:
 
 ```
- -- plugin-name
- -- your flutter directory -- lib
-                           -- android
-                           -- ios etc etc
+ -- community pass flutter plugin root directory
+ -- flutter application root directory  -- lib
+                                        -- android
+                                        -- ios etc etc
 ```
 
 3. Open your flutter application project from an IDE and find this file => `pubspec.yaml`
@@ -39,20 +39,21 @@ The following are the steps required to set up your project with the Community P
 dependencies:
   flutter:
     sdk: flutter
-  my_new_package:
-    path: /path/commnity_pass_flutter_wrapper
+
+  compass_library_wrapper_plugin:
+    path: ../commnity-pass-flutter-wrapper
 ```
 
-The `/path/commnity_pass_flutter_wrapper` above refers to the root folder of the plugin. it contains a pubspec.yaml for the plugin.
+The `../commnity-pass-flutter-wrapper` above refers to the root folder of the plugin. it contains a pubspec.yaml for the plugin.
 
-> If you have the package as a directory at the same level as the app, in other words one level higher up in the directory tree, you can use `../commnity_pass_flutter_wrapper` (note the double dot) or a full path to the package directory.
+> If you have the package as a directory at the same level as the app, in other words one level higher up in the directory tree, you can use `../commnity-pass-flutter-wrapper` (note the double dot) or a full path to the package directory.
 
-> Do not create a folder in your flutter root named packages and put packages or plugins in there. The packages folder is removed during build.
+> Do not create a folder in your flutter root named packages and put the plugins in there. The packages folder is removed during build.
 
-5. Open a terminal/command prompt and navigate to the root folder of your reliant application project. See example below:
+5. Open a command line and navigate to the root folder of your reliant application project. See example below:
 
 ```sh
-cd /path/TestApp
+cd /path/FlutterTestApp
 ```
 
 6. Run the follownig command to make the package ready for use. Some IDEs like Visual Studio Code will automatically execute the command when the `pubspec.yaml` file has changed.
