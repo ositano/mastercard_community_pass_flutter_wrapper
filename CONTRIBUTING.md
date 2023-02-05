@@ -8,40 +8,14 @@ To get started please complete the following steps:
 
 ## 1 Fork the library
 
-1. Fork the community-pass-react-native-wrapper repository
+1. Fork the community-pass-flutter-wrapper repository
 2. Create your feature branch (git checkout -b my-new-feature)
 
-## 2 Install dependencies
-
-1. Open your command line and navigate to the root folder of your project. See example below:
-
-```sh
-cd /path/community-pass-flutter-wrapper
-```
-
-2. Run the command below on your command line to install the [plugin dependencies](/pubspec.yaml). Some IDEs like Visual Studio Code will automatically execute the command when the pubspec.yaml file has changed.
-
-```sh
-flutter pub get
-```
-
-3. After you have completed step 3, please navigate to the root folder of the [example app](/example/). See example below:
-
-```sh
-cd /path/community-pass-flutter-wrapper/example
-```
-
-4. Run the following command on your command line to install the [example app dependencies](/example/pubspec.yaml):
-
-```sh
-yarn
-```
-
-## 3 Add the Community Pass Kernel Library file to your Android Project
+## 2 Add the Community Pass Kernel Library file to your Android Project
 
 To help you connect to the Community Pass Kernel, our team created the Community Pass Kernel Library (.AAR file) that bridges the gap between your application and the Community Pass Kernel. This library will enable you to use the CPK service’s APIs while working on this plugin.
 
-### 3.1 Pre-Requisites
+### 2.1 Pre-Requisites
 
 - You will need to use the Android Studio
 - Download the Commmunity Pass Kernel AAR library which can be accessed through [CP Assets Request](https://developer.mastercard.com/cp-kernel-integration-api/documentation/cp-assets/cp-assets-request/). We will show you how to add the AAR to your project.
@@ -50,7 +24,7 @@ To help you connect to the Community Pass Kernel, our team created the Community
 NOTE: Please note that you will need to request access to the AAR through CP Assets Request. The approval may take 1-2 business days. Once you have access, proceed to download the AAR library for your development environment.
 ```
 
-### 3.2 Adding the Community Pass Kernel Library File
+### 2.2 Adding the Community Pass Kernel Library File
 
 The following are the steps required to set up your project with the Community Pass Client SDK:
 
@@ -89,6 +63,26 @@ Please note that there are two android folders in the project.
 You should now have completed the process of adding the Community Pass AAR Library into your Android Studio Project.
 
 You are now ready to install the CPK onto your POI device and connect your Reliant Application to the Community Pass Kernel services.
+
+## 3 Install Flutter Project Pependencies
+
+1. Open a command line and navigate to the root folder of the [example app](/example/). See example below:
+
+```sh
+cd /path/community-pass-flutter-wrapper/example
+```
+
+2. Run the command below on your command line to install the [example app dependencies](/example/pubspec.yaml). Some IDEs like Visual Studio Code will automatically execute the command when the pubspec.yaml file has changed.
+
+```sh
+flutter pub get
+```
+
+3. Make sure your POI device has debug mode enabled. Connect it yo your computer and run the following command to build, install and start your flutter application
+
+```sh
+flutter run
+```
 
 ## 4 Quality Expectations
 
