@@ -17,6 +17,8 @@ At the end of this section you will have done the following:
 
 ## 3.2 Installing dependencies on macOS
 
+For windows see [3.3 Installing dependencies on Windows](#33-installing-dependencies-on-windows).
+
 You will need to meet the following minimum requirements:
 
 - **Operating Systems**: macOS
@@ -169,7 +171,7 @@ The following sections describe how to perform these tasks and finish the setup 
 
 Note: If `flutter doctor` returns that either the Flutter plugin or Dart plugin of Android Studio are not installed, move on to platform setup to resolve this issue.
 
-## 3.4 Platform setup (Windos and macOS)
+## 3.4 Platform setup (Windows and macOS)
 
 Please complete the steps below, to be able to build and run your first Flutter app.
 
