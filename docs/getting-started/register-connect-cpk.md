@@ -130,7 +130,7 @@ try{
     WriteProfileResult result = await _communityPassFlutterplugin.getWriteProfile(
           reliantAppGuid, programGuid, rId, overwriteCard);
 
-    print(result.consumerDeviceNumber); // 0fe4c3fa-7dc2-90c2-cced-b664c41e154e
+    print(result.consumerDeviceNumber); // 1234564665
 } on Platformexception catch (exception) {
     print(exception.code); // String
     print(exception.message); // String
