@@ -21,7 +21,8 @@ To help you connect to the Community Pass Kernel, our team created the Community
 - Download the Commmunity Pass Kernel AAR library which can be accessed through [CP Assets Request](https://developer.mastercard.com/cp-kernel-integration-api/documentation/cp-assets/cp-assets-request/). We will show you how to add the AAR to your project.
 
 ```
-NOTE: Please note that you will need to request access to the AAR through CP Assets Request. The approval may take 1-2 business days. Once you have access, proceed to download the AAR library for your development environment.
+NOTE: Please note that you will need to request access to the AAR through CP Assets Request. The approval may
+take 1-2 business days. Once you have access, proceed to download the AAR library for your development environment.
 ```
 
 ### 2.2 Adding the Community Pass Kernel Library File
