@@ -22,8 +22,8 @@ class _RegisterUserWithBiometricsScreenState
   String value;
   _RegisterUserWithBiometricsScreenState(this.value);
 
-  static final String _programGuid = dotenv.env['RELIANT_APP_GUID'] ?? '';
-  static final String _reliantAppGuid = dotenv.env['PROGRAM_GUID'] ?? '';
+  static final String _reliantAppGuid = dotenv.env['RELIANT_APP_GUID'] ?? '';
+  static final String _programGuid = dotenv.env['PROGRAM_GUID'] ?? '';
 
   final _communityPassFlutterplugin = CommunityPassApi();
 
