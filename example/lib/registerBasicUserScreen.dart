@@ -17,8 +17,8 @@ class RegisterBasicUserScreen extends StatefulWidget {
 class _RegisterBasicUserScreenState extends State<RegisterBasicUserScreen>
     with TickerProviderStateMixin {
   final _communityPassFlutterplugin = CommunityPassApi();
-  static final String _programGuid = dotenv.env['RELIANT_APP_GUID'] ?? '';
-  static final String _reliantAppGuid = dotenv.env['PROGRAM_GUID'] ?? '';
+  static final String _reliantAppGuid = dotenv.env['RELIANT_APP_GUID'] ?? '';
+  static final String _programGuid = dotenv.env['PROGRAM_GUID'] ?? '';
 
   String globalError = '';
   bool globalLoading = false;

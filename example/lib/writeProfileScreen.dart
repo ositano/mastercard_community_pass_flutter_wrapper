@@ -21,8 +21,8 @@ class _WriteProfileScreenState extends State<WriteProfileScreen>
   Map<String, String> receivedParams;
   _WriteProfileScreenState(this.receivedParams);
 
-  static final String _programGuid = dotenv.env['RELIANT_APP_GUID'] ?? '';
-  static final String _reliantAppGuid = dotenv.env['PROGRAM_GUID'] ?? '';
+  static final String _reliantAppGuid = dotenv.env['RELIANT_APP_GUID'] ?? '';
+  static final String _programGuid = dotenv.env['PROGRAM_GUID'] ?? '';
 
   final _communityPassFlutterplugin = CommunityPassApi();
 
