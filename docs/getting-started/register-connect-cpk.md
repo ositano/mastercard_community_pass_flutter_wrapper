@@ -51,89 +51,85 @@ import 'package:compass_library_wrapper_plugin/compassapi.dart';
 Add the saveBiometricConsent() Commnity Pass API to your application
 
 ```dart
-static final String reliantAppGuid = 'e32b7762-531c-4ca0-a55e-a74e00c144ac';
-static final String programGuid = '3ac23543-f4ce-4526-98d3-c071ba422449';
+static final String reliantGUID = 'e32b7762-531c-4ca0-a55e-a74e00c144ac';
+static final String programGUID = '3ac23543-f4ce-4526-98d3-c071ba422449';
+bool consumerConsentValue = true; // please use true for grant consent and false for deny consent
 
 try{
     SaveBiometricConsentResult result = await _communityPassFlutterplugin.saveBiometricConsent(
-          reliantAppGuid, programGuid);
+          reliantGUID, programGUID , consumerConsentValue);
 
-    print(result.consentId); // cdd5883e-357b-418b-baf1-be5bef0bfaef
+    print(result.consentID); // cdd5883e-357b-418b-baf1-be5bef0bfaef
     print(result.responseStatus); // SUCCESS
 } on Platformexception catch (exception) {
-    print(exception.code); // String
-    print(exception.message); // String
+    print(exception.code); // 600
 }
 ```
 
 Add the getRegisterUserWithBiometrics() compass API to your application
 
 ```dart
-static final String reliantAppGuid = 'e32b7762-531c-4ca0-a55e-a74e00c144ac';
-static final String programGuid = '3ac23543-f4ce-4526-98d3-c071ba422449';
+static final String reliantGUID = 'e32b7762-531c-4ca0-a55e-a74e00c144ac';
+static final String programGUID = '3ac23543-f4ce-4526-98d3-c071ba422449';
 
 try{
     RegisterUserWithBiometricsResult result = await _communityPassFlutterplugin.getRegisterUserWithBiometrics(
-          reliantAppGuid, programGuid, consentId);
+          reliantGUID, programGUID, consentID);
 
-    print(result.rId); // 4ae8c3fa-7dc1-40c1-bbaf-b664c41e150a
+    print(result.rID); // 4ae8c3fa-7dc1-40c1-bbaf-b664c41e150a
     print(result.enrolmentStatus); // EXISTING | NEW
     print(result.bioToken) // jWt if user is new. Empty string if user Exists
     print(result.programGUID) // 3ac23543-f4ce-4526-98d3-c071ba422449
 } on Platformexception catch (exception) {
-    print(exception.code); // String
-    print(exception.message); // String
+    print(exception.code); // 501
 }
 ```
 
 Add the getRegisterBasicUser() Commnity Pass API to your application
 
 ```dart
-static final String reliantAppGuid = 'e32b7762-531c-4ca0-a55e-a74e00c144ac';
-static final String programGuid = '3ac23543-f4ce-4526-98d3-c071ba422449';
+static final String reliantGUID = 'e32b7762-531c-4ca0-a55e-a74e00c144ac';
+static final String programGUID = '3ac23543-f4ce-4526-98d3-c071ba422449';
 
 try{
     RegisterBasicUserResult result = await _communityPassFlutterplugin.getRegisterBasicUser(
-          reliantAppGuid, programGuid);
+          reliantGUID, programGUID);
 
-    print(result.rId); // 4ae8c3fa-7dc1-40c1-bbaf-b664c41e150a
+    print(result.rID); // 4ae8c3fa-7dc1-40c1-bbaf-b664c41e150a
 } on Platformexception catch (exception) {
-    print(exception.code); // String
-    print(exception.message); // String
+    print(exception.code); // 600
 }
 ```
 
 Add the getWritePasscode() Commnity Pass API to your application
 
 ```dart
-static final String reliantAppGuid = 'e32b7762-531c-4ca0-a55e-a74e00c144ac';
-static final String programGuid = '3ac23543-f4ce-4526-98d3-c071ba422449';
+static final String reliantGUID = 'e32b7762-531c-4ca0-a55e-a74e00c144ac';
+static final String programGUID = '3ac23543-f4ce-4526-98d3-c071ba422449';
 
 try{
     WritePasscodeResult result = await _communityPassFlutterplugin.getWritePasscode(
-          reliantAppGuid, programGuid);
+          reliantGUID, programGUID);
 
     print(result.responseStatus); // SUCCESS
 } on Platformexception catch (exception) {
-    print(exception.code); // String
-    print(exception.message); // String
+    print(exception.code); // 702
 }
 ```
 
 Add the getWriteProfile() Commnity Pass API to your application
 
 ```dart
-static final String reliantAppGuid = 'e32b7762-531c-4ca0-a55e-a74e00c144ac';
-static final String programGuid = '3ac23543-f4ce-4526-98d3-c071ba422449';
+static final String reliantGUID = 'e32b7762-531c-4ca0-a55e-a74e00c144ac';
+static final String programGUID = '3ac23543-f4ce-4526-98d3-c071ba422449';
 
 try{
     WriteProfileResult result = await _communityPassFlutterplugin.getWriteProfile(
-          reliantAppGuid, programGuid, rId, overwriteCard);
+          reliantGUID, programGUID, rID, overwriteCard);
 
     print(result.consumerDeviceNumber); // 1234564665
 } on Platformexception catch (exception) {
-    print(exception.code); // String
-    print(exception.message); // String
+    print(exception.code); // 721
 }
 ```
 
