@@ -16,26 +16,26 @@ enum EnrolmentStatus { EXISTING, NEW }
 enum ResponseStatus { SUCCESS, FAIL }
 
 class SaveBiometricConsentResult {
-  final String consentId;
+  final String consentID;
   final ResponseStatus responseStatus;
 
-  SaveBiometricConsentResult(this.consentId, this.responseStatus);
+  SaveBiometricConsentResult(this.consentID, this.responseStatus);
 }
 
 class RegisterUserWithBiometricsResult {
   final String bioToken;
   final String programGUID;
-  final String rId;
+  final String rID;
   final EnrolmentStatus enrolmentStatus;
 
   RegisterUserWithBiometricsResult(
-      this.bioToken, this.programGUID, this.rId, this.enrolmentStatus);
+      this.bioToken, this.programGUID, this.rID, this.enrolmentStatus);
 }
 
 class RegisterBasicUserResult {
-  final String rId;
+  final String rID;
 
-  RegisterBasicUserResult(this.rId);
+  RegisterBasicUserResult(this.rID);
 }
 
 class WriteProfileResult {
@@ -54,21 +54,21 @@ class WritePasscodeResult {
 abstract class CommunityPassApi {
   @async
   SaveBiometricConsentResult saveBiometricConsent(
-      String reliantAppGUID, String programGUID);
+      String reliantGUID, String programGUID, bool consumerConsentValue);
 
   @async
   RegisterUserWithBiometricsResult getRegisterUserWithBiometrics(
-      String reliantAppGUID, String programGUID, String consentId);
+      String reliantGUID, String programGUID, String consentID);
 
   @async
   RegisterBasicUserResult getRegisterBasicUser(
-      String reliantAppGUID, String programGUID);
+      String reliantGUID, String programGUID);
 
   @async
-  WriteProfileResult getWriteProfile(String reliantAppGUID, String programGUID,
-      String rId, bool overwriteCard);
+  WriteProfileResult getWriteProfile(
+      String reliantGUID, String programGUID, String rID, bool overwriteCard);
 
   @async
   WritePasscodeResult getWritePasscode(
-      String reliantAppGUID, String programGUID, String rId, String passcode);
+      String reliantGUID, String programGUID, String rID, String passcode);
 }

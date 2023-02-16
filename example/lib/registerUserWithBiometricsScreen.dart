@@ -51,8 +51,8 @@ class _RegisterUserWithBiometricsScreenState
     super.dispose();
   }
 
-  Future<void> getRegisterUserWithBiometrics(String reliantApplicationGuid,
-      String programGuid, String consentId) async {
+  Future<void> getRegisterUserWithBiometrics(
+      String reliantGUID, String programGUID, String consentID) async {
     if (mounted) {
       setState(() {
         globalLoading = true;
@@ -60,23 +60,22 @@ class _RegisterUserWithBiometricsScreenState
     }
 
     RegisterUserWithBiometricsResult result;
-    String e = '';
 
     try {
       result = await _communityPassFlutterplugin.getRegisterUserWithBiometrics(
-          reliantApplicationGuid, programGuid, consentId);
+          reliantGUID, programGUID, consentID);
 
       if (!mounted) return;
       setState(() {
         globalLoading = false;
         if (result.enrolmentStatus == EnrolmentStatus.EXISTING) {
           Future.delayed(Duration.zero, () {
-            showAlert(context, result.rId);
+            showAlert(context, result.rID);
           });
         } else {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => WriteProfileScreen(navigationParams: {
-              "rId": result.rId,
+              "rID": result.rID,
               "registrationType": 'BIOMETRIC_USER',
             }),
           ));
@@ -151,7 +150,7 @@ class _RegisterUserWithBiometricsScreenState
             ]));
   }
 
-  void showAlert(BuildContext context, rId) {
+  void showAlert(BuildContext context, rID) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -169,7 +168,7 @@ class _RegisterUserWithBiometricsScreenState
                 TextButton(
                   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => WriteProfileScreen(navigationParams: {
-                      "rId": rId,
+                      "rID": rID,
                       "registrationType": 'BIOMETRIC_USER',
                     }),
                   )),

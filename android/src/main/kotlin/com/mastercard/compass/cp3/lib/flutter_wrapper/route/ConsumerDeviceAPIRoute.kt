@@ -17,9 +17,9 @@ class ConsumerDeviceAPIRoute( private val activity: Activity ) {
         const val WRITE_PROFILE_REQUEST_CODE = 200
     }
 
-    fun startWriteProfileIntent(reliantAppGUID: String, programGUID: String, rId: String, overwriteCard: Boolean, result: CompassApiFlutter.Result<WriteProfileResult>?){
+    fun startWriteProfileIntent(reliantGUID: String, programGUID: String, rId: String, overwriteCard: Boolean, result: CompassApiFlutter.Result<WriteProfileResult>?){
         val intent = Intent(activity, WriteProfileCompassApiHandlerActivity::class.java).apply {
-            putExtra(Key.RELIANT_APP_GUID, reliantAppGUID)
+            putExtra(Key.RELIANT_APP_GUID, reliantGUID)
             putExtra(Key.PROGRAM_GUID, programGUID)
             putExtra(Key.RID, rId)
             putExtra(Key.OVERWRITE_CARD, overwriteCard)
@@ -41,9 +41,9 @@ class ConsumerDeviceAPIRoute( private val activity: Activity ) {
                 consumerDeviceResult.success(result)
             }
             Activity.RESULT_CANCELED -> {
-                val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()
+                val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN)
                 val message = data?.getStringExtra(Key.ERROR_MESSAGE)!!
-                consumerDeviceResult.error(Throwable(message))
+                consumerDeviceResult.error(CompassThrowable(code, message))
             }
         }
     }

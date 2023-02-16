@@ -14,33 +14,33 @@ class PigeonCompassLibraryWrapperPlugin
 
   @override
   Future<SaveBiometricConsentResult> saveBiometricConsent(
-      String reliantAppGUID, String programGUID) async {
-    return _api.saveBiometricConsent(reliantAppGUID, programGUID);
+      String reliantGUID, String programGUID, bool consumerConsentValue) async {
+    return _api.saveBiometricConsent(
+        reliantGUID, programGUID, consumerConsentValue);
   }
 
   @override
   Future<RegisterUserWithBiometricsResult> getRegisterUserWithBiometrics(
-      String reliantAppGUID, String programGUID, String consentId) async {
+      String reliantGUID, String programGUID, String consentID) async {
     return _api.getRegisterUserWithBiometrics(
-        reliantAppGUID, programGUID, consentId);
+        reliantGUID, programGUID, consentID);
   }
 
   @override
   Future<RegisterBasicUserResult> getRegisterBasicUser(
-      String reliantAppGUID, String programGUID) async {
-    return _api.getRegisterBasicUser(reliantAppGUID, programGUID);
+      String reliantGUID, String programGUID) async {
+    return _api.getRegisterBasicUser(reliantGUID, programGUID);
   }
 
   @override
-  Future<WriteProfileResult> getWriteProfile(String reliantAppGUID,
-      String programGUID, String rId, bool overwriteCard) async {
-    return _api.getWriteProfile(
-        reliantAppGUID, programGUID, rId, overwriteCard);
+  Future<WriteProfileResult> getWriteProfile(String reliantGUID,
+      String programGUID, String rID, bool overwriteCard) async {
+    return _api.getWriteProfile(reliantGUID, programGUID, rID, overwriteCard);
   }
 
   @override
-  Future<WritePasscodeResult> getWritePasscode(String reliantAppGUID,
-      String programGUID, String rId, String passcode) async {
-    return _api.getWritePasscode(reliantAppGUID, programGUID, rId, passcode);
+  Future<WritePasscodeResult> getWritePasscode(String reliantGUID,
+      String programGUID, String rID, String passcode) async {
+    return _api.getWritePasscode(reliantGUID, programGUID, rID, passcode);
   }
 }

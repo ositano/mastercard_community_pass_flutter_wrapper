@@ -50,8 +50,8 @@ class _WriteProfileScreenState extends State<WriteProfileScreen>
     super.dispose();
   }
 
-  Future<void> getWriteProfile(String reliantApplicationGuid,
-      String programGuid, String rId, bool overwriteCard) async {
+  Future<void> getWriteProfile(String reliantGUID, String programGUID,
+      String rID, bool overwriteCard) async {
     if (mounted) {
       setState(() {
         globalLoading = true;
@@ -61,7 +61,7 @@ class _WriteProfileScreenState extends State<WriteProfileScreen>
 
     try {
       result = await _communityPassFlutterplugin.getWriteProfile(
-          reliantApplicationGuid, programGuid, rId, overwriteCard);
+          reliantGUID, programGUID, rID, overwriteCard);
 
       if (!mounted) return;
       setState(() {
@@ -69,14 +69,14 @@ class _WriteProfileScreenState extends State<WriteProfileScreen>
         if (receivedParams['registrationType'] == "BIOMETRIC_USER") {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => WriteSuccessfulScreen(navigationParams: {
-              "rId": receivedParams['rId']!,
+              "rID": receivedParams['rID']!,
               "consumerDeviceNumber": result.consumerDeviceNumber,
             }),
           ));
         } else {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => WritePasscodeScreen(navigationParams: {
-              "rId": receivedParams['rId']!,
+              "rID": receivedParams['rID']!,
               "consumerDeviceNumber": result.consumerDeviceNumber,
               "registrationType": 'BASIC_USER',
             }),
@@ -167,7 +167,7 @@ class _WriteProfileScreenState extends State<WriteProfileScreen>
                                   getWriteProfile(
                                       _reliantAppGuid,
                                       _programGuid,
-                                      receivedParams['rId']!,
+                                      receivedParams['rID']!,
                                       overwriteCardValue);
                                 }),
                           child: const Text('Write Profile on Card')))),

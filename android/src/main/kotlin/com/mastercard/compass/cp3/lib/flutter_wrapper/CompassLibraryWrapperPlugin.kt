@@ -79,48 +79,49 @@ class CompassLibraryWrapperPlugin: FlutterPlugin, MethodChannel.MethodCallHandle
   }
 
   override fun saveBiometricConsent(
-    reliantAppGUID: String,
+    reliantGUID: String,
     programGUID: String,
+    consumerConsentValue: Boolean,
     result: CompassApiFlutter.Result<CompassApiFlutter.SaveBiometricConsentResult>?
   ) {
-    biometricConsentAPIRoute.startBiometricConsentIntent(reliantAppGUID, programGUID, result);
+    biometricConsentAPIRoute.startBiometricConsentIntent(reliantGUID, programGUID, consumerConsentValue, result);
   }
 
   override fun getRegisterUserWithBiometrics(
-    reliantAppGUID: String,
+    reliantGUID: String,
     programGUID: String,
     consentId: String,
     result: CompassApiFlutter.Result<CompassApiFlutter.RegisterUserWithBiometricsResult>?
   ) {
-    registerUserWithBiometricsAPIRoute.startRegisterUserWithBiometricsIntent(reliantAppGUID, programGUID, consentId, result)
+    registerUserWithBiometricsAPIRoute.startRegisterUserWithBiometricsIntent(reliantGUID, programGUID, consentId, result)
   }
 
   override fun getRegisterBasicUser(
-    reliantAppGUID: String,
+    reliantGUID: String,
     programGUID: String,
     result: CompassApiFlutter.Result<CompassApiFlutter.RegisterBasicUserResult>?
   ) {
-    registerBasicUserAPIRoute.startRegisterBasicUserIntent(reliantAppGUID, programGUID, result)
+    registerBasicUserAPIRoute.startRegisterBasicUserIntent(reliantGUID, programGUID, result)
   }
 
   override fun getWritePasscode(
-    reliantAppGUID: String,
+    reliantGUID: String,
     programGUID: String,
     rId: String,
     passcode: String,
     result: CompassApiFlutter.Result<CompassApiFlutter.WritePasscodeResult>?
   ) {
-    consumerDevicePasscodeAPIRoute.startWritePasscodeIntent(reliantAppGUID, programGUID, rId, passcode, result)
+    consumerDevicePasscodeAPIRoute.startWritePasscodeIntent(reliantGUID, programGUID, rId, passcode, result)
   }
 
   override fun getWriteProfile(
-    reliantAppGUID: String,
+    reliantGUID: String,
     programGUID: String,
     rId: String,
     overwriteCard: Boolean,
     result: CompassApiFlutter.Result<CompassApiFlutter.WriteProfileResult>?
   ) {
-    consumerDeviceApiRoute.startWriteProfileIntent(reliantAppGUID, programGUID, rId, overwriteCard, result)
+    consumerDeviceApiRoute.startWriteProfileIntent(reliantGUID, programGUID, rId, overwriteCard, result)
   }
 
   private fun handleApiRouteResponse(

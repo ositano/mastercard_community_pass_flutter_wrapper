@@ -10,34 +10,32 @@ class MockCompassLibraryWrapperPluginPlatform
     implements CompassLibraryWrapperPluginPlatform {
   @override
   Future<SaveBiometricConsentResult> saveBiometricConsent(
-          String reliantApplicationGuid, String programGuid) =>
+          String reliantGUID, String programGuid, bool consumerConsentValue) =>
       Future.value(SaveBiometricConsentResult(
-          consentId: '', responseStatus: ResponseStatus.SUCCESS));
+          consentID: '', responseStatus: ResponseStatus.SUCCESS));
 
   @override
   Future<RegisterUserWithBiometricsResult> getRegisterUserWithBiometrics(
-          String reliantApplicationGuid,
-          String programGuid,
-          String consentId) =>
+          String reliantGUID, String programGuid, String consentID) =>
       Future.value(RegisterUserWithBiometricsResult(
           bioToken: '',
           enrolmentStatus: EnrolmentStatus.EXISTING,
           programGUID: '',
-          rId: ''));
+          rID: ''));
 
   @override
   Future<RegisterBasicUserResult> getRegisterBasicUser(
-          String reliantApplicationGuid, String programGuid) =>
-      Future.value(RegisterBasicUserResult(rId: ''));
+          String reliantGUID, String programGuid) =>
+      Future.value(RegisterBasicUserResult(rID: ''));
 
   @override
-  Future<WriteProfileResult> getWriteProfile(String reliantApplicationGuid,
-          String programGuid, String rId, bool overwriteCard) =>
+  Future<WriteProfileResult> getWriteProfile(String reliantGUID,
+          String programGuid, String rID, bool overwriteCard) =>
       Future.value(WriteProfileResult(consumerDeviceNumber: ''));
 
   @override
-  Future<WritePasscodeResult> getWritePasscode(String reliantApplicationGuid,
-          String programGuid, String rId, String passcode) =>
+  Future<WritePasscodeResult> getWritePasscode(String reliantGUID,
+          String programGuid, String rID, String passcode) =>
       Future.value(WritePasscodeResult(responseStatus: ResponseStatus.SUCCESS));
 }
 
@@ -57,9 +55,10 @@ void main() {
     CompassLibraryWrapperPluginPlatform.instance = fakePlatform;
 
     expect(
-        await compassLibraryWrapperPluginInstance.saveBiometricConsent('', ''),
+        await compassLibraryWrapperPluginInstance.saveBiometricConsent(
+            '', '', true),
         SaveBiometricConsentResult(
-            consentId: '', responseStatus: ResponseStatus.SUCCESS));
+            consentID: '', responseStatus: ResponseStatus.SUCCESS));
   });
 
   test('getRegisterUserWithBiometrics', () async {
@@ -75,7 +74,7 @@ void main() {
         RegisterUserWithBiometricsResult(
             bioToken: '',
             programGUID: '',
-            rId: '',
+            rID: '',
             enrolmentStatus: EnrolmentStatus.EXISTING));
   });
 
@@ -88,7 +87,7 @@ void main() {
 
     expect(
         await compassLibraryWrapperPluginInstance.getRegisterBasicUser('', ''),
-        RegisterBasicUserResult(rId: ''));
+        RegisterBasicUserResult(rID: ''));
   });
 
   test('getWriteProfile', () async {

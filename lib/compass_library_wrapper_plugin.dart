@@ -4,32 +4,32 @@ import 'compass_library_wrapper_plugin_platform_interface.dart';
 
 class CompassLibraryWrapperPlugin {
   Future<SaveBiometricConsentResult> saveBiometricConsent(
-      String reliantAppGUID, String programGUID) {
+      String reliantGUID, String programGUID, bool consumerConsentValue) {
     return CompassLibraryWrapperPluginPlatform.instance
-        .saveBiometricConsent(reliantAppGUID, programGUID);
+        .saveBiometricConsent(reliantGUID, programGUID, consumerConsentValue);
   }
 
   Future<RegisterUserWithBiometricsResult> getRegisterUserWithBiometrics(
-      String reliantAppGUID, String programGUID, String consentId) {
+      String reliantGUID, String programGUID, String consentID) {
     return CompassLibraryWrapperPluginPlatform.instance
-        .getRegisterUserWithBiometrics(reliantAppGUID, programGUID, consentId);
+        .getRegisterUserWithBiometrics(reliantGUID, programGUID, consentID);
   }
 
   Future<RegisterBasicUserResult> getRegisterBasicUser(
-      String reliantAppGUID, String programGUID) {
+      String reliantGUID, String programGUID) {
     return CompassLibraryWrapperPluginPlatform.instance
-        .getRegisterBasicUser(reliantAppGUID, programGUID);
+        .getRegisterBasicUser(reliantGUID, programGUID);
   }
 
-  Future<WriteProfileResult> getWriteProfile(String reliantAppGUID,
-      String programGUID, String rId, bool overwriteCard) {
+  Future<WriteProfileResult> getWriteProfile(
+      String reliantGUID, String programGUID, String rID, bool overwriteCard) {
     return CompassLibraryWrapperPluginPlatform.instance
-        .getWriteProfile(reliantAppGUID, programGUID, rId, overwriteCard);
+        .getWriteProfile(reliantGUID, programGUID, rID, overwriteCard);
   }
 
   Future<WritePasscodeResult> getWritePasscode(
-      String reliantAppGUID, String programGUID, String rId, String passcode) {
+      String reliantGUID, String programGUID, String rID, String passcode) {
     return CompassLibraryWrapperPluginPlatform.instance
-        .getWritePasscode(reliantAppGUID, programGUID, rId, passcode);
+        .getWritePasscode(reliantGUID, programGUID, rID, passcode);
   }
 }

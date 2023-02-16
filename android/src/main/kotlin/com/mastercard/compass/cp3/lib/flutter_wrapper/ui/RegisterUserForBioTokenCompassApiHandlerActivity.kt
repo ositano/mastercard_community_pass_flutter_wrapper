@@ -8,7 +8,7 @@ import com.mastercard.compass.cp3.lib.flutter_wrapper.util.Key
 class RegisterUserForBioTokenCompassApiHandlerActivity: CompassApiHandlerActivity<String>() {
     override suspend fun callCompassApi() {
         val reliantAppGuid: String = intent.getStringExtra(Key.RELIANT_APP_GUID)!!
-        val programGuid: String = intent.getStringExtra(Key.PROGRAM_GUID)!!
+        val programGUID: String = intent.getStringExtra(Key.PROGRAM_GUID)!!
         val consentId: String = intent.getStringExtra(Key.CONSENT_ID)!!
 
         val listOfModalities = mutableListOf<Modality>().apply {
@@ -18,7 +18,7 @@ class RegisterUserForBioTokenCompassApiHandlerActivity: CompassApiHandlerActivit
         }
 
         val jwt = helper.generateBioTokenJWT(
-            reliantAppGuid, programGuid, consentId, listOfModalities)
+            reliantAppGuid, programGUID, consentId, listOfModalities)
 
         val intent = compassKernelServiceInstance.getRegisterUserForBioTokenActivityIntent(
             jwt,

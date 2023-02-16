@@ -7,10 +7,10 @@ import com.mastercard.compass.cp3.lib.flutter_wrapper.util.Key
 
 class RegisterBasicUserCompassApiHandlerActivity: CompassApiHandlerActivity<String>() {
     override suspend fun callCompassApi() {
-        val programGuid: String = intent.getStringExtra(Key.PROGRAM_GUID)!!
+        val programGUID: String = intent.getStringExtra(Key.PROGRAM_GUID)!!
 
         val intent = compassKernelServiceInstance.getRegisterBasicUserActivityIntent(
-            RegisterBasicUserRequestV2(programGuid, FormFactor.NONE)
+            RegisterBasicUserRequestV2(programGUID, FormFactor.NONE)
         )
 
         compassApiActivityResult.launch(intent)

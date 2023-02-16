@@ -9,9 +9,15 @@ import com.mastercard.compass.cp3.lib.flutter_wrapper.util.Key
 
 class BiometricConsentCompassApiHandlerActivity: CompassApiHandlerActivity<ConsentResponse>() {
     override suspend fun callCompassApi() {
-        val programGuid: String = intent.getStringExtra(Key.PROGRAM_GUID)!!
+        val programGUID: String = intent.getStringExtra(Key.PROGRAM_GUID)!!
+        val consumerConsentValue = intent.getBooleanExtra(Key.CONSUMER_CONSENT_VALUE, false)
 
-        val consent = Consent(ConsentValue.ACCEPT, programGuid)
+        val consent =  if(consumerConsentValue) {
+            Consent(ConsentValue.ACCEPT, programGUID)
+        } else {
+            Consent(ConsentValue.DECLINE, programGUID)
+        }
+
         val response = compassKernelServiceInstance.saveBiometricConsent(consent)
 
         getNonIntentCompassApiResults(response)

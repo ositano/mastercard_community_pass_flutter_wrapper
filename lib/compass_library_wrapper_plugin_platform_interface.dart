@@ -26,30 +26,30 @@ abstract class CompassLibraryWrapperPluginPlatform extends PlatformInterface {
   }
 
   Future<SaveBiometricConsentResult> saveBiometricConsent(
-      String reliantAppGUID, String programGUID) async {
+      String reliantGUID, String programGUID, bool consumerConsentValue) async {
     throw UnimplementedError(
         'saveBiometricConsent() has not been implemented.');
   }
 
   Future<RegisterUserWithBiometricsResult> getRegisterUserWithBiometrics(
-      String reliantAppGUID, String programGUID, String consentId) async {
+      String reliantGUID, String programGUID, String consentID) async {
     throw UnimplementedError(
         'getRegisterUserWithBiometrics() has not been implemented.');
   }
 
   Future<RegisterBasicUserResult> getRegisterBasicUser(
-      String reliantAppGUID, String programGUID) async {
+      String reliantGUID, String programGUID) async {
     throw UnimplementedError(
         'getRegisterBasicUser() has not been implemented.');
   }
 
-  Future<WriteProfileResult> getWriteProfile(String reliantAppGUID,
-      String programGUID, String rId, bool overwriteCard) async {
+  Future<WriteProfileResult> getWriteProfile(String reliantGUID,
+      String programGUID, String rID, bool overwriteCard) async {
     throw UnimplementedError('getWriteProfile() has not been implemented.');
   }
 
-  Future<WritePasscodeResult> getWritePasscode(String reliantAppGUID,
-      String programGUID, String rId, String passcode) async {
+  Future<WritePasscodeResult> getWritePasscode(String reliantGUID,
+      String programGUID, String rID, String passcode) async {
     throw UnimplementedError('getWritePasscode() has not been implemented.');
   }
 }

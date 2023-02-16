@@ -16,10 +16,10 @@ class RegisterBasicUserAPIRoute(private val activity: Activity) {
         const val REGISTER_BASIC_USER_REQUEST_CODE = 400
     }
 
-    fun startRegisterBasicUserIntent(reliantAppGUID: String, programGUID: String, result: CompassApiFlutter.Result<RegisterBasicUserResult>?){
+    fun startRegisterBasicUserIntent(reliantGUID: String, programGUID: String, result: CompassApiFlutter.Result<RegisterBasicUserResult>?){
 
         val intent = Intent(activity, RegisterBasicUserCompassApiHandlerActivity::class.java).apply {
-            putExtra(Key.RELIANT_APP_GUID, reliantAppGUID)
+            putExtra(Key.RELIANT_APP_GUID, reliantGUID)
             putExtra(Key.PROGRAM_GUID, programGUID)
         }
 
@@ -34,13 +34,13 @@ class RegisterBasicUserAPIRoute(private val activity: Activity) {
         when (resultCode) {
             Activity.RESULT_OK -> {
                 val result = RegisterBasicUserResult.Builder()
-                    .setRId(data?.extras?.get(Key.DATA).toString()).build()
+                    .setRID(data?.extras?.get(Key.DATA).toString()).build()
                 registerBasicUserApiRouteResult.success(result)
             }
             Activity.RESULT_CANCELED -> {
-                val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN).toString()
+                val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN)
                 val message = data?.getStringExtra(Key.ERROR_MESSAGE)!!
-                registerBasicUserApiRouteResult.error(Throwable(message))
+                registerBasicUserApiRouteResult.error(CompassThrowable(code, message))
             }
         }
     }
