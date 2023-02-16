@@ -4,9 +4,9 @@ import 'compass_library_wrapper_plugin_platform_interface.dart';
 
 class CompassLibraryWrapperPlugin {
   Future<SaveBiometricConsentResult> saveBiometricConsent(
-      String reliantGUID, String programGUID) {
+      String reliantGUID, String programGUID, bool consumerConsentValue) {
     return CompassLibraryWrapperPluginPlatform.instance
-        .saveBiometricConsent(reliantGUID, programGUID);
+        .saveBiometricConsent(reliantGUID, programGUID, consumerConsentValue);
   }
 
   Future<RegisterUserWithBiometricsResult> getRegisterUserWithBiometrics(

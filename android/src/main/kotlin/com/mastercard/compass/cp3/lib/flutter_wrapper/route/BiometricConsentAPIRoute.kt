@@ -18,10 +18,11 @@ class BiometricConsentAPIRoute(private val activity: Activity) {
         const val BIOMETRIC_CONSENT_REQUEST_CODE = 600
     }
 
-    fun startBiometricConsentIntent(reliantGUID: String, programGUID: String, result: CompassApiFlutter.Result<SaveBiometricConsentResult>?){
+    fun startBiometricConsentIntent(reliantGUID: String, programGUID: String, consumerConsentValue: Boolean, result: CompassApiFlutter.Result<SaveBiometricConsentResult>?){
         val intent = Intent(activity, BiometricConsentCompassApiHandlerActivity::class.java).apply {
             putExtra(Key.PROGRAM_GUID, programGUID)
             putExtra(Key.RELIANT_APP_GUID, reliantGUID )
+            putExtra(Key.CONSUMER_CONSENT_VALUE, consumerConsentValue)
         }
 
         biometricConsentResult = result!!

@@ -10,7 +10,7 @@ class MockCompassLibraryWrapperPluginPlatform
     implements CompassLibraryWrapperPluginPlatform {
   @override
   Future<SaveBiometricConsentResult> saveBiometricConsent(
-          String reliantGUID, String programGuid) =>
+          String reliantGUID, String programGuid, bool consumerConsentValue) =>
       Future.value(SaveBiometricConsentResult(
           consentID: '', responseStatus: ResponseStatus.SUCCESS));
 
@@ -55,7 +55,8 @@ void main() {
     CompassLibraryWrapperPluginPlatform.instance = fakePlatform;
 
     expect(
-        await compassLibraryWrapperPluginInstance.saveBiometricConsent('', ''),
+        await compassLibraryWrapperPluginInstance.saveBiometricConsent(
+            '', '', true),
         SaveBiometricConsentResult(
             consentID: '', responseStatus: ResponseStatus.SUCCESS));
   });

@@ -14,8 +14,9 @@ class PigeonCompassLibraryWrapperPlugin
 
   @override
   Future<SaveBiometricConsentResult> saveBiometricConsent(
-      String reliantGUID, String programGUID) async {
-    return _api.saveBiometricConsent(reliantGUID, programGUID);
+      String reliantGUID, String programGUID, bool consumerConsentValue) async {
+    return _api.saveBiometricConsent(
+        reliantGUID, programGUID, consumerConsentValue);
   }
 
   @override

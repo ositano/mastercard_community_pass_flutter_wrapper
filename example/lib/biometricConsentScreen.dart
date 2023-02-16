@@ -43,7 +43,7 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen>
   }
 
   Future<void> saveBiometricConsent(
-      String reliantGUID, String programGUID) async {
+      String reliantGUID, String programGUID, bool consumerConsentValue) async {
     if (mounted) {
       globalLoading = true;
     }
@@ -51,20 +51,27 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen>
     SaveBiometricConsentResult result;
     try {
       result = await _communityPassFlutterplugin.saveBiometricConsent(
-          reliantGUID, programGUID);
+          reliantGUID, programGUID, consumerConsentValue);
 
       // check whether the state is mounted on the tree
-
       if (!mounted) return;
-      if (result.responseStatus == ResponseStatus.SUCCESS) {
+
+      if (result.responseStatus == ResponseStatus.SUCCESS &&
+          consumerConsentValue) {
         setState(() {
           globalLoading = false;
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => RegisterUserWithBiometricsScreen(
-                      value: result.consentID)));
         });
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    RegisterUserWithBiometricsScreen(value: result.consentID)));
+      } else {
+        setState(() {
+          globalLoading = false;
+        });
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const RegisterBasicUserScreen()));
       }
     } on PlatformException catch (ex) {
       if (!mounted) return;
@@ -135,9 +142,8 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen>
                             onPressed: globalLoading
                                 ? null
                                 : (() {
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (context) =>
-                                            const RegisterBasicUserScreen()));
+                                    saveBiometricConsent(
+                                        _reliantAppGuid, _programGuid, false);
                                   }),
                             child: const Text(
                               'Deny Consent',
@@ -156,7 +162,7 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen>
                                 ? null
                                 : (() {
                                     saveBiometricConsent(
-                                        _reliantAppGuid, _programGuid);
+                                        _reliantAppGuid, _programGuid, true);
                                   }),
                             child: const Text('Grant Consent'))))
               ],

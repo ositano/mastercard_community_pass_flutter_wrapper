@@ -26,7 +26,7 @@ abstract class CompassLibraryWrapperPluginPlatform extends PlatformInterface {
   }
 
   Future<SaveBiometricConsentResult> saveBiometricConsent(
-      String reliantGUID, String programGUID) async {
+      String reliantGUID, String programGUID, bool consumerConsentValue) async {
     throw UnimplementedError(
         'saveBiometricConsent() has not been implemented.');
   }

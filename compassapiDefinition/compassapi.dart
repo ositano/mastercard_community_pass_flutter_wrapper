@@ -54,7 +54,7 @@ class WritePasscodeResult {
 abstract class CommunityPassApi {
   @async
   SaveBiometricConsentResult saveBiometricConsent(
-      String reliantGUID, String programGUID);
+      String reliantGUID, String programGUID, bool consumerConsentValue);
 
   @async
   RegisterUserWithBiometricsResult getRegisterUserWithBiometrics(

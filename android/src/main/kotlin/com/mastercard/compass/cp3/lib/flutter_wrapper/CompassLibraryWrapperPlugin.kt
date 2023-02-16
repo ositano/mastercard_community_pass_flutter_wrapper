@@ -81,9 +81,10 @@ class CompassLibraryWrapperPlugin: FlutterPlugin, MethodChannel.MethodCallHandle
   override fun saveBiometricConsent(
     reliantGUID: String,
     programGUID: String,
+    consumerConsentValue: Boolean,
     result: CompassApiFlutter.Result<CompassApiFlutter.SaveBiometricConsentResult>?
   ) {
-    biometricConsentAPIRoute.startBiometricConsentIntent(reliantGUID, programGUID, result);
+    biometricConsentAPIRoute.startBiometricConsentIntent(reliantGUID, programGUID, consumerConsentValue, result);
   }
 
   override fun getRegisterUserWithBiometrics(

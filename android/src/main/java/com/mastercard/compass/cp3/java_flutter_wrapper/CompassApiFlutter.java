@@ -453,7 +453,7 @@ public class CompassApiFlutter {
   /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
   public interface CommunityPassApi {
 
-    void saveBiometricConsent(@NonNull String reliantGUID, @NonNull String programGUID, Result<SaveBiometricConsentResult> result);
+    void saveBiometricConsent(@NonNull String reliantGUID, @NonNull String programGUID, @NonNull Boolean consumerConsentValue, Result<SaveBiometricConsentResult> result);
 
     void getRegisterUserWithBiometrics(@NonNull String reliantGUID, @NonNull String programGUID, @NonNull String consentID, Result<RegisterUserWithBiometricsResult> result);
 
@@ -488,6 +488,10 @@ public class CompassApiFlutter {
                   if (programGUIDArg == null) {
                     throw new NullPointerException("programGUIDArg unexpectedly null.");
                   }
+                  Boolean consumerConsentValueArg = (Boolean) args.get(2);
+                  if (consumerConsentValueArg == null) {
+                    throw new NullPointerException("consumerConsentValueArg unexpectedly null.");
+                  }
                   Result<SaveBiometricConsentResult> resultCallback = 
                       new Result<SaveBiometricConsentResult>() {
                         public void success(SaveBiometricConsentResult result) {
@@ -501,7 +505,7 @@ public class CompassApiFlutter {
                         }
                       };
 
-                  api.saveBiometricConsent(reliantGUIDArg, programGUIDArg, resultCallback);
+                  api.saveBiometricConsent(reliantGUIDArg, programGUIDArg, consumerConsentValueArg, resultCallback);
                 } catch (Error | RuntimeException exception) {
                   ArrayList<Object> wrappedError = wrapError(exception);
                   reply.reply(wrappedError);

@@ -22,7 +22,7 @@ void main() {
 
   test('saveBiometricConsent', () async {
     expect(
-        await platform.saveBiometricConsent('', ''),
+        await platform.saveBiometricConsent('', '', true),
         SaveBiometricConsentResult(
             consentID: '', responseStatus: ResponseStatus.SUCCESS));
   });

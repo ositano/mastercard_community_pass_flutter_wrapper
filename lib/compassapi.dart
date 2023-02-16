@@ -199,12 +199,12 @@ class CommunityPassApi {
 
   static const MessageCodec<Object?> codec = _CommunityPassApiCodec();
 
-  Future<SaveBiometricConsentResult> saveBiometricConsent(String arg_reliantGUID, String arg_programGUID) async {
+  Future<SaveBiometricConsentResult> saveBiometricConsent(String arg_reliantGUID, String arg_programGUID, bool arg_consumerConsentValue) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.CommunityPassApi.saveBiometricConsent', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_reliantGUID, arg_programGUID]) as List<Object?>?;
+        await channel.send(<Object?>[arg_reliantGUID, arg_programGUID, arg_consumerConsentValue]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
