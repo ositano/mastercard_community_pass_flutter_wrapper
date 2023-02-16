@@ -17,12 +17,12 @@ class _WriteSuccessfulScreenState extends State<WriteSuccessfulScreen> {
   _WriteSuccessfulScreenState(this.receivedParams);
 
   String consumerDeviceNumber = '';
-  String rId = '';
+  String rID = '';
 
   @override
   void initState() {
     consumerDeviceNumber = receivedParams['consumerDeviceNumber']!;
-    rId = receivedParams['rId']!;
+    rID = receivedParams['rID']!;
     super.initState();
   }
 
@@ -54,7 +54,7 @@ class _WriteSuccessfulScreenState extends State<WriteSuccessfulScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                   child: Text(
-                    'rId: $rId',
+                    'rID: $rID',
                     style: const TextStyle(fontSize: 16),
                   )),
               SizedBox(

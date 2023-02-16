@@ -24,7 +24,7 @@ void main() {
     expect(
         await platform.saveBiometricConsent('', ''),
         SaveBiometricConsentResult(
-            consentId: '', responseStatus: ResponseStatus.SUCCESS));
+            consentID: '', responseStatus: ResponseStatus.SUCCESS));
   });
 
   test('getRegisterUserWithBiometrics', () async {
@@ -33,13 +33,13 @@ void main() {
         RegisterUserWithBiometricsResult(
             bioToken: '',
             programGUID: '',
-            rId: '',
+            rID: '',
             enrolmentStatus: EnrolmentStatus.EXISTING));
   });
 
   test('getRegisterBasicUser', () async {
     expect(await platform.getRegisterBasicUser('', ''),
-        RegisterBasicUserResult(rId: ''));
+        RegisterBasicUserResult(rID: ''));
   });
 
   test('getWriteProfile', () async {

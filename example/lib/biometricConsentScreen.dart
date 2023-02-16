@@ -43,7 +43,7 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen>
   }
 
   Future<void> saveBiometricConsent(
-      String reliantApplicationGuid, String programGuid) async {
+      String reliantGUID, String programGUID) async {
     if (mounted) {
       globalLoading = true;
     }
@@ -51,7 +51,7 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen>
     SaveBiometricConsentResult result;
     try {
       result = await _communityPassFlutterplugin.saveBiometricConsent(
-          reliantApplicationGuid, programGuid);
+          reliantGUID, programGUID);
 
       // check whether the state is mounted on the tree
 
@@ -63,7 +63,7 @@ class _BiometricConsentScreenState extends State<BiometricConsentScreen>
               context,
               MaterialPageRoute(
                   builder: (context) => RegisterUserWithBiometricsScreen(
-                      value: result.consentId)));
+                      value: result.consentID)));
         });
       }
     } on PlatformException catch (ex) {

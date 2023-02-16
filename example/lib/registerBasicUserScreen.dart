@@ -44,7 +44,7 @@ class _RegisterBasicUserScreenState extends State<RegisterBasicUserScreen>
   }
 
   Future<void> getRegisterBasicUser(
-      String reliantApplicationGuid, String programGuid) async {
+      String reliantGUID, String programGUID) async {
     if (mounted) {
       setState(() {
         globalLoading = true;
@@ -54,14 +54,14 @@ class _RegisterBasicUserScreenState extends State<RegisterBasicUserScreen>
 
     try {
       result = await _communityPassFlutterplugin.getRegisterBasicUser(
-          reliantApplicationGuid, programGuid);
+          reliantGUID, programGUID);
 
       if (!mounted) return;
       setState(() {
         globalLoading = false;
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => WriteProfileScreen(navigationParams: {
-                  "rId": result.rId,
+                  "rID": result.rID,
                   "registrationType": 'BASIC_USER',
                 })));
       });

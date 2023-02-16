@@ -50,8 +50,8 @@ class _WritePasscodeScreenState extends State<WritePasscodeScreen>
   String globalError = '';
   bool globalLoading = false;
 
-  Future<void> getWritePasscode(String reliantApplicationGuid,
-      String programGuid, String rId, String passcode) async {
+  Future<void> getWritePasscode(String reliantGUID, String programGUID,
+      String rID, String passcode) async {
     if (mounted) {
       setState(() {
         globalLoading = true;
@@ -62,7 +62,7 @@ class _WritePasscodeScreenState extends State<WritePasscodeScreen>
 
     try {
       result = await _communityPassFlutterplugin.getWritePasscode(
-          reliantApplicationGuid, programGuid, rId, passcode);
+          reliantGUID, programGUID, rID, passcode);
 
       if (!mounted) return;
       if (result.responseStatus == ResponseStatus.SUCCESS) {
@@ -70,7 +70,7 @@ class _WritePasscodeScreenState extends State<WritePasscodeScreen>
           globalLoading = false;
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => WriteSuccessfulScreen(navigationParams: {
-              "rId": receivedParams['rId']!,
+              "rID": receivedParams['rID']!,
               "consumerDeviceNumber": receivedParams['consumerDeviceNumber']!,
             }),
           ));
@@ -164,7 +164,7 @@ class _WritePasscodeScreenState extends State<WritePasscodeScreen>
                                   getWritePasscode(
                                       _reliantAppGuid,
                                       _programGuid,
-                                      receivedParams['rId']!,
+                                      receivedParams['rID']!,
                                       myController.text.toString());
                                 }),
                           child: const Text('Start registration')))),
