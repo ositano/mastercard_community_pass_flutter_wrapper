@@ -10,7 +10,7 @@ abstract class CompassLibraryWrapperPluginPlatform extends PlatformInterface {
   static final Object _token = Object();
 
   static CompassLibraryWrapperPluginPlatform _instance =
-      PigeonCompassLibraryWrapperPlugin();
+  PigeonCompassLibraryWrapperPlugin();
 
   /// The default instance of [CompassLibraryWrapperPluginPlatform] to use.
   ///

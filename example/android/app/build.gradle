@@ -93,6 +93,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(':compass_library_wrapper_plugin')
+    implementation files('/Users/afex/Desktop/AFEX_APPS/community-pass-flutter-wrapper/android/libs/community-pass-library-v2.4.0.aar')
 
 
 }

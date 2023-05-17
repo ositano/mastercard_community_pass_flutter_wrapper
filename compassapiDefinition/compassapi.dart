@@ -4,8 +4,7 @@ import 'package:pigeon/pigeon.dart';
 @ConfigurePigeon(PigeonOptions(
   dartOut: 'lib/compassapi.dart',
   dartTestOut: 'test/test_api.dart',
-  javaOut:
-      'android/src/main/java/com/mastercard/compass/cp3/java_flutter_wrapper/CompassApiFlutter.java',
+  javaOut: 'android/src/main/java/com/mastercard/compass/cp3/java_flutter_wrapper/CompassApiFlutter.java',
   javaOptions: JavaOptions(
     package: 'com.mastercard.compass.cp3.java_flutter_wrapper',
   ),
@@ -50,6 +49,18 @@ class WritePasscodeResult {
   WritePasscodeResult(this.responseStatus);
 }
 
+class WriteProgramSpaceResult{
+  final bool isSuccess;
+
+  WriteProgramSpaceResult(this.isSuccess);
+}
+
+class ReadProgramSpaceResult{
+  final String programSpaceData;
+
+  ReadProgramSpaceResult(this.programSpaceData);
+}
+
 @HostApi()
 abstract class CommunityPassApi {
   @async
@@ -71,4 +82,12 @@ abstract class CommunityPassApi {
   @async
   WritePasscodeResult getWritePasscode(
       String reliantGUID, String programGUID, String rID, String passcode);
+
+  @async
+  WriteProgramSpaceResult getWriteProgramSpace(
+      String reliantGUID, String programGUID, String rID, String programSpaceData, bool encryptData);
+
+  @async
+  ReadProgramSpaceResult getReadProgramSpace(
+      String reliantGUID, String programGUID, String rID, bool decryptData);
 }
