@@ -521,6 +521,103 @@ public class CompassApiFlutter {
     }
   }
 
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static final class VerifyPasscodeResult {
+    private @NonNull Boolean status;
+
+    public @NonNull Boolean getStatus() {
+      return status;
+    }
+
+    public void setStatus(@NonNull Boolean setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"status\" is null.");
+      }
+      this.status = setterArg;
+    }
+
+    private @NonNull String rID;
+
+    public @NonNull String getRID() {
+      return rID;
+    }
+
+    public void setRID(@NonNull String setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"rID\" is null.");
+      }
+      this.rID = setterArg;
+    }
+
+    private @NonNull Long retryCount;
+
+    public @NonNull Long getRetryCount() {
+      return retryCount;
+    }
+
+    public void setRetryCount(@NonNull Long setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"retryCount\" is null.");
+      }
+      this.retryCount = setterArg;
+    }
+
+    /** Constructor is non-public to enforce null safety; use Builder. */
+    VerifyPasscodeResult() {}
+
+    public static final class Builder {
+
+      private @Nullable Boolean status;
+
+      public @NonNull Builder setStatus(@NonNull Boolean setterArg) {
+        this.status = setterArg;
+        return this;
+      }
+
+      private @Nullable String rID;
+
+      public @NonNull Builder setRID(@NonNull String setterArg) {
+        this.rID = setterArg;
+        return this;
+      }
+
+      private @Nullable Long retryCount;
+
+      public @NonNull Builder setRetryCount(@NonNull Long setterArg) {
+        this.retryCount = setterArg;
+        return this;
+      }
+
+      public @NonNull VerifyPasscodeResult build() {
+        VerifyPasscodeResult pigeonReturn = new VerifyPasscodeResult();
+        pigeonReturn.setStatus(status);
+        pigeonReturn.setRID(rID);
+        pigeonReturn.setRetryCount(retryCount);
+        return pigeonReturn;
+      }
+    }
+
+    @NonNull
+    ArrayList<Object> toList() {
+      ArrayList<Object> toListResult = new ArrayList<Object>(3);
+      toListResult.add(status);
+      toListResult.add(rID);
+      toListResult.add(retryCount);
+      return toListResult;
+    }
+
+    static @NonNull VerifyPasscodeResult fromList(@NonNull ArrayList<Object> list) {
+      VerifyPasscodeResult pigeonResult = new VerifyPasscodeResult();
+      Object status = list.get(0);
+      pigeonResult.setStatus((Boolean) status);
+      Object rID = list.get(1);
+      pigeonResult.setRID((String) rID);
+      Object retryCount = list.get(2);
+      pigeonResult.setRetryCount((retryCount == null) ? null : ((retryCount instanceof Integer) ? (Integer) retryCount : (Long) retryCount));
+      return pigeonResult;
+    }
+  }
+
   public interface Result<T> {
     @SuppressWarnings("UnknownNullness")
     void success(T result);
@@ -545,10 +642,12 @@ public class CompassApiFlutter {
         case (byte) 131:
           return SaveBiometricConsentResult.fromList((ArrayList<Object>) readValue(buffer));
         case (byte) 132:
-          return WritePasscodeResult.fromList((ArrayList<Object>) readValue(buffer));
+          return VerifyPasscodeResult.fromList((ArrayList<Object>) readValue(buffer));
         case (byte) 133:
-          return WriteProfileResult.fromList((ArrayList<Object>) readValue(buffer));
+          return WritePasscodeResult.fromList((ArrayList<Object>) readValue(buffer));
         case (byte) 134:
+          return WriteProfileResult.fromList((ArrayList<Object>) readValue(buffer));
+        case (byte) 135:
           return WriteProgramSpaceResult.fromList((ArrayList<Object>) readValue(buffer));
         default:
           return super.readValueOfType(type, buffer);
@@ -569,14 +668,17 @@ public class CompassApiFlutter {
       } else if (value instanceof SaveBiometricConsentResult) {
         stream.write(131);
         writeValue(stream, ((SaveBiometricConsentResult) value).toList());
-      } else if (value instanceof WritePasscodeResult) {
+      } else if (value instanceof VerifyPasscodeResult) {
         stream.write(132);
+        writeValue(stream, ((VerifyPasscodeResult) value).toList());
+      } else if (value instanceof WritePasscodeResult) {
+        stream.write(133);
         writeValue(stream, ((WritePasscodeResult) value).toList());
       } else if (value instanceof WriteProfileResult) {
-        stream.write(133);
+        stream.write(134);
         writeValue(stream, ((WriteProfileResult) value).toList());
       } else if (value instanceof WriteProgramSpaceResult) {
-        stream.write(134);
+        stream.write(135);
         writeValue(stream, ((WriteProgramSpaceResult) value).toList());
       } else {
         super.writeValue(stream, value);
@@ -600,6 +702,8 @@ public class CompassApiFlutter {
     void getWriteProgramSpace(@NonNull String reliantGUID, @NonNull String programGUID, @NonNull String rID, @NonNull String programSpaceData, @NonNull Boolean encryptData, @NonNull Result<WriteProgramSpaceResult> result);
 
     void getReadProgramSpace(@NonNull String reliantGUID, @NonNull String programGUID, @NonNull String rID, @NonNull Boolean decryptData, @NonNull Result<ReadProgramSpaceResult> result);
+
+    void getVerifyPasscode(@NonNull String reliantGUID, @NonNull String programGUID, @NonNull String passcode, @NonNull Result<VerifyPasscodeResult> result);
 
     /** The codec used by CommunityPassApi. */
     static @NonNull MessageCodec<Object> getCodec() {
@@ -823,6 +927,37 @@ public class CompassApiFlutter {
                     };
 
                 api.getReadProgramSpace(reliantGUIDArg, programGUIDArg, rIDArg, decryptDataArg, resultCallback);
+              });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(
+                binaryMessenger, "dev.flutter.pigeon.CommunityPassApi.getVerifyPasscode", getCodec());
+        if (api != null) {
+          channel.setMessageHandler(
+              (message, reply) -> {
+                ArrayList<Object> wrapped = new ArrayList<Object>();
+                ArrayList<Object> args = (ArrayList<Object>) message;
+                String reliantGUIDArg = (String) args.get(0);
+                String programGUIDArg = (String) args.get(1);
+                String passcodeArg = (String) args.get(2);
+                Result<VerifyPasscodeResult> resultCallback =
+                    new Result<VerifyPasscodeResult>() {
+                      public void success(VerifyPasscodeResult result) {
+                        wrapped.add(0, result);
+                        reply.reply(wrapped);
+                      }
+
+                      public void error(Throwable error) {
+                        ArrayList<Object> wrappedError = wrapError(error);
+                        reply.reply(wrappedError);
+                      }
+                    };
+
+                api.getVerifyPasscode(reliantGUIDArg, programGUIDArg, passcodeArg, resultCallback);
               });
         } else {
           channel.setMessageHandler(null);

@@ -47,4 +47,9 @@ class CompassLibraryWrapperPlugin {
       String programGUID, String rID, bool decryptData) async {
     return CompassLibraryWrapperPluginPlatform.instance.getReadProgramSpace(reliantGUID, programGUID, rID, decryptData);
   }
+
+  Future<VerifyPasscodeResult> getVerifyPasscode(String reliantGUID,
+      String programGUID, String passcode) async {
+    return CompassLibraryWrapperPluginPlatform.instance.getVerifyPasscode(reliantGUID, programGUID, passcode);
+  }
 }
