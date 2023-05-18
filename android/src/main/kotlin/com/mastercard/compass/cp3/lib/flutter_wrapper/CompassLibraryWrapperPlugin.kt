@@ -44,6 +44,10 @@ class CompassLibraryWrapperPlugin: FlutterPlugin, MethodChannel.MethodCallHandle
     ReadProgramSpaceAPIRoute(activity, helperObject, cryptoService)
   }
 
+  private val getVerifyPasscodeAPIRoute: GetVerifyPasscodeAPIRoute by lazy {
+    GetVerifyPasscodeAPIRoute(activity)
+  }
+
   override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     CommunityPassApi.setup(binding.binaryMessenger, this)
     context = binding.applicationContext
@@ -86,6 +90,7 @@ class CompassLibraryWrapperPlugin: FlutterPlugin, MethodChannel.MethodCallHandle
       in RegisterBasicUserAPIRoute.REQUEST_CODE_RANGE -> handleApiRouteResponse(requestCode, resultCode, data)
       in WriteProgramSpaceAPIRoute.REQUEST_CODE_RANGE -> handleApiRouteResponse(requestCode, resultCode, data)
       in ReadProgramSpaceAPIRoute.REQUEST_CODE_RANGE -> handleApiRouteResponse(requestCode, resultCode, data)
+      in GetVerifyPasscodeAPIRoute.REQUEST_CODE_RANGE -> handleApiRouteResponse(requestCode, resultCode, data)
     }
     return true;
   }
@@ -157,6 +162,15 @@ class CompassLibraryWrapperPlugin: FlutterPlugin, MethodChannel.MethodCallHandle
     readProgramSpaceAPIRoute.startReadProgramSpaceIntent(reliantGUID, programGUID, rID, decryptData, result)
   }
 
+  override fun getVerifyPasscode(
+    reliantGUID: String,
+    programGUID: String,
+    passcode: String,
+    result: CompassApiFlutter.Result<CompassApiFlutter.VerifyPasscodeResult>
+  ) {
+    getVerifyPasscodeAPIRoute.startVerifyPasscodeIntent(reliantGUID, programGUID, passcode, result)
+  }
+
   private fun handleApiRouteResponse(
     requestCode: Int,
     resultCode: Int,
@@ -170,6 +184,7 @@ class CompassLibraryWrapperPlugin: FlutterPlugin, MethodChannel.MethodCallHandle
       RegisterBasicUserAPIRoute.REGISTER_BASIC_USER_REQUEST_CODE -> registerBasicUserAPIRoute.handleRegisterBasicUserIntentResponse(resultCode, data,)
       WriteProgramSpaceAPIRoute.WRITE_PROGRAM_SPACE_REQUEST_CODE -> writeProgramSpaceAPIRoute.handleWriteProgramSpaceIntentResponse(resultCode, data,)
       ReadProgramSpaceAPIRoute.READ_PROGRAM_SPACE_REQUEST_CODE -> readProgramSpaceAPIRoute.handleReadProgramSPaceIntentResponse(resultCode, data,)
+      GetVerifyPasscodeAPIRoute.VERIFY_PASSCODE_REQUEST_CODE -> getVerifyPasscodeAPIRoute.handleVerifyPasscodeIntentResponse(resultCode, data,)
     }
   }
 }

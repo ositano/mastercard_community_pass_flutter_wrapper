@@ -188,6 +188,37 @@ class ReadProgramSpaceResult {
   }
 }
 
+class VerifyPasscodeResult {
+  VerifyPasscodeResult({
+    required this.status,
+    required this.rID,
+    required this.retryCount,
+  });
+
+  bool status;
+
+  String rID;
+
+  int retryCount;
+
+  Object encode() {
+    return <Object?>[
+      status,
+      rID,
+      retryCount,
+    ];
+  }
+
+  static VerifyPasscodeResult decode(Object result) {
+    result as List<Object?>;
+    return VerifyPasscodeResult(
+      status: result[0]! as bool,
+      rID: result[1]! as String,
+      retryCount: result[2]! as int,
+    );
+  }
+}
+
 class _CommunityPassApiCodec extends StandardMessageCodec {
   const _CommunityPassApiCodec();
   @override
@@ -204,14 +235,17 @@ class _CommunityPassApiCodec extends StandardMessageCodec {
     } else if (value is SaveBiometricConsentResult) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
-    } else if (value is WritePasscodeResult) {
+    } else if (value is VerifyPasscodeResult) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    } else if (value is WriteProfileResult) {
+    } else if (value is WritePasscodeResult) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    } else if (value is WriteProgramSpaceResult) {
+    } else if (value is WriteProfileResult) {
       buffer.putUint8(134);
+      writeValue(buffer, value.encode());
+    } else if (value is WriteProgramSpaceResult) {
+      buffer.putUint8(135);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -230,10 +264,12 @@ class _CommunityPassApiCodec extends StandardMessageCodec {
       case 131: 
         return SaveBiometricConsentResult.decode(readValue(buffer)!);
       case 132: 
-        return WritePasscodeResult.decode(readValue(buffer)!);
+        return VerifyPasscodeResult.decode(readValue(buffer)!);
       case 133: 
-        return WriteProfileResult.decode(readValue(buffer)!);
+        return WritePasscodeResult.decode(readValue(buffer)!);
       case 134: 
+        return WriteProfileResult.decode(readValue(buffer)!);
+      case 135: 
         return WriteProgramSpaceResult.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -437,6 +473,33 @@ class CommunityPassApi {
       );
     } else {
       return (replyList[0] as ReadProgramSpaceResult?)!;
+    }
+  }
+
+  Future<VerifyPasscodeResult> getVerifyPasscode(String arg_reliantGUID, String arg_programGUID, String arg_passcode) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.CommunityPassApi.getVerifyPasscode', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_reliantGUID, arg_programGUID, arg_passcode]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else if (replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyList[0] as VerifyPasscodeResult?)!;
     }
   }
 }

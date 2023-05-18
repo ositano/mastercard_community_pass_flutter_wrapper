@@ -53,4 +53,10 @@ class PigeonCompassLibraryWrapperPlugin
       String programGUID, String rID, bool decryptData) async {
     return _api.getReadProgramSpace(reliantGUID, programGUID, rID, decryptData);
   }
+
+  @override
+  Future<VerifyPasscodeResult> getVerifyPasscode(String reliantGUID,
+      String programGUID, String passcode) async {
+    return _api.getVerifyPasscode(reliantGUID, programGUID, passcode);
+  }
 }

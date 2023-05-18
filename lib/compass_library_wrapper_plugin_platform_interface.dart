@@ -68,4 +68,9 @@ abstract class CompassLibraryWrapperPluginPlatform extends PlatformInterface {
       String programGUID, String rID, bool decryptData) async {
     throw UnimplementedError('getReadProgramSpace() has not been implemented.');
   }
+
+  Future<VerifyPasscodeResult> getVerifyPasscode(String reliantGUID,
+      String programGUID, String passcode) async {
+    throw UnimplementedError('getVerifyPasscode() has not been implemented.');
+  }
 }
