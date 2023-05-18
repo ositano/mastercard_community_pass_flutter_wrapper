@@ -1,6 +1,7 @@
 package com.mastercard.compass.cp3.lib.flutter_wrapper.ui
 
 import CompassApiHandlerActivity
+import android.util.Log
 import com.mastercard.compass.cp3.lib.flutter_wrapper.ui.util.*
 import com.mastercard.compass.cp3.lib.flutter_wrapper.util.Key
 import com.mastercard.compass.model.programspace.WriteProgramSpaceDataRequest
@@ -41,7 +42,7 @@ class WriteProgramSpaceCompassApiHandlerActivity: CompassApiHandlerActivity<Stri
                 sharedSpaceApi.performKeyExchange(helper.getInstanceId()!!, keyPair.public)
             when (keyExchangeResponse.kernelEncPublicKey == null) {
                 true -> {
-                    //Timber.tag(TAG).e(keyExchangeResponse.errorCode.toString())
+                    Log.d(TAG, keyExchangeResponse.errorCode.toString())
                 }
                 false -> helper.saveKernelSharedSpaceKey(keyExchangeResponse.kernelEncPublicKey!!)
             }
@@ -76,7 +77,7 @@ class WriteProgramSpaceCompassApiHandlerActivity: CompassApiHandlerActivity<Stri
                 SharedSpaceValidationEncryptionError.ENCRYPTION_SERVICE_REQUIRED -> "Error encryption service required"
                 SharedSpaceValidationEncryptionError.SCHEMA_PROCESSOR_ERROR -> "Error schema processor"
             }
-            //Timber.tag(TAG).e(errorMessage)
+            Log.d(TAG, errorMessage)
         }
     }
 }

@@ -3,6 +3,7 @@ package com.mastercard.compass.cp3.lib.flutter_wrapper.route
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import com.mastercard.compass.cp3.java_flutter_wrapper.CompassApiFlutter
 import com.mastercard.compass.cp3.java_flutter_wrapper.CompassApiFlutter.WriteProgramSpaceResult
 import com.mastercard.compass.cp3.lib.flutter_wrapper.util.Key
@@ -44,7 +45,7 @@ class WriteProgramSpaceAPIRoute( private val activity: Activity ) {
                 val result = WriteProgramSpaceResult.Builder()
                     .setIsSuccess(response.isSuccess).build()
 
-                //Timber.tag(TAG).d(response.toString())
+                Log.d(TAG, response.toString())
                 if(response.isSuccess){
                     writeProgramSpaceAPIRouteResult.success(result);
                 } else {
@@ -55,7 +56,7 @@ class WriteProgramSpaceAPIRoute( private val activity: Activity ) {
                 val code = data?.getIntExtra(Key.ERROR_CODE, ErrorCode.UNKNOWN)
                 val message = data?.getStringExtra(Key.ERROR_MESSAGE)!!
 
-                //Timber.e("Error $code Message $message")
+                Log.e(TAG,"Error $code Message $message")
                 writeProgramSpaceAPIRouteResult.error(CompassThrowable(code, message ))
             }
         }
