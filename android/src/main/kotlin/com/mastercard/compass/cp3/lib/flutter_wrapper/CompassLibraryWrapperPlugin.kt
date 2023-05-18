@@ -94,7 +94,7 @@ class CompassLibraryWrapperPlugin: FlutterPlugin, MethodChannel.MethodCallHandle
     reliantGUID: String,
     programGUID: String,
     consumerConsentValue: Boolean,
-    result: CompassApiFlutter.Result<CompassApiFlutter.SaveBiometricConsentResult>?
+    result: CompassApiFlutter.Result<CompassApiFlutter.SaveBiometricConsentResult>
   ) {
     biometricConsentAPIRoute.startBiometricConsentIntent(reliantGUID, programGUID, consumerConsentValue, result);
   }
@@ -103,7 +103,7 @@ class CompassLibraryWrapperPlugin: FlutterPlugin, MethodChannel.MethodCallHandle
     reliantGUID: String,
     programGUID: String,
     consentId: String,
-    result: CompassApiFlutter.Result<CompassApiFlutter.RegisterUserWithBiometricsResult>?
+    result: CompassApiFlutter.Result<CompassApiFlutter.RegisterUserWithBiometricsResult>
   ) {
     registerUserWithBiometricsAPIRoute.startRegisterUserWithBiometricsIntent(reliantGUID, programGUID, consentId, result)
   }
@@ -111,7 +111,7 @@ class CompassLibraryWrapperPlugin: FlutterPlugin, MethodChannel.MethodCallHandle
   override fun getRegisterBasicUser(
     reliantGUID: String,
     programGUID: String,
-    result: CompassApiFlutter.Result<CompassApiFlutter.RegisterBasicUserResult>?
+    result: CompassApiFlutter.Result<CompassApiFlutter.RegisterBasicUserResult>
   ) {
     registerBasicUserAPIRoute.startRegisterBasicUserIntent(reliantGUID, programGUID, result)
   }
@@ -121,7 +121,7 @@ class CompassLibraryWrapperPlugin: FlutterPlugin, MethodChannel.MethodCallHandle
     programGUID: String,
     rId: String,
     passcode: String,
-    result: CompassApiFlutter.Result<CompassApiFlutter.WritePasscodeResult>?
+    result: CompassApiFlutter.Result<CompassApiFlutter.WritePasscodeResult>
   ) {
     consumerDevicePasscodeAPIRoute.startWritePasscodeIntent(reliantGUID, programGUID, rId, passcode, result)
   }
@@ -131,7 +131,7 @@ class CompassLibraryWrapperPlugin: FlutterPlugin, MethodChannel.MethodCallHandle
     programGUID: String,
     rId: String,
     overwriteCard: Boolean,
-    result: CompassApiFlutter.Result<CompassApiFlutter.WriteProfileResult>?
+    result: CompassApiFlutter.Result<CompassApiFlutter.WriteProfileResult>
   ) {
     consumerDeviceApiRoute.startWriteProfileIntent(reliantGUID, programGUID, rId, overwriteCard, result)
   }
@@ -142,7 +142,7 @@ class CompassLibraryWrapperPlugin: FlutterPlugin, MethodChannel.MethodCallHandle
     rID: String,
     programSpaceData: String,
     encryptData: Boolean,
-    result: CompassApiFlutter.Result<CompassApiFlutter.WriteProgramSpaceResult>?
+    result: CompassApiFlutter.Result<CompassApiFlutter.WriteProgramSpaceResult>
   ) {
     writeProgramSpaceAPIRoute.startWriteProgramSpaceIntent(reliantGUID, programGUID, rID, programSpaceData, encryptData, result)
   }
